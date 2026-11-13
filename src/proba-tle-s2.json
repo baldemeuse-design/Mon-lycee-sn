@@ -1,0 +1,29 @@
+{
+  "exercices": [
+    {
+      "titre": "Le sachet de bonbons",
+      "enonce": "Un sachet contient 10 bonbons : 5 rouges, 3 verts et 2 jaunes. On en tire deux, l'un après l'autre, <b>sans remettre</b> le premier.<br>1) Quelle est la probabilité d'obtenir deux bonbons rouges ?<br>2) Quelle est la probabilité d'obtenir deux bonbons de la même couleur ?",
+      "indice": "Fais un arbre : au 2e tirage, il ne reste plus que 9 bonbons, et un bonbon de la couleur tirée en moins.",
+      "correction": "1) P(R puis R) = 5/10 × 4/9 = 20/90 = <b>2/9</b>.<br>2) Même couleur = RR ou VV ou JJ (événements incompatibles) :<br>P = 5/10 × 4/9 + 3/10 × 2/9 + 2/10 × 1/9 = 20/90 + 6/90 + 2/90 = 28/90 = <b>14/45 ≈ 0,31</b>."
+    },
+    {
+      "titre": "Un test de dépistage",
+      "enonce": "Une maladie touche 2 % d'une population. Un test de dépistage est positif chez 95 % des personnes malades, mais aussi chez 10 % des personnes non malades. On teste une personne au hasard. On note M = « la personne est malade » et T = « le test est positif ».<br>1) Construire un arbre pondéré.<br>2) Calculer P(T).<br>3) Le test est positif. Quelle est la probabilité que la personne soit réellement malade ? Commenter.",
+      "indice": "Pour la question 3, on « remonte » l'arbre : c'est la formule de Bayes, P<sub>T</sub>(M) = P(M ∩ T) / P(T).",
+      "correction": "1) Premier niveau : M (0,02) et M̄ (0,98). Puis T sachant M : 0,95 ; T sachant M̄ : 0,10.<br>2) Probabilités totales : P(T) = 0,02 × 0,95 + 0,98 × 0,10 = 0,019 + 0,098 = <b>0,117</b>.<br>3) P<sub>T</sub>(M) = 0,019 / 0,117 ≈ <b>0,16</b>.<br><b>Commentaire :</b> même avec un test positif, il n'y a qu'environ 16 % de chances d'être malade, car la maladie est rare et les « faux positifs » sont nombreux. C'est pour cela qu'on confirme toujours un test positif par un second examen."
+    },
+    {
+      "titre": "Le vendeur de journaux",
+      "enonce": "Chaque client qui passe devant un kiosque achète un journal avec une probabilité de 0,3, indépendamment des autres. 4 clients passent. On note X le nombre de journaux vendus.<br>1) Justifier qu'il s'agit d'un schéma de Bernoulli et donner ses paramètres.<br>2) Donner la loi de probabilité de X.<br>3) Calculer E(X) et interpréter.",
+      "indice": "Chaque client : succès = « il achète » (p = 0,3). Utilise P(X = k) = C<sub>4</sub><sup>k</sup> × 0,3<sup>k</sup> × 0,7<sup>4−k</sup>.",
+      "correction": "1) 4 épreuves identiques et indépendantes, chacune à deux issues (achète / n'achète pas) : schéma de Bernoulli avec n = 4 et p = 0,3.<br>2) P(X=0) = 0,7<sup>4</sup> = 0,2401 ; P(X=1) = 4 × 0,3 × 0,7<sup>3</sup> = 0,4116 ; P(X=2) = 6 × 0,3<sup>2</sup> × 0,7<sup>2</sup> = 0,2646 ; P(X=3) = 4 × 0,3<sup>3</sup> × 0,7 = 0,0756 ; P(X=4) = 0,3<sup>4</sup> = 0,0081. (Vérification : la somme vaut 1.)<br>3) E(X) = np = 4 × 0,3 = <b>1,2</b> : sur un grand nombre de groupes de 4 clients, le kiosque vend en moyenne 1,2 journal par groupe."
+    }
+  ],
+  "quiz": [
+    {"q": "On lance un dé équilibré. Quelle est la probabilité d'obtenir un multiple de 3 ?", "choix": ["1/6", "1/3", "1/2", "2/3"], "bonne": 1, "explication": "Les multiples de 3 sont 3 et 6 : 2 cas sur 6, soit 1/3."},
+    {"q": "Si P(A) = 0,3, que vaut P(Ā) ?", "choix": ["0,3", "0,7", "1,3", "0"], "bonne": 1, "explication": "P(Ā) = 1 − P(A) = 1 − 0,3 = 0,7."},
+    {"q": "A et B sont indépendants, P(A) = 0,5 et P(B) = 0,4. Que vaut P(A ∩ B) ?", "choix": ["0,9", "0,1", "0,2", "0,45"], "bonne": 2, "explication": "Indépendants : P(A ∩ B) = P(A) × P(B) = 0,5 × 0,4 = 0,2."},
+    {"q": "P(A) = 0,5 et P(A ∩ B) = 0,2. Que vaut P<sub>A</sub>(B) ?", "choix": ["0,1", "0,4", "0,7", "2,5"], "bonne": 1, "explication": "P<sub>A</sub>(B) = P(A ∩ B) / P(A) = 0,2 / 0,5 = 0,4."},
+    {"q": "On lance 3 fois une pièce équilibrée. Probabilité d'obtenir exactement 2 « pile » ?", "choix": ["1/8", "1/4", "3/8", "1/2"], "bonne": 2, "explication": "Schéma de Bernoulli (n = 3, p = 1/2) : C<sub>3</sub><sup>2</sup> × (1/2)<sup>2</sup> × (1/2) = 3/8."}
+  ]
+}

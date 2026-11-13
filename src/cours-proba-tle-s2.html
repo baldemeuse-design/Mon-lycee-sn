@@ -1,0 +1,250 @@
+<div class="cours">
+
+<p class="intro">Chaque jour, on parle de hasard sans s'en rendre compte : « il va sûrement pleuvoir », « le car rapide a peu de chances d'arriver à l'heure », « notre équipe a de bonnes chances de gagner ». Les probabilités servent à <b>mesurer ces chances avec des nombres</b>, pour pouvoir les comparer et prendre de meilleures décisions.</p>
+
+<!-- ===================== I ===================== -->
+<h2>I. Le vocabulaire du hasard</h2>
+
+<h3>1. Expérience aléatoire et univers</h3>
+<p>Une <b>expérience aléatoire</b> est une expérience dont on connaît tous les résultats possibles, mais dont on ne peut pas prévoir à l'avance le résultat qui va sortir. Chaque résultat possible s'appelle une <b>issue</b> (ou éventualité).</p>
+<p>L'ensemble de toutes les issues s'appelle l'<b>univers</b>. On le note <b>Ω</b> (lire « oméga »). Le nombre d'issues se note card(Ω).</p>
+<div class="exemple"><b>Dans la vie.</b> Le professeur tire au sort un élève d'une classe de 40 pour passer au tableau. L'univers est l'ensemble des 40 élèves : card(Ω) = 40.<br>
+<b>Avec un dé.</b> On lance un dé à six faces : Ω = {1 ; 2 ; 3 ; 4 ; 5 ; 6} et card(Ω) = 6.</div>
+
+<h3>2. Les événements</h3>
+<p>Un <b>événement</b> est une partie de l'univers : c'est un ensemble d'issues qui vérifient une même condition. On dit qu'un événement est <b>réalisé</b> si l'issue obtenue lui appartient.</p>
+<table>
+<tr><th>Nom</th><th>Signification</th><th>Exemple avec le dé</th></tr>
+<tr><td>Événement élémentaire</td><td>une seule issue</td><td>« obtenir 3 » = {3}</td></tr>
+<tr><td>Événement impossible ∅</td><td>ne se réalise jamais</td><td>« obtenir 7 »</td></tr>
+<tr><td>Événement certain Ω</td><td>se réalise toujours</td><td>« obtenir un nombre entre 1 et 6 »</td></tr>
+<tr><td>Contraire <span class="bar">A</span></td><td>se réalise quand A ne se réalise pas</td><td>si A = « pair », <span class="bar">A</span> = « impair »</td></tr>
+<tr><td>A ∩ B (« A et B »)</td><td>A et B se réalisent tous les deux</td><td>voir ci-dessous</td></tr>
+<tr><td>A ∪ B (« A ou B »)</td><td>au moins l'un des deux se réalise</td><td>voir ci-dessous</td></tr>
+</table>
+<div class="exemple">On lance un dé. Soit A = « obtenir un nombre pair » = {2 ; 4 ; 6} et B = « obtenir au moins 5 » = {5 ; 6}.<br>
+A ∩ B = {6} &nbsp;·&nbsp; A ∪ B = {2 ; 4 ; 5 ; 6} &nbsp;·&nbsp; <span class="bar">A</span> = {1 ; 3 ; 5}.</div>
+
+<div class="fig">
+<svg viewBox="0 0 360 190" width="100%" style="max-width:360px" role="img" aria-label="Diagramme de A et B">
+  <rect x="5" y="5" width="350" height="180" rx="10" fill="#fff" stroke="#999"/>
+  <text x="18" y="28" font-size="15" fill="#333">Ω</text>
+  <circle cx="145" cy="98" r="65" fill="#2563eb" fill-opacity=".18" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="220" cy="98" r="55" fill="#f5b700" fill-opacity=".25" stroke="#c99500" stroke-width="2"/>
+  <text x="95" y="52" font-size="15" font-weight="bold" fill="#2563eb">A</text>
+  <text x="258" y="52" font-size="15" font-weight="bold" fill="#a07700">B</text>
+  <text x="110" y="95" font-size="16" fill="#222">2</text><text x="128" y="125" font-size="16" fill="#222">4</text>
+  <text x="178" y="104" font-size="16" fill="#222">6</text>
+  <text x="235" y="104" font-size="16" fill="#222">5</text>
+  <text x="30" y="160" font-size="16" fill="#222">1</text><text x="315" y="160" font-size="16" fill="#222">3</text>
+  <text x="160" y="178" font-size="11" fill="#555">A ∩ B = {6}</text>
+</svg>
+<p class="legende">Le 6 est à la fois pair et au moins égal à 5 : il est dans la partie commune.</p>
+</div>
+
+<p>Deux événements sont <b>incompatibles</b> s'ils ne peuvent pas se réaliser en même temps : A ∩ B = ∅.</p>
+<div class="exemple"><b>Dans la vie.</b> « Le match se termine par une victoire » et « le match se termine par un match nul » sont incompatibles.</div>
+
+<!-- ===================== II ===================== -->
+<h2>II. Calculer une probabilité</h2>
+
+<h3>1. Définition</h3>
+<p>Une <b>probabilité</b> est un nombre entre 0 et 1 qui mesure la chance qu'un événement se réalise. 0 veut dire « jamais », 1 veut dire « sûr ».</p>
+<p>Si Ω = {e<sub>1</sub> ; … ; e<sub>n</sub>}, on donne à chaque issue e<sub>i</sub> un nombre p<sub>i</sub> ≥ 0, avec p<sub>1</sub> + p<sub>2</sub> + … + p<sub>n</sub> = 1. La probabilité d'un événement A est alors la <b>somme des probabilités des issues qui composent A</b>.</p>
+<div class="retenir"><b>À retenir — équiprobabilité.</b> Quand toutes les issues ont la même chance (dé équilibré, tirage « au hasard »…) :<br>
+<span class="formule">P(A) = card(A) / card(Ω) = nombre de cas favorables / nombre de cas possibles</span></div>
+<div class="exemple"><b>Dans la vie.</b> Un sac contient 10 mangues, dont 3 abîmées. On en prend une au hasard. P(« la mangue est abîmée ») = 3/10 = 0,3.</div>
+<div class="encart"><b>Une autre façon de voir.</b> Si on répète l'expérience un très grand nombre de fois, la fréquence d'apparition de A se rapproche de P(A). Dire que P = 0,3, c'est dire « environ 3 fois sur 10 à long terme ».</div>
+
+<h3>2. Propriétés</h3>
+<div class="retenir">
+• P(∅) = 0 &nbsp;et&nbsp; P(Ω) = 1 &nbsp;;&nbsp; pour tout événement A : 0 ≤ P(A) ≤ 1<br>
+• P(<span class="bar">A</span>) = 1 − P(A)<br>
+• P(A ∪ B) = P(A) + P(B) − P(A ∩ B)<br>
+• Si A et B sont incompatibles : P(A ∪ B) = P(A) + P(B)</div>
+<p>Pourquoi enlève-t-on P(A ∩ B) ? Parce qu'en additionnant P(A) et P(B), on compte <b>deux fois</b> les issues de la partie commune.</p>
+<div class="exemple"><b>Dans la vie.</b> Dans une classe de 40 élèves, 25 jouent au football, 12 au basket et 7 pratiquent les deux. On choisit un élève au hasard.<br>
+P(F ∪ B) = 25/40 + 12/40 − 7/40 = 30/40 = <b>3/4</b> : il y a 3 chances sur 4 qu'il pratique au moins un des deux sports.<br>
+Par contraire : P(« ni l'un ni l'autre ») = 1 − 3/4 = <b>1/4</b>.</div>
+
+<h3>3. Événements indépendants</h3>
+<p>Deux événements sont <b>indépendants</b> si le fait que l'un se réalise ne change pas la chance de l'autre. Mathématiquement :</p>
+<div class="retenir"><span class="formule">A et B indépendants ⟺ P(A ∩ B) = P(A) × P(B)</span></div>
+<div class="exemple">On lance une pièce et un dé. Le résultat de la pièce n'influence pas le dé : P(« pile » et « 6 ») = 1/2 × 1/6 = <b>1/12</b>.</div>
+<div class="attention"><b>Attention :</b> ne pas confondre <b>indépendants</b> (l'un n'influence pas l'autre) et <b>incompatibles</b> (ils ne peuvent pas arriver ensemble). Deux événements incompatibles de probabilités non nulles ne sont jamais indépendants : si l'un se réalise, l'autre devient impossible !</div>
+
+<!-- ===================== III ===================== -->
+<h2>III. Probabilités conditionnelles</h2>
+
+<h3>1. Définition</h3>
+<p>Parfois, on dispose d'une information : on sait déjà que A est réalisé. La probabilité de B <b>sachant</b> A, notée P<sub>A</sub>(B), est la probabilité de B quand on se limite aux cas où A est réalisé. On « rétrécit » l'univers à A.</p>
+<div class="retenir">Si P(A) ≠ 0 : &nbsp;<span class="formule">P<sub>A</sub>(B) = P(A ∩ B) / P(A)</span></div>
+<div class="exemple"><b>Dans la vie.</b> Une classe de 40 élèves compte 22 filles et 18 garçons. 10 filles et 6 garçons portent des lunettes.
+<table>
+<tr><th></th><th>Lunettes (L)</th><th>Sans lunettes</th><th>Total</th></tr>
+<tr><td>Filles (F)</td><td>10</td><td>12</td><td>22</td></tr>
+<tr><td>Garçons</td><td>6</td><td>12</td><td>18</td></tr>
+<tr><td>Total</td><td>16</td><td>24</td><td>40</td></tr>
+</table>
+On choisit au hasard une <b>fille</b> : la probabilité qu'elle porte des lunettes est P<sub>F</sub>(L) = 10/22 = <b>5/11</b>.<br>
+On choisit au hasard un élève <b>à lunettes</b> : la probabilité que ce soit une fille est P<sub>L</sub>(F) = 10/16 = <b>5/8</b>.<br>
+Les deux nombres sont différents : l'ordre de la condition compte !</div>
+
+<h3>2. Propriétés et arbre pondéré</h3>
+<div class="retenir">
+• Formule des probabilités composées : <span class="formule">P(A ∩ B) = P(A) × P<sub>A</sub>(B)</span><br>
+• Si P(A) ≠ 0 : A et B indépendants ⟺ P<sub>A</sub>(B) = P(B)</div>
+<p>Un <b>arbre pondéré</b> permet d'organiser les calculs. Deux règles :</p>
+<p>① la somme des probabilités des branches qui partent d'un même point vaut 1 ; ② la probabilité d'un chemin est le <b>produit</b> des probabilités rencontrées.</p>
+
+<div class="exemple"><b>Dans la vie.</b> Awa va au lycée en bus 60 % du temps, et à pied le reste du temps. Quand elle prend le bus, elle arrive en retard avec une probabilité de 0,2. À pied, elle n'est en retard qu'avec une probabilité de 0,05. On note B = « elle prend le bus », R = « elle est en retard ».</div>
+
+<div class="fig">
+<svg viewBox="0 0 440 220" width="100%" style="max-width:440px" role="img" aria-label="Arbre pondéré bus ou à pied, retard">
+  <rect x="0" y="0" width="440" height="220" rx="10" fill="#fff"/>
+  <g stroke="#2563eb" stroke-width="2" fill="none">
+    <line x1="30" y1="110" x2="150" y2="55"/><line x1="30" y1="110" x2="150" y2="165"/>
+    <line x1="175" y1="55" x2="290" y2="25"/><line x1="175" y1="55" x2="290" y2="85"/>
+    <line x1="175" y1="165" x2="290" y2="135"/><line x1="175" y1="165" x2="290" y2="195"/>
+  </g>
+  <g font-size="14" fill="#222">
+    <circle cx="30" cy="110" r="4" fill="#2563eb"/>
+    <text x="153" y="60" font-weight="bold">B</text><text x="153" y="170" font-weight="bold">B̄</text>
+    <text x="295" y="30">R</text><text x="295" y="90">R̄</text><text x="295" y="140">R</text><text x="295" y="200">R̄</text>
+  </g>
+  <g font-size="13" fill="#a07700" font-weight="bold">
+    <text x="70" y="72">0,6</text><text x="70" y="160">0,4</text>
+    <text x="215" y="30">0,2</text><text x="215" y="85">0,8</text>
+    <text x="215" y="140">0,05</text><text x="215" y="195">0,95</text>
+  </g>
+  <g font-size="12" fill="#555">
+    <text x="318" y="30">0,6×0,2 = 0,12</text><text x="318" y="140">0,4×0,05 = 0,02</text>
+  </g>
+</svg>
+<p class="legende">B̄ = « elle vient à pied ». Les deux chemins qui mènent à R sont mis en valeur à droite.</p>
+</div>
+
+<h3>3. Formule des probabilités totales</h3>
+<p>Des événements A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub> forment une <b>partition</b> de Ω s'ils sont deux à deux incompatibles et si leur réunion est Ω (exactement un d'entre eux se réalise toujours).</p>
+<div class="retenir"><span class="formule">P(B) = P(A<sub>1</sub>)·P<sub>A<sub>1</sub></sub>(B) + P(A<sub>2</sub>)·P<sub>A<sub>2</sub></sub>(B) + … + P(A<sub>n</sub>)·P<sub>A<sub>n</sub></sub>(B)</span><br>
+Sur l'arbre : on additionne les probabilités de tous les chemins qui mènent à B.</div>
+<div class="exemple">Probabilité qu'Awa soit en retard : P(R) = 0,6 × 0,2 + 0,4 × 0,05 = 0,12 + 0,02 = <b>0,14</b>.</div>
+
+<h3>4. Formule de Bayes : « remonter » l'arbre</h3>
+<p>On connaît le résultat (Awa est en retard) et on cherche la cause probable (a-t-elle pris le bus ?).</p>
+<div class="retenir"><span class="formule">P<sub>B</sub>(A) = P(A) × P<sub>A</sub>(B) / P(B)</span></div>
+<div class="exemple">Awa est arrivée en retard. Probabilité qu'elle ait pris le bus : P<sub>R</sub>(B) = 0,12 / 0,14 = <b>6/7 ≈ 0,86</b>. Le retard est donc très probablement dû au bus.</div>
+
+<!-- ===================== IV ===================== -->
+<h2>IV. Le schéma de Bernoulli</h2>
+
+<h3>1. Épreuve de Bernoulli</h3>
+<p>C'est une expérience aléatoire qui n'a que <b>deux issues</b> : un <b>succès</b> S, de probabilité p, et un <b>échec</b> <span class="bar">S</span>, de probabilité q = 1 − p.</p>
+<div class="exemple"><b>Dans la vie.</b> Un joueur tire un penalty : il marque (succès) avec une probabilité p = 0,8 ou il rate (échec) avec une probabilité 0,2.</div>
+
+<h3>2. Schéma de Bernoulli</h3>
+<p>On répète <b>n fois</b> la même épreuve de Bernoulli, de manière <b>identique et indépendante</b>. On s'intéresse au nombre de succès.</p>
+<div class="retenir">La probabilité d'obtenir <b>exactement k succès</b> parmi n épreuves est :<br>
+<span class="formule">P(k succès) = C<sub>n</sub><sup>k</sup> × p<sup>k</sup> × (1 − p)<sup>n − k</sup></span><br>
+C<sub>n</sub><sup>k</sup> compte le nombre de façons de placer les k succès parmi les n épreuves.</div>
+<div class="exemple"><b>Dans la vie.</b> Le joueur tire 5 penalties (p = 0,8).<br>
+• Exactement 4 buts : C<sub>5</sub><sup>4</sup> × 0,8<sup>4</sup> × 0,2<sup>1</sup> = 5 × 0,4096 × 0,2 = <b>0,4096</b>.<br>
+• Au moins un raté : c'est le contraire de « 5 buts », donc 1 − 0,8<sup>5</sup> = 1 − 0,32768 ≈ <b>0,67</b>.</div>
+
+<div class="fig">
+<svg viewBox="0 0 360 200" width="100%" style="max-width:360px" role="img" aria-label="Probabilités du nombre de buts sur 5 penalties">
+  <rect x="0" y="0" width="360" height="200" rx="10" fill="#fff"/>
+  <line x1="40" y1="165" x2="345" y2="165" stroke="#555"/>
+  <g fill="#2563eb">
+    <rect x="55" y="165" width="34" height="0.5"/>
+    <rect x="105" y="163" width="34" height="2.2"/>
+    <rect x="155" y="148" width="34" height="17.4"/>
+    <rect x="205" y="95" width="34" height="69.6"/>
+    <rect x="255" y="26" width="34" height="139.3"/>
+    <rect x="305" y="54" width="34" height="111.4" fill="#2563eb" fill-opacity=".7"/>
+  </g>
+  <g font-size="12" fill="#222" text-anchor="middle">
+    <text x="72" y="182">0</text><text x="122" y="182">1</text><text x="172" y="182">2</text>
+    <text x="222" y="182">3</text><text x="272" y="182">4</text><text x="322" y="182">5</text>
+  </g>
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <text x="172" y="143">0,05</text><text x="222" y="90">0,20</text><text x="272" y="21">0,41</text><text x="322" y="49">0,33</text>
+  </g>
+  <text x="192" y="197" font-size="11" fill="#555" text-anchor="middle">nombre de buts sur 5 tirs</text>
+</svg>
+<p class="legende">Avec p = 0,8, le résultat le plus probable est 4 buts sur 5.</p>
+</div>
+
+<div class="exemple"><b>Répondre au hasard à un QCM.</b> Un QCM a 10 questions avec 4 réponses chacune. Un élève répond au hasard (p = 1/4). Probabilité de n'avoir aucune bonne réponse : (3/4)<sup>10</sup> ≈ <b>0,056</b>.</div>
+
+<!-- ===================== V ===================== -->
+<h2>V. Variable aléatoire</h2>
+
+<h3>1. Définition</h3>
+<p>Une <b>variable aléatoire</b> X est une fonction qui associe un <b>nombre réel</b> à chaque issue de l'univers. Elle sert à « traduire » le hasard en nombres : un gain, un nombre de succès, une durée…</p>
+<div class="exemple"><b>Dans la vie.</b> À la kermesse du lycée, on mise 200 F et on lance un dé équilibré. Si on obtient 6, on reçoit 700 F (gain net : +500 F). Si on obtient 4 ou 5, on reçoit 300 F (gain net : +100 F). Sinon, on ne reçoit rien (gain net : −200 F).<br>
+X = « gain net du joueur » prend les valeurs −200, 100 et 500.</div>
+
+<h3>2. Loi de probabilité</h3>
+<p>Donner la <b>loi de probabilité</b> de X, c'est donner toutes ses valeurs possibles x<sub>i</sub> et la probabilité P(X = x<sub>i</sub>) de chacune. La somme de ces probabilités vaut 1.</p>
+<table>
+<tr><th>x<sub>i</sub></th><td>−200</td><td>100</td><td>500</td></tr>
+<tr><th>P(X = x<sub>i</sub>)</th><td>3/6 = 1/2</td><td>2/6 = 1/3</td><td>1/6</td></tr>
+</table>
+
+<h3>3. Espérance, variance, écart type</h3>
+<div class="retenir">
+• Espérance (la « moyenne à long terme ») : <span class="formule">E(X) = x<sub>1</sub>p<sub>1</sub> + x<sub>2</sub>p<sub>2</sub> + … + x<sub>n</sub>p<sub>n</sub></span><br>
+• Variance (mesure la dispersion) : <span class="formule">V(X) = E(X²) − [E(X)]²</span><br>
+• Écart type : <span class="formule">σ(X) = √V(X)</span></div>
+<div class="exemple">E(X) = −200 × 1/2 + 100 × 1/3 + 500 × 1/6 = −100 + 100/3 + 250/3 = <b>50/3 ≈ 16,7 F</b>.<br>
+En jouant un grand nombre de fois, le joueur gagne en moyenne environ 16,7 F par partie : le jeu est <b>favorable au joueur</b> (E(X) &gt; 0). Les organisateurs de la kermesse perdraient de l'argent !<br>
+E(X²) = 40 000 × 1/2 + 10 000 × 1/3 + 250 000 × 1/6 = 65 000.<br>
+V(X) = 65 000 − (50/3)² = 582 500/9 ≈ 64 722 &nbsp;et&nbsp; σ(X) ≈ <b>254 F</b>. Les gains sont très dispersés autour de la moyenne.</div>
+<div class="encart"><b>Cas du schéma de Bernoulli.</b> Si X compte le nombre de succès dans un schéma de Bernoulli (n ; p), alors E(X) = np et V(X) = np(1 − p). Pour les 5 penalties : E(X) = 5 × 0,8 = 4 buts en moyenne.</div>
+
+<h3>4. Fonction de répartition</h3>
+<p>La <b>fonction de répartition</b> de X est la fonction F définie sur ℝ par <span class="formule">F(x) = P(X ≤ x)</span>. Elle « cumule » les probabilités de gauche à droite.</p>
+<div class="exemple">Pour le jeu de la kermesse :<br>
+• si x &lt; −200 : F(x) = 0<br>
+• si −200 ≤ x &lt; 100 : F(x) = 1/2<br>
+• si 100 ≤ x &lt; 500 : F(x) = 1/2 + 1/3 = 5/6<br>
+• si x ≥ 500 : F(x) = 1</div>
+
+<div class="fig">
+<svg viewBox="0 0 380 190" width="100%" style="max-width:380px" role="img" aria-label="Fonction de répartition en escalier">
+  <rect x="0" y="0" width="380" height="190" rx="10" fill="#fff"/>
+  <line x1="20" y1="160" x2="365" y2="160" stroke="#555"/>
+  <line x1="40" y1="170" x2="40" y2="15" stroke="#555"/>
+  <g stroke="#ddd" stroke-dasharray="3 3">
+    <line x1="40" y1="95" x2="365" y2="95"/><line x1="40" y1="52" x2="365" y2="52"/><line x1="40" y1="30" x2="365" y2="30"/>
+  </g>
+  <g font-size="11" fill="#555" text-anchor="end">
+    <text x="36" y="164">0</text><text x="36" y="99">1/2</text><text x="36" y="56">5/6</text><text x="36" y="34">1</text>
+  </g>
+  <g stroke="#2563eb" stroke-width="3">
+    <line x1="20" y1="160" x2="80" y2="160"/>
+    <line x1="80" y1="95" x2="185" y2="95"/>
+    <line x1="185" y1="52" x2="325" y2="52"/>
+    <line x1="325" y1="30" x2="365" y2="30"/>
+  </g>
+  <g fill="#2563eb"><circle cx="80" cy="95" r="4"/><circle cx="185" cy="52" r="4"/><circle cx="325" cy="30" r="4"/></g>
+  <g fill="#fff" stroke="#2563eb" stroke-width="2"><circle cx="80" cy="160" r="4"/><circle cx="185" cy="95" r="4"/><circle cx="325" cy="52" r="4"/></g>
+  <g font-size="11" fill="#222" text-anchor="middle">
+    <text x="80" y="177">−200</text><text x="185" y="177">100</text><text x="325" y="177">500</text>
+  </g>
+</svg>
+<p class="legende">Une fonction « en escalier » : elle saute à chaque valeur prise par X, d'une hauteur égale à sa probabilité.</p>
+</div>
+
+<!-- ===================== RÉSUMÉ ===================== -->
+<h2>L'essentiel en 6 lignes</h2>
+<div class="retenir">
+1. Équiprobabilité : P(A) = cas favorables / cas possibles.<br>
+2. P(<span class="bar">A</span>) = 1 − P(A) et P(A ∪ B) = P(A) + P(B) − P(A ∩ B).<br>
+3. Indépendance : P(A ∩ B) = P(A) × P(B).<br>
+4. P<sub>A</sub>(B) = P(A ∩ B) / P(A) ; sur un arbre : on multiplie le long d'un chemin, on additionne les chemins.<br>
+5. Schéma de Bernoulli : P(k succès) = C<sub>n</sub><sup>k</sup> p<sup>k</sup>(1 − p)<sup>n − k</sup>.<br>
+6. E(X) = Σ x<sub>i</sub>p<sub>i</sub> ; V(X) = E(X²) − [E(X)]² ; σ(X) = √V(X).</div>
+
+</div>

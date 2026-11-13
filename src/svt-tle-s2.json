@@ -1,0 +1,76 @@
+{
+  "chapitres": [
+    {
+      "id": "encephale",
+      "titre": "Organisation de l'encéphale des mammifères",
+      "plan": ["Un organe très bien protégé", "L'organisation externe", "L'organisation interne", "Un plan d'organisation commun", "Comment l'encéphale se forme"],
+      "exercices": [
+        {
+          "titre": "Ranger les structures dans les bonnes régions",
+          "enonce": "Voici des structures de l'encéphale : hémisphères cérébraux, cervelet, bulbe rachidien, thalamus, pédoncules cérébraux, protubérance annulaire.<br>Place chacune dans l'une des cinq régions : télencéphale, diencéphale, mésencéphale, métencéphale, myélencéphale.",
+          "indice": "Les cinq régions sont rangées de l'avant vers l'arrière. Le métencéphale contient deux des structures de la liste.",
+          "correction": "• Télencéphale : hémisphères cérébraux.<br>• Diencéphale : thalamus.<br>• Mésencéphale : pédoncules cérébraux.<br>• Métencéphale : cervelet et protubérance annulaire.<br>• Myélencéphale : bulbe rachidien."
+        },
+        {
+          "titre": "Le circuit du liquide céphalo-rachidien",
+          "enonce": "1) Range dans l'ordre, du cerveau vers la moelle : 4<sup>e</sup> ventricule, ventricules latéraux, canal de l'épendyme, aqueduc de Sylvius, 3<sup>e</sup> ventricule.<br>2) Quel est le rôle du LCR ?<br>3) Quelle structure relie les deux hémisphères cérébraux ?",
+          "indice": "Les ventricules latéraux sont dans les hémisphères, le canal de l'épendyme est dans la moelle.",
+          "correction": "1) Ventricules latéraux → 3<sup>e</sup> ventricule → aqueduc de Sylvius → 4<sup>e</sup> ventricule → canal de l'épendyme.<br>2) Le LCR amortit les chocs et protège le tissu nerveux.<br>3) Le corps calleux."
+        }
+      ],
+      "quiz": [
+        {"q": "Dans quel ordre trouve-t-on les méninges, de l'extérieur vers l'intérieur ?", "choix": ["Pie-mère, arachnoïde, dure-mère", "Dure-mère, arachnoïde, pie-mère", "Arachnoïde, dure-mère, pie-mère", "Dure-mère, pie-mère, arachnoïde"], "bonne": 1, "explication": "La dure-mère, épaisse, est à l'extérieur ; la pie-mère, fine, est collée au tissu nerveux."},
+        {"q": "Dans le cerveau, où se trouve la substance grise ?", "choix": ["Au centre uniquement", "À l'extérieur (cortex)", "Seulement dans le cervelet", "Il n'y en a pas"], "bonne": 1, "explication": "La substance grise forme le cortex à la surface du cerveau ; on trouve aussi des noyaux gris en profondeur."},
+        {"q": "Le prosencéphale de l'embryon donne :", "choix": ["Le cervelet et le bulbe", "Le télencéphale et le diencéphale", "Le mésencéphale", "La moelle épinière"], "bonne": 1, "explication": "Le prosencéphale se divise en télencéphale (futurs hémisphères) et diencéphale."}
+      ]
+    },
+    {
+      "id": "moelle",
+      "titre": "Organisation de la moelle épinière",
+      "plan": ["Où se trouve la moelle épinière ?", "La morphologie externe", "La morphologie interne", "Le système nerveux dans son ensemble"],
+      "exercices": [
+        {
+          "titre": "Orienter une coupe de moelle",
+          "enonce": "Sur une coupe transversale de moelle épinière, un élève ne sait pas quel côté est le dos (dorsal) et quel côté est le ventre (ventral).<br>Donne-lui trois indices pour s'orienter.",
+          "indice": "Compare les deux sillons, les deux paires de cornes, et regarde sur quelle racine se trouve le ganglion.",
+          "correction": "• Le sillon antérieur (ventral) est large et profond ; le sillon postérieur (dorsal) est étroit.<br>• Les cornes antérieures (ventrales) sont larges ; les cornes postérieures (dorsales) sont fines et atteignent presque la surface.<br>• La racine qui porte le ganglion spinal est la racine postérieure (dorsale)."
+        },
+        {
+          "titre": "Après un accident",
+          "enonce": "Après un accident de moto, Modou ne peut plus bouger ses jambes, mais il bouge normalement ses bras.<br>1) La lésion de la moelle est-elle plutôt au niveau du cou ou plus bas dans le dos ? Justifie.<br>2) Comment appelle-t-on cette paralysie ?<br>3) Pourquoi la ponction lombaire se fait-elle en bas du dos sans risque pour la moelle ?",
+          "indice": "Les nerfs des bras partent du renflement cervical. Une lésion bloque tout ce qui est en dessous d'elle.",
+          "correction": "1) Plus bas que le cou : les nerfs des bras, qui partent du renflement cervical, fonctionnent encore. La lésion est donc située sous ce renflement.<br>2) Une paraplégie.<br>3) Chez l'adulte, la moelle s'arrête vers la 1<sup>re</sup> ou la 2<sup>e</sup> vertèbre lombaire ; plus bas, il n'y a que des racines nerveuses (queue de cheval)."
+        }
+      ],
+      "quiz": [
+        {"q": "Combien de paires de nerfs rachidiens possède l'Homme ?", "choix": ["12", "24", "31", "46"], "bonne": 2, "explication": "31 paires de nerfs rachidiens partent de la moelle ; les 12 paires de nerfs crâniens partent de l'encéphale."},
+        {"q": "Sur quelle racine se trouve le ganglion spinal ?", "choix": ["La racine antérieure", "La racine postérieure", "Les deux", "Aucune"], "bonne": 1, "explication": "Le ganglion spinal est un renflement de la racine postérieure (dorsale)."},
+        {"q": "Le système nerveux végétatif commande :", "choix": ["Les mouvements volontaires", "Le fonctionnement des organes internes", "La vision uniquement", "Les muscles des bras seulement"], "bonne": 1, "explication": "Le système végétatif (sympathique et parasympathique) règle le cœur, la digestion, la respiration… sans décision volontaire."}
+      ]
+    },
+    {
+      "id": "tissu",
+      "titre": "Organisation du tissu nerveux",
+      "plan": ["Qu'est-ce que le tissu nerveux ?", "Observer un centre nerveux", "Observer un nerf", "La notion de neurone"],
+      "exercices": [
+        {
+          "titre": "Les expériences de section",
+          "enonce": "On sectionne la racine postérieure d'un nerf rachidien <b>entre le ganglion spinal et la moelle</b>.<br>1) Quel bout dégénère ?<br>2) Que se passe-t-il si on coupe la même racine <b>après le ganglion</b>, du côté du nerf ?<br>3) Où se trouvent donc les corps cellulaires de ces fibres ?",
+          "indice": "Une fibre dégénère quand elle est séparée de son corps cellulaire.",
+          "correction": "1) Le bout relié à la moelle dégénère ; le bout relié au ganglion survit.<br>2) C'est le bout périphérique (côté nerf) qui dégénère.<br>3) Dans les deux cas, survit le bout qui reste relié au ganglion : les corps cellulaires de ces fibres sont donc dans le ganglion spinal."
+        },
+        {
+          "titre": "Le cas de la poliomyélite",
+          "enonce": "Aïssatou a eu la poliomyélite petite : sa jambe gauche est paralysée et les muscles de cette jambe ont fondu.<br>1) Quelles cellules ont été détruites, et où se trouvent-elles ?<br>2) Pourquoi les fibres du nerf de la jambe ont-elles dégénéré ?<br>3) Pourquoi la paralysie est-elle définitive ?<br>4) Comment éviter cette maladie ?",
+          "indice": "Les motoneurones commandent les muscles. Pense à la dégénérescence wallérienne et aux caractéristiques du neurone.",
+          "correction": "1) Les corps cellulaires des motoneurones, dans les cornes antérieures de la moelle.<br>2) Les fibres séparées de leur corps cellulaire (détruit) ne peuvent plus survivre.<br>3) Chez l'adulte, les neurones ne se divisent pratiquement plus : les neurones détruits ne sont pas remplacés.<br>4) Par la vaccination contre la poliomyélite."
+        }
+      ],
+      "quiz": [
+        {"q": "Pourquoi la substance blanche est-elle blanche ?", "choix": ["Elle contient des corps cellulaires", "Elle contient beaucoup de myéline", "Elle n'a pas de vaisseaux", "Elle contient du LCR"], "bonne": 1, "explication": "Les fibres de la substance blanche sont souvent entourées de myéline, riche en lipides et de couleur blanche."},
+        {"q": "Quel prolongement conduit le message nerveux loin du corps cellulaire ?", "choix": ["La dendrite", "L'axone", "Le corps de Nissl", "Le noyau"], "bonne": 1, "explication": "L'axone, unique et souvent long, conduit le message vers l'arborisation terminale."},
+        {"q": "Quelle enveloppe entoure le nerf entier ?", "choix": ["L'endonèvre", "Le périnèvre", "L'épinèvre", "La pie-mère"], "bonne": 2, "explication": "Épinèvre : le nerf entier ; périnèvre : un faisceau ; endonèvre : une fibre."}
+      ]
+    }
+  ]
+}

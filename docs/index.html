@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14213d">
+<meta name="description" content="Mon Lycée SN : cours, exercices corrigés, quiz et orientation pour les lycéens du Sénégal.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Mon Lycée SN – Cours, exercices et orientation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+  /* Identité : fond noir + crème, trio vert / jaune / corail */
+  :root{
+    --noir:#14213d; --vert:#2563eb; --vert-clair:#e8efff; --jaune:#fbbf24; --jaune-clair:#fff7e0;
+    --corail:#2563eb; --rouge:#dc2626; --rouge-clair:#fdecec;
+    --texte:#1e2433; --gris:#5b6475; --fond:#f5f7fb; --carte:#fff; --bord:#e3e8f2;
+    --display:"Poppins",system-ui,sans-serif; --sans:"Poppins",system-ui,sans-serif;
+    --ease:cubic-bezier(.4,0,.2,1); --rebond:cubic-bezier(.4,0,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{font-family:var(--sans);font-size:15px;background:var(--fond);color:var(--texte);line-height:1.6;overflow-x:clip}
+  body.bloque{overflow:hidden}
+  a{color:var(--vert)}
+  button{font:inherit;cursor:pointer}
+  .display{font-family:var(--display);text-transform:uppercase;font-weight:400;line-height:.95;letter-spacing:.01em}
+  .wrap{width:min(860px,100% - 32px);margin-inline:auto}
+  .tribar{display:flex;width:130px;height:6px;border-radius:3px;overflow:hidden}
+  .tribar i{flex:1}.tribar i:nth-child(1){background:var(--vert)}.tribar i:nth-child(2){background:var(--jaune)}.tribar i:nth-child(3){background:var(--corail)}
+  .eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--corail)}
+
+  /* ---------- Intro (1re visite) ---------- */
+  #intro{position:fixed;inset:0;z-index:300;background:var(--noir);display:grid;place-items:center;
+    clip-path:inset(0 0 0 0);transition:clip-path .8s var(--ease)}
+  #intro.sort{clip-path:inset(0 0 100% 0)}
+  #intro[hidden]{display:none}
+  #intro .mots{display:grid;gap:4px;text-align:center}
+  #intro .mots span{font-family:var(--display);font-size:clamp(3rem,13vw,6rem);text-transform:uppercase;line-height:1;
+    opacity:0;transform:translateY(40px);animation:monte .6s var(--ease) forwards}
+  #intro .mots span:nth-child(1){color:var(--vert);animation-delay:.15s}
+  #intro .mots span:nth-child(2){color:var(--jaune);animation-delay:.55s}
+  #intro .mots span:nth-child(3){color:var(--corail);animation-delay:.95s}
+  #intro .passer{position:absolute;bottom:24px;right:24px;color:#fff;background:none;border:1px solid rgba(255,255,255,.35);
+    padding:8px 18px;border-radius:100px;font-size:.8rem;opacity:.75}
+  @keyframes monte{to{opacity:1;transform:none}}
+
+  /* ---------- Barre de progression + en-tête ---------- */
+  #progres{position:fixed;top:0;left:0;height:4px;width:0;z-index:120;
+    background:linear-gradient(90deg,var(--vert) 0 33%,var(--jaune) 33% 66%,var(--corail) 66%)}
+  header{position:fixed;inset:0 0 auto;z-index:100;padding:16px 0;transition:background .35s,padding .35s;color:#fff}
+  header.defile{background:rgba(13,15,14,.9);backdrop-filter:blur(12px);padding:9px 0}
+  .barre{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .marque{display:flex;align-items:center;gap:9px;color:#fff;text-decoration:none}
+  .marque svg{width:34px;height:34px}
+  .marque b{font-family:var(--display);font-weight:400;font-size:1.35rem;letter-spacing:.03em}
+  .marque b span{color:var(--jaune)}
+  nav.top{display:flex;gap:24px;font-size:.88rem;font-weight:600}
+  nav.top a{color:#fff;text-decoration:none;opacity:.8;position:relative}
+  nav.top a::after{content:"";position:absolute;left:0;bottom:-5px;height:3px;width:0;background:var(--jaune);transition:width .3s}
+  nav.top a:hover,nav.top a.actif{opacity:1}
+  nav.top a:hover::after,nav.top a.actif::after{width:100%}
+  .burger{display:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:none;position:relative;z-index:110}
+  .burger span{display:block;width:18px;height:2px;background:#fff;margin:4px auto;transition:.3s}
+  @media (max-width:700px){
+    .burger{display:block}
+    nav.top{position:fixed;inset:0;background:var(--vert);flex-direction:column;align-items:center;justify-content:center;gap:18px;
+      font-family:var(--display);font-weight:400;font-size:2.6rem;text-transform:uppercase;
+      clip-path:circle(0 at calc(100% - 38px) 38px);transition:clip-path .6s var(--ease)}
+    nav.top.ouvert{clip-path:circle(150% at calc(100% - 38px) 38px)}
+    nav.top a::after{background:var(--jaune)}
+    .burger.ouvert span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .burger.ouvert span:nth-child(2){opacity:0}
+    .burger.ouvert span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+  }
+
+  /* ---------- Héros (accueil) ---------- */
+  .heros{min-height:100svh;background:radial-gradient(circle at 75% 40%,#13301f 0,var(--noir) 58%);color:#fff;
+    display:flex;align-items:center;padding:110px 0 70px;position:relative;overflow:hidden}
+  .heros-grille{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+  .badge{display:inline-flex;align-items:center;gap:10px;font-size:.78rem;font-weight:600;border:1px solid rgba(255,255,255,.22);
+    padding:6px 15px;border-radius:100px;margin-bottom:22px}
+  .badge i{width:8px;height:8px;border-radius:50%;background:var(--vert);animation:ping 2s infinite}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(15,138,79,.8)}70%{box-shadow:0 0 0 10px rgba(15,138,79,0)}100%{box-shadow:0 0 0 0 rgba(15,138,79,0)}}
+  .titre-heros{font-size:clamp(3.4rem,11vw,7rem)}
+  .titre-heros .l{display:block;overflow:hidden}
+  .titre-heros .l span{display:inline-block;transform:translateY(105%);animation:glisse .9s var(--ease) forwards}
+  .titre-heros .l:nth-child(2) span{animation-delay:.12s;color:var(--jaune)}
+  .titre-heros .l:nth-child(3) span{animation-delay:.24s}
+  @keyframes glisse{to{transform:none}}
+  .sous-heros{font-style:italic;font-weight:600;color:var(--jaune);font-size:clamp(1.1rem,2.6vw,1.45rem);margin:14px 0 18px;opacity:0;animation:monte .8s .45s forwards}
+  .heros .tribar{transform:scaleX(0);transform-origin:left;animation:pousse .8s .6s var(--ease) forwards}
+  @keyframes pousse{to{transform:none}}
+  .heros p.lead{color:rgba(255,255,255,.78);max-width:470px;margin:22px 0 30px;opacity:0;animation:monte .8s .55s forwards}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:monte .8s .7s forwards}
+  .scene{position:relative;aspect-ratio:1;width:100%;max-width:420px;justify-self:center}
+  .scene .anneau{position:absolute;inset:4%;border:1.5px dashed rgba(255,255,255,.25);border-radius:50%;animation:tourne 40s linear infinite}
+  @keyframes tourne{to{transform:rotate(360deg)}}
+  .scene .logo-centre{position:absolute;inset:24%;display:grid;place-items:center;border-radius:50%;
+    background:radial-gradient(circle,rgba(246,196,20,.22),transparent 65%)}
+  .scene .logo-centre svg{width:78%;height:78%;overflow:visible}
+  .scene .page-g,.scene .page-d{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);animation:pousseY .7s var(--ease) forwards}
+  .scene .page-g{animation-delay:.3s}.scene .page-d{animation-delay:.45s}
+  .scene .toque{transform:translateY(-300px);opacity:0;animation:tombe .9s .8s var(--rebond) forwards}
+  @keyframes pousseY{to{transform:none}}
+  @keyframes tombe{to{transform:none;opacity:1}}
+  .orbite{position:absolute;width:20%;aspect-ratio:1;opacity:0;animation:pop .6s var(--rebond) forwards}
+  .orbite div{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;font-size:clamp(1.4rem,5vw,2.1rem);
+    box-shadow:0 16px 36px -12px rgba(0,0,0,.6);animation:flotte 5s ease-in-out infinite}
+  .orbite:nth-child(odd) div{animation-delay:-2.5s}
+  @keyframes flotte{50%{transform:translateY(-12px)}}
+  @keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:none}}
+  .defiler{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
+    opacity:.6;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;text-decoration:none}
+  .defiler::after{content:"";width:2px;height:36px;background:linear-gradient(var(--jaune),transparent);animation:goutte 2s infinite}
+  @keyframes goutte{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+  @media (max-width:800px){
+    .heros-grille{grid-template-columns:1fr;text-align:center}
+    .heros .tribar{margin:auto}.heros p.lead{margin-inline:auto}.ctas{justify-content:center}
+    .scene{max-width:300px;order:-1;margin-bottom:-10px}
+  }
+
+  /* ---------- Bandeau défilant ---------- */
+  .bandeau-defil{background:var(--corail);color:#fff;padding:14px 0;overflow:hidden;white-space:nowrap;transform:rotate(-1.5deg) scale(1.03);
+    position:relative;z-index:2;margin-top:-14px}
+  .bandeau-defil .piste{display:inline-flex;gap:34px;animation:defile 30s linear infinite;font-family:var(--display);font-size:1.8rem;text-transform:uppercase}
+  .bandeau-defil .piste span::after{content:"•";color:var(--jaune);margin-left:34px}
+  @keyframes defile{to{transform:translateX(-50%)}}
+
+  /* ---------- En-tête des pages internes ---------- */
+  .entete{background:radial-gradient(circle at 85% 20%,#13301f 0,var(--noir) 60%);color:#fff;padding:96px 0 34px}
+  .entete .fil{font-size:.82rem;opacity:.75;margin-bottom:12px}
+  .entete .fil a{color:#fff}
+  .entete h1{font-size:clamp(2.4rem,9vw,4.2rem);margin-bottom:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .entete h1 .rond{width:58px;height:58px;font-size:1.8rem}
+  .entete .tribar{margin-bottom:12px;transform:scaleX(0);transform-origin:left;animation:pousse .7s .15s var(--ease) forwards}
+  .entete p{opacity:.8}
+  .entete .jauge{max-width:320px;background:rgba(255,255,255,.18)}
+
+  /* ---------- Sections ---------- */
+  .section{padding:54px 0}
+  .section.sombre{background:var(--noir);color:#fff}
+  .tete{margin-bottom:24px}
+  .tete h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(2rem,7vw,3rem);line-height:1;margin-top:6px}
+  .tete h2 span{color:var(--corail)}
+  h2.titre-bloc{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.7rem;margin:34px 0 14px;line-height:1}
+  .rond{border-radius:50%;display:grid;place-items:center;flex-shrink:0}
+  .bg-vert{background:var(--vert)}.bg-jaune{background:var(--jaune)}.bg-corail{background:var(--corail)}
+
+  /* Apparition au défilement */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .6s,transform .6s var(--ease);transition-delay:var(--d,0s)}
+  .rv.vu{opacity:1;transform:none}
+
+  /* ---------- Chiffres ---------- */
+  .chiffres{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+  .chiffres b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,9vw,3.6rem);line-height:1}
+  .chiffres div:nth-child(1) b{color:var(--vert)}.chiffres div:nth-child(2) b{color:var(--jaune)}.chiffres div:nth-child(3) b{color:var(--corail)}
+  .chiffres small{opacity:.75;font-size:.8rem}
+
+  /* ---------- Cartes ---------- */
+  .grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px}
+  .carte{display:flex;flex-direction:column;background:var(--carte);border-radius:22px;padding:18px;text-decoration:none;color:inherit;
+    position:relative;overflow:hidden;transition:transform .35s var(--rebond),box-shadow .3s;min-width:0}
+  a.carte:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 22px 40px -22px rgba(0,0,0,.4)}
+  a.carte:active{transform:scale(.97)}
+  .carte .rond{width:54px;height:54px;font-size:1.6rem;margin-bottom:12px;transition:transform .5s var(--rebond)}
+  a.carte:hover .rond{transform:rotate(-14deg) scale(1.1)}
+  .carte b{font-weight:700;line-height:1.25}
+  .carte small{color:var(--gris);font-size:.8rem;margin-top:2px}
+  .carte .fleche{position:absolute;top:16px;right:16px;font-size:1.1rem;opacity:.35;transition:transform .3s,opacity .3s}
+  a.carte:hover .fleche{transform:translateX(4px);opacity:1}
+  .carte-classe{min-height:150px;justify-content:flex-end;color:#fff}
+  .carte-classe .display{font-size:2.3rem}
+  .carte-classe small{color:rgba(255,255,255,.85)}
+  .carte-classe .num{position:absolute;right:-6px;top:-14px;font-family:var(--display);font-size:6.5rem;opacity:.16;line-height:1}
+  .carte-classe.niv-Seconde{background:var(--vert)}
+  .carte-classe.niv-Première{background:var(--jaune);color:var(--noir)}
+  .carte-classe.niv-Première small{color:rgba(0,0,0,.7)}
+  .carte-classe.niv-Terminale{background:var(--corail)}
+  .carte-classe .jauge{background:rgba(255,255,255,.35)}
+  .carte-classe .jauge i{background:#fff}
+  .carte.sombre{background:#1b1f1d;color:#fff}
+  .carte.sombre small{color:rgba(255,255,255,.7)}
+  .jauge{height:6px;background:var(--bord);border-radius:999px;overflow:hidden;margin-top:10px}
+  .jauge i{display:block;height:100%;background:var(--vert);border-radius:999px;transition:width .8s var(--ease)}
+  .statut{display:inline-block;align-self:flex-start;font-size:.68rem;font-weight:600;padding:3px 10px;border-radius:100px;margin-top:8px}
+  .statut.ok{background:var(--vert-clair);color:var(--vert)}
+  .statut.bientot{border:1.5px dashed var(--bord);color:var(--gris)}
+
+  .reprendre{display:flex;align-items:center;gap:14px;background:var(--noir);color:#fff;border-radius:22px;padding:14px 18px;
+    text-decoration:none;margin-bottom:14px;transition:transform .3s var(--rebond)}
+  .reprendre:hover{transform:translateX(6px)}
+  .reprendre .rond{width:46px;height:46px;background:var(--jaune);color:var(--noir);font-size:1.1rem}
+  .reprendre small{opacity:.75}
+  .recherche{width:100%;padding:15px 20px;border-radius:100px;border:2px solid var(--bord);background:#fff;color:var(--texte);
+    font:inherit;font-size:1rem;transition:border-color .2s}
+  .recherche:focus{outline:none;border-color:var(--vert)}
+  .resultats{background:#fff;border-radius:18px;margin-top:8px;overflow:hidden;box-shadow:0 14px 30px -20px rgba(0,0,0,.35)}
+  .resultats a{display:block;padding:12px 18px;border-bottom:1px solid var(--bord);text-decoration:none;color:inherit;font-weight:600}
+  .resultats a:hover{background:var(--vert-clair)}
+
+  /* ---------- Boutons ---------- */
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:100px;font-weight:600;font-size:.88rem;
+    border:2px solid var(--noir);background:transparent;color:var(--noir);text-decoration:none;position:relative;overflow:hidden;isolation:isolate;
+    transition:transform .25s,color .3s,border-color .3s}
+  .btn::before{content:"";position:absolute;inset:0;transform:translateY(101%);transition:transform .4s var(--ease);z-index:-1;background:var(--jaune)}
+  .btn:hover::before{transform:none}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:scale(.96)}
+  .btn.plein{background:var(--vert);border-color:var(--vert);color:#fff}
+  .btn.plein::before{background:var(--noir)}
+  .btn.gros{padding:15px 28px;font-size:.95rem}
+  .btn.jaune{background:var(--jaune);border-color:var(--jaune);color:var(--noir)}
+  .btn.jaune::before{background:var(--corail)}
+  .btn.clair{border-color:#fff;color:#fff}
+  .btn.clair:hover{color:var(--noir)}
+  .btn:disabled{opacity:.6}
+
+  /* ---------- Contenu (matières) ---------- */
+  .onglets{display:flex;gap:8px;margin:0 0 20px;overflow-x:auto;padding:4px 0 6px;scrollbar-width:none}
+  .onglets button{border:2px solid var(--bord);background:#fff;color:var(--texte);border-radius:100px;padding:9px 16px;font-size:.88rem;
+    font-weight:600;white-space:nowrap;transition:background .25s,color .25s,border-color .25s,transform .25s var(--rebond)}
+  .onglets button:hover{transform:translateY(-2px)}
+  .onglets button.actif{background:var(--noir);color:#fff;border-color:var(--noir)}
+  .vide{background:#fff;border:2px dashed var(--bord);border-radius:22px;padding:26px;color:var(--gris);text-align:center}
+  .exo,.qcm{background:#fff;border-radius:22px;padding:20px;margin-bottom:14px;border:2px solid transparent;transition:border-color .3s,box-shadow .3s}
+  .exo:hover,.qcm:hover{box-shadow:0 18px 36px -26px rgba(0,0,0,.35)}
+  .exo.fait{border-color:var(--vert)}
+  .exo h3{font-size:1.1rem}
+  .tag{display:inline-block;background:var(--jaune-clair);color:var(--texte);font-size:.72rem;font-weight:600;padding:3px 11px;border-radius:100px}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .bulle{margin-top:12px;padding:12px 14px;border-radius:14px;animation:monte .3s ease forwards;opacity:0;transform:translateY(10px)}
+  .bulle.indice{background:var(--jaune-clair)}
+  .bulle.corr{background:var(--vert-clair)}
+  .qcm .choix{display:grid;gap:8px;margin-top:10px}
+  .qcm .choix button{text-align:left;border:2px solid var(--bord);background:var(--fond);color:var(--texte);border-radius:14px;padding:11px 14px;
+    transition:background .2s,border-color .2s,transform .2s}
+  .qcm .choix button:hover{transform:translateX(4px)}
+  .qcm .choix button.bon{background:var(--vert-clair);border-color:var(--vert)}
+  .qcm .choix button.faux{background:var(--rouge-clair);border-color:var(--rouge);animation:secoue .3s}
+  @keyframes secoue{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .score{font-family:var(--display);font-size:1.6rem;color:var(--vert)}
+  .encadre{background:var(--vert-clair);border-left:5px solid var(--vert);padding:14px 16px;border-radius:14px;margin:14px 0}
+  .attention{background:var(--jaune-clair);border-left:5px solid var(--jaune);padding:14px 16px;border-radius:14px;margin:14px 0}
+  details{background:#fff;border-radius:18px;padding:14px 18px;margin-bottom:10px}
+  details summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+";font-family:var(--display);font-size:1.5rem;color:var(--corail);transition:transform .3s}
+  details[open] summary::after{transform:rotate(45deg)}
+  details[open]>*:not(summary){animation:monte .3s ease forwards;opacity:0;transform:translateY(8px);margin-top:8px}
+  ul.etapes{padding-left:1.2em} ul.etapes li{margin-bottom:6px}
+  .check{display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid transparent;border-radius:16px;padding:13px 14px;
+    margin-bottom:8px;cursor:pointer;transition:border-color .25s,transform .25s var(--rebond)}
+  .check:hover{transform:translateX(4px)}
+  .check input{width:20px;height:20px;accent-color:var(--vert);margin-top:2px;flex-shrink:0}
+  .check.coche{border-color:var(--vert)}
+  .check.coche span{color:var(--gris);text-decoration:line-through}
+  .minuteur{background:var(--noir);color:#fff;border-radius:26px;padding:24px;text-align:center}
+  .minuteur p{opacity:.75}
+  .cercle{width:190px;height:190px;border-radius:50%;margin:14px auto 18px;display:grid;place-items:center;
+    background:conic-gradient(var(--jaune) var(--p,0%), rgba(255,255,255,.12) 0)}
+  .cercle div{width:160px;height:160px;border-radius:50%;background:var(--noir);display:grid;place-items:center}
+  .cercle b{font-family:var(--display);font-weight:400;font-size:2.8rem;letter-spacing:.03em}
+  .cercle small{display:block;opacity:.7;font-size:.78rem;text-transform:uppercase;letter-spacing:.15em}
+  .minuteur .btn{border-color:#fff;color:#fff}
+  .minuteur .btn.plein{background:var(--jaune);border-color:var(--jaune);color:var(--noir)}
+  .minuteur .btn.plein::before{background:#fff}
+  .minuteur .btn:not(.plein):hover{color:var(--noir)}
+
+  .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(120px);background:var(--noir);color:#fff;
+    border-left:5px solid var(--jaune);box-shadow:0 10px 30px rgba(0,0,0,.35);padding:12px 18px;border-radius:14px;font-size:.9rem;
+    font-weight:600;transition:transform .45s var(--rebond);z-index:200;max-width:90%}
+  .toast.vu{transform:translateX(-50%) translateY(0)}
+
+  footer{background:var(--noir);color:rgba(255,255,255,.7);padding:40px 0 34px;font-size:.82rem}
+  footer .marque{margin-bottom:12px}
+  footer .tribar{margin:14px 0}
+  footer a{color:var(--jaune)}
+
+  /* ---------- Cours (lecture) ---------- */
+  .lecture{margin-top:16px;border-top:2px solid var(--bord);padding-top:6px;animation:monte .4s ease forwards;opacity:0}
+  .cours h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:1.5rem;color:var(--vert);
+    border-bottom:3px solid var(--vert-clair);padding-bottom:4px;margin-top:1.4em;line-height:1.1}
+  .cours h3{font-size:1rem;margin:1.2em 0 .4em}
+  .cours p{margin:.5em 0}
+  .cours .intro{font-style:italic;color:var(--gris)}
+  .cours .retenir{background:var(--vert-clair);border-left:5px solid var(--vert);padding:12px 14px;border-radius:12px;margin:10px 0}
+  .cours .exemple{background:var(--jaune-clair);border-left:5px solid var(--jaune);padding:12px 14px;border-radius:12px;margin:10px 0}
+  .cours .encart{border:2px dashed var(--bord);padding:12px 14px;border-radius:12px;margin:10px 0}
+  .cours .attention{background:var(--rouge-clair);border-left-color:var(--rouge);margin:10px 0}
+  .cours .formule{font-weight:600}
+  .cours .bar{text-decoration:overline}
+  .cours table{border-collapse:collapse;width:100%;margin:8px 0;font-size:.88rem;display:block;overflow-x:auto}
+  .cours th,.cours td{border:1px solid var(--bord);padding:6px 8px;text-align:center}
+  .cours th{background:var(--vert-clair)}
+  .cours .fig{text-align:center;margin:14px 0}
+  .cours .fig svg{border-radius:14px;border:1px solid var(--bord);margin:auto}
+  .cours .legende{font-size:.8rem;color:var(--gris);margin-top:4px}
+
+  /* ---------- Version simplifiée bleu & blanc ---------- */
+  .display,.tete h2,h2.titre-bloc,.cours h2,.score,.cercle b,.marque b{font-family:var(--sans);font-weight:700;text-transform:none;letter-spacing:-.01em;line-height:1.15}
+  .marque b{font-size:1.15rem}
+  .titre-heros{font-size:clamp(2.4rem,8vw,3.6rem)}
+  .entete h1{font-size:clamp(1.8rem,6vw,2.6rem)}
+  .tete h2{font-size:clamp(1.6rem,5vw,2.1rem)} .tete h2 span{color:var(--vert)}
+  h2.titre-bloc{font-size:1.3rem}
+  .cours h2{font-size:1.25rem}
+  .tribar{width:56px;height:5px}.tribar i{background:var(--vert)!important}
+  .heros{min-height:auto;padding:120px 0 64px;background:linear-gradient(160deg,#14213d 0,#1e3a8a 100%)}
+  .entete{background:linear-gradient(160deg,#14213d 0,#1e3a8a 100%)}
+  .sous-heros{color:#bfdbfe}
+  .scene{max-width:260px}.scene .logo-centre{inset:8%;background:none}
+  .bg-vert,.bg-jaune,.bg-corail{background:var(--vert-clair)}
+  .entete .rond{background:rgba(255,255,255,.15)}
+  .carte-classe{min-height:120px}
+  .carte-classe.niv-Seconde{background:#3b82f6}
+  .carte-classe.niv-Première{background:#2563eb;color:#fff}
+  .carte-classe.niv-Première small{color:rgba(255,255,255,.85)}
+  .carte-classe.niv-Terminale{background:#14213d}
+  .carte-classe .display{font-size:1.7rem}
+  .carte-classe .num{font-family:var(--sans);font-weight:700;font-size:5rem;opacity:.12}
+  .carte{border:1px solid var(--bord)}
+  .carte-classe{border:none}
+  a.carte:hover{transform:translateY(-3px);box-shadow:0 12px 26px -18px rgba(20,33,61,.45)}
+  a.carte:hover .rond{transform:none}
+  .btn.jaune{background:#fff;border-color:#fff;color:var(--noir)}
+  .btn.jaune::before{background:var(--jaune)}
+  .btn::before{background:var(--vert-clair)}
+  .btn.plein::before{background:var(--noir)}
+  .badge i{animation:none}
+  .bulle,.lecture,details[open]>*:not(summary){animation-duration:.2s}
+  details summary::after{font-family:var(--sans);color:var(--vert)}
+  .eyebrow{color:var(--vert)}
+  .minuteur .eyebrow{color:var(--jaune)!important}
+  .exo,.qcm,details,.check{border:1px solid var(--bord)}
+  .exo.fait,.check.coche{border-color:var(--vert)}
+  footer .tribar{display:none}
+  .scene .page-g,.scene .page-d,.scene .toque{animation:none;transform:none;opacity:1}
+  .carte-classe .num{display:none}
+  h3.niveau{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);margin:24px 0 10px}
+  header.defile{background:rgba(20,33,61,.95)}
+  @media (max-width:700px){ nav.top{background:var(--noir);font-family:var(--sans);font-weight:700;text-transform:none;font-size:1.8rem} }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<header id="haut">
+  <div class="wrap barre">
+    <a href="#accueil" class="marque" aria-label="Mon Lycée SN, accueil"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="page-g" d="M50 46C38 38 22 38 10 42V86C22 82 38 82 50 90Z" fill="#2563eb"/><path class="page-d" d="M50 46C62 38 78 38 90 42V86C78 82 62 82 50 90Z" fill="#60a5fa"/><g class="toque"><path d="M50 8L88 23L50 38L12 23Z" fill="#fbbf24"/><path d="M80 26V42" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="45" r="4" fill="#fbbf24"/></g></svg><b>MON LYCÉE <span>SN</span></b></a>
+    <nav class="top" id="nav">
+      <a href="#accueil" data-n="accueil">Accueil</a>
+      <a href="#conseils" data-n="conseils">Conseils</a>
+      <a href="#orientation" data-n="orientation">Orientation</a>
+      <a href="#telechargements" data-n="telechargements">Téléchargements</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<main id="app"></main>
+<div class="toast" id="toast"></div>
+<template id="tpl-proba-tle-s2"><div class="cours">
+
+<p class="intro">Chaque jour, on parle de hasard sans s'en rendre compte : « il va sûrement pleuvoir », « le car rapide a peu de chances d'arriver à l'heure », « notre équipe a de bonnes chances de gagner ». Les probabilités servent à <b>mesurer ces chances avec des nombres</b>, pour pouvoir les comparer et prendre de meilleures décisions.</p>
+
+<!-- ===================== I ===================== -->
+<h2>I. Le vocabulaire du hasard</h2>
+
+<h3>1. Expérience aléatoire et univers</h3>
+<p>Une <b>expérience aléatoire</b> est une expérience dont on connaît tous les résultats possibles, mais dont on ne peut pas prévoir à l'avance le résultat qui va sortir. Chaque résultat possible s'appelle une <b>issue</b> (ou éventualité).</p>
+<p>L'ensemble de toutes les issues s'appelle l'<b>univers</b>. On le note <b>Ω</b> (lire « oméga »). Le nombre d'issues se note card(Ω).</p>
+<div class="exemple"><b>Dans la vie.</b> Le professeur tire au sort un élève d'une classe de 40 pour passer au tableau. L'univers est l'ensemble des 40 élèves : card(Ω) = 40.<br>
+<b>Avec un dé.</b> On lance un dé à six faces : Ω = {1 ; 2 ; 3 ; 4 ; 5 ; 6} et card(Ω) = 6.</div>
+
+<h3>2. Les événements</h3>
+<p>Un <b>événement</b> est une partie de l'univers : c'est un ensemble d'issues qui vérifient une même condition. On dit qu'un événement est <b>réalisé</b> si l'issue obtenue lui appartient.</p>
+<table>
+<tr><th>Nom</th><th>Signification</th><th>Exemple avec le dé</th></tr>
+<tr><td>Événement élémentaire</td><td>une seule issue</td><td>« obtenir 3 » = {3}</td></tr>
+<tr><td>Événement impossible ∅</td><td>ne se réalise jamais</td><td>« obtenir 7 »</td></tr>
+<tr><td>Événement certain Ω</td><td>se réalise toujours</td><td>« obtenir un nombre entre 1 et 6 »</td></tr>
+<tr><td>Contraire <span class="bar">A</span></td><td>se réalise quand A ne se réalise pas</td><td>si A = « pair », <span class="bar">A</span> = « impair »</td></tr>
+<tr><td>A ∩ B (« A et B »)</td><td>A et B se réalisent tous les deux</td><td>voir ci-dessous</td></tr>
+<tr><td>A ∪ B (« A ou B »)</td><td>au moins l'un des deux se réalise</td><td>voir ci-dessous</td></tr>
+</table>
+<div class="exemple">On lance un dé. Soit A = « obtenir un nombre pair » = {2 ; 4 ; 6} et B = « obtenir au moins 5 » = {5 ; 6}.<br>
+A ∩ B = {6} &nbsp;·&nbsp; A ∪ B = {2 ; 4 ; 5 ; 6} &nbsp;·&nbsp; <span class="bar">A</span> = {1 ; 3 ; 5}.</div>
+
+<div class="fig">
+<svg viewBox="0 0 360 190" width="100%" style="max-width:360px" role="img" aria-label="Diagramme de A et B">
+  <rect x="5" y="5" width="350" height="180" rx="10" fill="#fff" stroke="#999"/>
+  <text x="18" y="28" font-size="15" fill="#333">Ω</text>
+  <circle cx="145" cy="98" r="65" fill="#2563eb" fill-opacity=".18" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="220" cy="98" r="55" fill="#f5b700" fill-opacity=".25" stroke="#c99500" stroke-width="2"/>
+  <text x="95" y="52" font-size="15" font-weight="bold" fill="#2563eb">A</text>
+  <text x="258" y="52" font-size="15" font-weight="bold" fill="#a07700">B</text>
+  <text x="110" y="95" font-size="16" fill="#222">2</text><text x="128" y="125" font-size="16" fill="#222">4</text>
+  <text x="178" y="104" font-size="16" fill="#222">6</text>
+  <text x="235" y="104" font-size="16" fill="#222">5</text>
+  <text x="30" y="160" font-size="16" fill="#222">1</text><text x="315" y="160" font-size="16" fill="#222">3</text>
+  <text x="160" y="178" font-size="11" fill="#555">A ∩ B = {6}</text>
+</svg>
+<p class="legende">Le 6 est à la fois pair et au moins égal à 5 : il est dans la partie commune.</p>
+</div>
+
+<p>Deux événements sont <b>incompatibles</b> s'ils ne peuvent pas se réaliser en même temps : A ∩ B = ∅.</p>
+<div class="exemple"><b>Dans la vie.</b> « Le match se termine par une victoire » et « le match se termine par un match nul » sont incompatibles.</div>
+
+<!-- ===================== II ===================== -->
+<h2>II. Calculer une probabilité</h2>
+
+<h3>1. Définition</h3>
+<p>Une <b>probabilité</b> est un nombre entre 0 et 1 qui mesure la chance qu'un événement se réalise. 0 veut dire « jamais », 1 veut dire « sûr ».</p>
+<p>Si Ω = {e<sub>1</sub> ; … ; e<sub>n</sub>}, on donne à chaque issue e<sub>i</sub> un nombre p<sub>i</sub> ≥ 0, avec p<sub>1</sub> + p<sub>2</sub> + … + p<sub>n</sub> = 1. La probabilité d'un événement A est alors la <b>somme des probabilités des issues qui composent A</b>.</p>
+<div class="retenir"><b>À retenir — équiprobabilité.</b> Quand toutes les issues ont la même chance (dé équilibré, tirage « au hasard »…) :<br>
+<span class="formule">P(A) = card(A) / card(Ω) = nombre de cas favorables / nombre de cas possibles</span></div>
+<div class="exemple"><b>Dans la vie.</b> Un sac contient 10 mangues, dont 3 abîmées. On en prend une au hasard. P(« la mangue est abîmée ») = 3/10 = 0,3.</div>
+<div class="encart"><b>Une autre façon de voir.</b> Si on répète l'expérience un très grand nombre de fois, la fréquence d'apparition de A se rapproche de P(A). Dire que P = 0,3, c'est dire « environ 3 fois sur 10 à long terme ».</div>
+
+<h3>2. Propriétés</h3>
+<div class="retenir">
+• P(∅) = 0 &nbsp;et&nbsp; P(Ω) = 1 &nbsp;;&nbsp; pour tout événement A : 0 ≤ P(A) ≤ 1<br>
+• P(<span class="bar">A</span>) = 1 − P(A)<br>
+• P(A ∪ B) = P(A) + P(B) − P(A ∩ B)<br>
+• Si A et B sont incompatibles : P(A ∪ B) = P(A) + P(B)</div>
+<p>Pourquoi enlève-t-on P(A ∩ B) ? Parce qu'en additionnant P(A) et P(B), on compte <b>deux fois</b> les issues de la partie commune.</p>
+<div class="exemple"><b>Dans la vie.</b> Dans une classe de 40 élèves, 25 jouent au football, 12 au basket et 7 pratiquent les deux. On choisit un élève au hasard.<br>
+P(F ∪ B) = 25/40 + 12/40 − 7/40 = 30/40 = <b>3/4</b> : il y a 3 chances sur 4 qu'il pratique au moins un des deux sports.<br>
+Par contraire : P(« ni l'un ni l'autre ») = 1 − 3/4 = <b>1/4</b>.</div>
+
+<h3>3. Événements indépendants</h3>
+<p>Deux événements sont <b>indépendants</b> si le fait que l'un se réalise ne change pas la chance de l'autre. Mathématiquement :</p>
+<div class="retenir"><span class="formule">A et B indépendants ⟺ P(A ∩ B) = P(A) × P(B)</span></div>
+<div class="exemple">On lance une pièce et un dé. Le résultat de la pièce n'influence pas le dé : P(« pile » et « 6 ») = 1/2 × 1/6 = <b>1/12</b>.</div>
+<div class="attention"><b>Attention :</b> ne pas confondre <b>indépendants</b> (l'un n'influence pas l'autre) et <b>incompatibles</b> (ils ne peuvent pas arriver ensemble). Deux événements incompatibles de probabilités non nulles ne sont jamais indépendants : si l'un se réalise, l'autre devient impossible !</div>
+
+<!-- ===================== III ===================== -->
+<h2>III. Probabilités conditionnelles</h2>
+
+<h3>1. Définition</h3>
+<p>Parfois, on dispose d'une information : on sait déjà que A est réalisé. La probabilité de B <b>sachant</b> A, notée P<sub>A</sub>(B), est la probabilité de B quand on se limite aux cas où A est réalisé. On « rétrécit » l'univers à A.</p>
+<div class="retenir">Si P(A) ≠ 0 : &nbsp;<span class="formule">P<sub>A</sub>(B) = P(A ∩ B) / P(A)</span></div>
+<div class="exemple"><b>Dans la vie.</b> Une classe de 40 élèves compte 22 filles et 18 garçons. 10 filles et 6 garçons portent des lunettes.
+<table>
+<tr><th></th><th>Lunettes (L)</th><th>Sans lunettes</th><th>Total</th></tr>
+<tr><td>Filles (F)</td><td>10</td><td>12</td><td>22</td></tr>
+<tr><td>Garçons</td><td>6</td><td>12</td><td>18</td></tr>
+<tr><td>Total</td><td>16</td><td>24</td><td>40</td></tr>
+</table>
+On choisit au hasard une <b>fille</b> : la probabilité qu'elle porte des lunettes est P<sub>F</sub>(L) = 10/22 = <b>5/11</b>.<br>
+On choisit au hasard un élève <b>à lunettes</b> : la probabilité que ce soit une fille est P<sub>L</sub>(F) = 10/16 = <b>5/8</b>.<br>
+Les deux nombres sont différents : l'ordre de la condition compte !</div>
+
+<h3>2. Propriétés et arbre pondéré</h3>
+<div class="retenir">
+• Formule des probabilités composées : <span class="formule">P(A ∩ B) = P(A) × P<sub>A</sub>(B)</span><br>
+• Si P(A) ≠ 0 : A et B indépendants ⟺ P<sub>A</sub>(B) = P(B)</div>
+<p>Un <b>arbre pondéré</b> permet d'organiser les calculs. Deux règles :</p>
+<p>① la somme des probabilités des branches qui partent d'un même point vaut 1 ; ② la probabilité d'un chemin est le <b>produit</b> des probabilités rencontrées.</p>
+
+<div class="exemple"><b>Dans la vie.</b> Awa va au lycée en bus 60 % du temps, et à pied le reste du temps. Quand elle prend le bus, elle arrive en retard avec une probabilité de 0,2. À pied, elle n'est en retard qu'avec une probabilité de 0,05. On note B = « elle prend le bus », R = « elle est en retard ».</div>
+
+<div class="fig">
+<svg viewBox="0 0 440 220" width="100%" style="max-width:440px" role="img" aria-label="Arbre pondéré bus ou à pied, retard">
+  <rect x="0" y="0" width="440" height="220" rx="10" fill="#fff"/>
+  <g stroke="#2563eb" stroke-width="2" fill="none">
+    <line x1="30" y1="110" x2="150" y2="55"/><line x1="30" y1="110" x2="150" y2="165"/>
+    <line x1="175" y1="55" x2="290" y2="25"/><line x1="175" y1="55" x2="290" y2="85"/>
+    <line x1="175" y1="165" x2="290" y2="135"/><line x1="175" y1="165" x2="290" y2="195"/>
+  </g>
+  <g font-size="14" fill="#222">
+    <circle cx="30" cy="110" r="4" fill="#2563eb"/>
+    <text x="153" y="60" font-weight="bold">B</text><text x="153" y="170" font-weight="bold">B̄</text>
+    <text x="295" y="30">R</text><text x="295" y="90">R̄</text><text x="295" y="140">R</text><text x="295" y="200">R̄</text>
+  </g>
+  <g font-size="13" fill="#a07700" font-weight="bold">
+    <text x="70" y="72">0,6</text><text x="70" y="160">0,4</text>
+    <text x="215" y="30">0,2</text><text x="215" y="85">0,8</text>
+    <text x="215" y="140">0,05</text><text x="215" y="195">0,95</text>
+  </g>
+  <g font-size="12" fill="#555">
+    <text x="318" y="30">0,6×0,2 = 0,12</text><text x="318" y="140">0,4×0,05 = 0,02</text>
+  </g>
+</svg>
+<p class="legende">B̄ = « elle vient à pied ». Les deux chemins qui mènent à R sont mis en valeur à droite.</p>
+</div>
+
+<h3>3. Formule des probabilités totales</h3>
+<p>Des événements A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub> forment une <b>partition</b> de Ω s'ils sont deux à deux incompatibles et si leur réunion est Ω (exactement un d'entre eux se réalise toujours).</p>
+<div class="retenir"><span class="formule">P(B) = P(A<sub>1</sub>)·P<sub>A<sub>1</sub></sub>(B) + P(A<sub>2</sub>)·P<sub>A<sub>2</sub></sub>(B) + … + P(A<sub>n</sub>)·P<sub>A<sub>n</sub></sub>(B)</span><br>
+Sur l'arbre : on additionne les probabilités de tous les chemins qui mènent à B.</div>
+<div class="exemple">Probabilité qu'Awa soit en retard : P(R) = 0,6 × 0,2 + 0,4 × 0,05 = 0,12 + 0,02 = <b>0,14</b>.</div>
+
+<h3>4. Formule de Bayes : « remonter » l'arbre</h3>
+<p>On connaît le résultat (Awa est en retard) et on cherche la cause probable (a-t-elle pris le bus ?).</p>
+<div class="retenir"><span class="formule">P<sub>B</sub>(A) = P(A) × P<sub>A</sub>(B) / P(B)</span></div>
+<div class="exemple">Awa est arrivée en retard. Probabilité qu'elle ait pris le bus : P<sub>R</sub>(B) = 0,12 / 0,14 = <b>6/7 ≈ 0,86</b>. Le retard est donc très probablement dû au bus.</div>
+
+<!-- ===================== IV ===================== -->
+<h2>IV. Le schéma de Bernoulli</h2>
+
+<h3>1. Épreuve de Bernoulli</h3>
+<p>C'est une expérience aléatoire qui n'a que <b>deux issues</b> : un <b>succès</b> S, de probabilité p, et un <b>échec</b> <span class="bar">S</span>, de probabilité q = 1 − p.</p>
+<div class="exemple"><b>Dans la vie.</b> Un joueur tire un penalty : il marque (succès) avec une probabilité p = 0,8 ou il rate (échec) avec une probabilité 0,2.</div>
+
+<h3>2. Schéma de Bernoulli</h3>
+<p>On répète <b>n fois</b> la même épreuve de Bernoulli, de manière <b>identique et indépendante</b>. On s'intéresse au nombre de succès.</p>
+<div class="retenir">La probabilité d'obtenir <b>exactement k succès</b> parmi n épreuves est :<br>
+<span class="formule">P(k succès) = C<sub>n</sub><sup>k</sup> × p<sup>k</sup> × (1 − p)<sup>n − k</sup></span><br>
+C<sub>n</sub><sup>k</sup> compte le nombre de façons de placer les k succès parmi les n épreuves.</div>
+<div class="exemple"><b>Dans la vie.</b> Le joueur tire 5 penalties (p = 0,8).<br>
+• Exactement 4 buts : C<sub>5</sub><sup>4</sup> × 0,8<sup>4</sup> × 0,2<sup>1</sup> = 5 × 0,4096 × 0,2 = <b>0,4096</b>.<br>
+• Au moins un raté : c'est le contraire de « 5 buts », donc 1 − 0,8<sup>5</sup> = 1 − 0,32768 ≈ <b>0,67</b>.</div>
+
+<div class="fig">
+<svg viewBox="0 0 360 200" width="100%" style="max-width:360px" role="img" aria-label="Probabilités du nombre de buts sur 5 penalties">
+  <rect x="0" y="0" width="360" height="200" rx="10" fill="#fff"/>
+  <line x1="40" y1="165" x2="345" y2="165" stroke="#555"/>
+  <g fill="#2563eb">
+    <rect x="55" y="165" width="34" height="0.5"/>
+    <rect x="105" y="163" width="34" height="2.2"/>
+    <rect x="155" y="148" width="34" height="17.4"/>
+    <rect x="205" y="95" width="34" height="69.6"/>
+    <rect x="255" y="26" width="34" height="139.3"/>
+    <rect x="305" y="54" width="34" height="111.4" fill="#2563eb" fill-opacity=".7"/>
+  </g>
+  <g font-size="12" fill="#222" text-anchor="middle">
+    <text x="72" y="182">0</text><text x="122" y="182">1</text><text x="172" y="182">2</text>
+    <text x="222" y="182">3</text><text x="272" y="182">4</text><text x="322" y="182">5</text>
+  </g>
+  <g font-size="10" fill="#555" text-anchor="middle">
+    <text x="172" y="143">0,05</text><text x="222" y="90">0,20</text><text x="272" y="21">0,41</text><text x="322" y="49">0,33</text>
+  </g>
+  <text x="192" y="197" font-size="11" fill="#555" text-anchor="middle">nombre de buts sur 5 tirs</text>
+</svg>
+<p class="legende">Avec p = 0,8, le résultat le plus probable est 4 buts sur 5.</p>
+</div>
+
+<div class="exemple"><b>Répondre au hasard à un QCM.</b> Un QCM a 10 questions avec 4 réponses chacune. Un élève répond au hasard (p = 1/4). Probabilité de n'avoir aucune bonne réponse : (3/4)<sup>10</sup> ≈ <b>0,056</b>.</div>
+
+<!-- ===================== V ===================== -->
+<h2>V. Variable aléatoire</h2>
+
+<h3>1. Définition</h3>
+<p>Une <b>variable aléatoire</b> X est une fonction qui associe un <b>nombre réel</b> à chaque issue de l'univers. Elle sert à « traduire » le hasard en nombres : un gain, un nombre de succès, une durée…</p>
+<div class="exemple"><b>Dans la vie.</b> À la kermesse du lycée, on mise 200 F et on lance un dé équilibré. Si on obtient 6, on reçoit 700 F (gain net : +500 F). Si on obtient 4 ou 5, on reçoit 300 F (gain net : +100 F). Sinon, on ne reçoit rien (gain net : −200 F).<br>
+X = « gain net du joueur » prend les valeurs −200, 100 et 500.</div>
+
+<h3>2. Loi de probabilité</h3>
+<p>Donner la <b>loi de probabilité</b> de X, c'est donner toutes ses valeurs possibles x<sub>i</sub> et la probabilité P(X = x<sub>i</sub>) de chacune. La somme de ces probabilités vaut 1.</p>
+<table>
+<tr><th>x<sub>i</sub></th><td>−200</td><td>100</td><td>500</td></tr>
+<tr><th>P(X = x<sub>i</sub>)</th><td>3/6 = 1/2</td><td>2/6 = 1/3</td><td>1/6</td></tr>
+</table>
+
+<h3>3. Espérance, variance, écart type</h3>
+<div class="retenir">
+• Espérance (la « moyenne à long terme ») : <span class="formule">E(X) = x<sub>1</sub>p<sub>1</sub> + x<sub>2</sub>p<sub>2</sub> + … + x<sub>n</sub>p<sub>n</sub></span><br>
+• Variance (mesure la dispersion) : <span class="formule">V(X) = E(X²) − [E(X)]²</span><br>
+• Écart type : <span class="formule">σ(X) = √V(X)</span></div>
+<div class="exemple">E(X) = −200 × 1/2 + 100 × 1/3 + 500 × 1/6 = −100 + 100/3 + 250/3 = <b>50/3 ≈ 16,7 F</b>.<br>
+En jouant un grand nombre de fois, le joueur gagne en moyenne environ 16,7 F par partie : le jeu est <b>favorable au joueur</b> (E(X) &gt; 0). Les organisateurs de la kermesse perdraient de l'argent !<br>
+E(X²) = 40 000 × 1/2 + 10 000 × 1/3 + 250 000 × 1/6 = 65 000.<br>
+V(X) = 65 000 − (50/3)² = 582 500/9 ≈ 64 722 &nbsp;et&nbsp; σ(X) ≈ <b>254 F</b>. Les gains sont très dispersés autour de la moyenne.</div>
+<div class="encart"><b>Cas du schéma de Bernoulli.</b> Si X compte le nombre de succès dans un schéma de Bernoulli (n ; p), alors E(X) = np et V(X) = np(1 − p). Pour les 5 penalties : E(X) = 5 × 0,8 = 4 buts en moyenne.</div>
+
+<h3>4. Fonction de répartition</h3>
+<p>La <b>fonction de répartition</b> de X est la fonction F définie sur ℝ par <span class="formule">F(x) = P(X ≤ x)</span>. Elle « cumule » les probabilités de gauche à droite.</p>
+<div class="exemple">Pour le jeu de la kermesse :<br>
+• si x &lt; −200 : F(x) = 0<br>
+• si −200 ≤ x &lt; 100 : F(x) = 1/2<br>
+• si 100 ≤ x &lt; 500 : F(x) = 1/2 + 1/3 = 5/6<br>
+• si x ≥ 500 : F(x) = 1</div>
+
+<div class="fig">
+<svg viewBox="0 0 380 190" width="100%" style="max-width:380px" role="img" aria-label="Fonction de répartition en escalier">
+  <rect x="0" y="0" width="380" height="190" rx="10" fill="#fff"/>
+  <line x1="20" y1="160" x2="365" y2="160" stroke="#555"/>
+  <line x1="40" y1="170" x2="40" y2="15" stroke="#555"/>
+  <g stroke="#ddd" stroke-dasharray="3 3">
+    <line x1="40" y1="95" x2="365" y2="95"/><line x1="40" y1="52" x2="365" y2="52"/><line x1="40" y1="30" x2="365" y2="30"/>
+  </g>
+  <g font-size="11" fill="#555" text-anchor="end">
+    <text x="36" y="164">0</text><text x="36" y="99">1/2</text><text x="36" y="56">5/6</text><text x="36" y="34">1</text>
+  </g>
+  <g stroke="#2563eb" stroke-width="3">
+    <line x1="20" y1="160" x2="80" y2="160"/>
+    <line x1="80" y1="95" x2="185" y2="95"/>
+    <line x1="185" y1="52" x2="325" y2="52"/>
+    <line x1="325" y1="30" x2="365" y2="30"/>
+  </g>
+  <g fill="#2563eb"><circle cx="80" cy="95" r="4"/><circle cx="185" cy="52" r="4"/><circle cx="325" cy="30" r="4"/></g>
+  <g fill="#fff" stroke="#2563eb" stroke-width="2"><circle cx="80" cy="160" r="4"/><circle cx="185" cy="95" r="4"/><circle cx="325" cy="52" r="4"/></g>
+  <g font-size="11" fill="#222" text-anchor="middle">
+    <text x="80" y="177">−200</text><text x="185" y="177">100</text><text x="325" y="177">500</text>
+  </g>
+</svg>
+<p class="legende">Une fonction « en escalier » : elle saute à chaque valeur prise par X, d'une hauteur égale à sa probabilité.</p>
+</div>
+
+<!-- ===================== RÉSUMÉ ===================== -->
+<h2>L'essentiel en 6 lignes</h2>
+<div class="retenir">
+1. Équiprobabilité : P(A) = cas favorables / cas possibles.<br>
+2. P(<span class="bar">A</span>) = 1 − P(A) et P(A ∪ B) = P(A) + P(B) − P(A ∩ B).<br>
+3. Indépendance : P(A ∩ B) = P(A) × P(B).<br>
+4. P<sub>A</sub>(B) = P(A ∩ B) / P(A) ; sur un arbre : on multiplie le long d'un chemin, on additionne les chemins.<br>
+5. Schéma de Bernoulli : P(k succès) = C<sub>n</sub><sup>k</sup> p<sup>k</sup>(1 − p)<sup>n − k</sup>.<br>
+6. E(X) = Σ x<sub>i</sub>p<sub>i</sub> ; V(X) = E(X²) − [E(X)]² ; σ(X) = √V(X).</div>
+
+</div>
+</template>
+<template id="tpl-svt-encephale"><div class="cours">
+
+<p class="intro">Tu lis cette phrase, tu comprends son sens, tu tiens ton téléphone sans le faire tomber, ton cœur bat sans que tu y penses : tout cela est piloté par ton <b>encéphale</b>. C'est le « centre de commande » du corps. Pour comprendre comment il fonctionne, il faut d'abord savoir comment il est construit.</p>
+
+<h2>I. Un organe très bien protégé</h2>
+<p>L'<b>encéphale</b> est la partie du système nerveux central logée dans la <b>boîte crânienne</b>. Chez les mammifères, il comprend trois grandes parties : le <b>cerveau</b>, le <b>cervelet</b> et le <b>tronc cérébral</b> (qui se termine par le bulbe rachidien, prolongé par la moelle épinière).</p>
+<p>Il est protégé par trois « couches de sécurité » :</p>
+<div class="retenir">
+• Les <b>os du crâne</b> : une coque rigide.<br>
+• Les <b>méninges</b> : trois enveloppes, de l'extérieur vers l'intérieur : la <b>dure-mère</b> (épaisse et résistante), l'<b>arachnoïde</b> et la <b>pie-mère</b> (fine, collée au tissu nerveux).<br>
+• Le <b>liquide céphalo-rachidien (LCR)</b>, entre l'arachnoïde et la pie-mère : il amortit les chocs.</div>
+
+<div class="fig">
+<svg viewBox="0 0 440 170" width="100%" style="max-width:440px" role="img" aria-label="Les enveloppes de l'encéphale">
+  <rect width="440" height="170" rx="12" fill="#fff"/>
+  <rect x="20" y="20" width="400" height="26" fill="#e7e5e4" stroke="#78716c"/>
+  <rect x="20" y="46" width="400" height="12" fill="#1e3a8a"/>
+  <rect x="20" y="58" width="400" height="6" fill="#93c5fd"/>
+  <rect x="20" y="64" width="400" height="22" fill="#e0f2fe"/>
+  <rect x="20" y="86" width="400" height="4" fill="#f472b6"/>
+  <rect x="20" y="90" width="400" height="60" fill="#cbd5e1"/>
+  <g font-family="Arial" font-size="11" fill="#14213d">
+    <text x="30" y="37">Os du crâne</text>
+    <text x="30" y="55" fill="#fff">Dure-mère</text>
+    <text x="320" y="63" font-size="9">Arachnoïde</text>
+    <text x="30" y="80">Liquide céphalo-rachidien (amortit les chocs)</text>
+    <text x="320" y="100" font-size="9">Pie-mère</text>
+    <text x="30" y="125">Tissu nerveux (cortex)</text>
+  </g>
+</svg>
+<p class="legende">De l'extérieur vers l'intérieur : os, dure-mère, arachnoïde, LCR, pie-mère, tissu nerveux.</p>
+</div>
+<div class="exemple"><b>Dans la vie.</b> Un casque de moto fonctionne comme ce système : une coque dure à l'extérieur, une mousse qui amortit à l'intérieur. Mais même avec le crâne et le LCR, un choc violent peut abîmer l'encéphale : d'où l'importance du casque sur les motos et les « Jakarta ».</div>
+
+<h2>II. L'organisation externe</h2>
+<h3>1. Vu de dessus (face dorsale)</h3>
+<p>On voit surtout les deux <b>hémisphères cérébraux</b>, droit et gauche, séparés par une profonde <b>scissure interhémisphérique</b>. Leur surface n'est pas lisse : elle forme des replis, les <b>circonvolutions</b>, séparés par des creux, les <b>sillons</b>.</p>
+<p>Deux sillons servent de repères : la <b>scissure de Rolando</b> (sillon central) et la <b>scissure de Sylvius</b> (sillon latéral). Ils délimitent les <b>lobes</b> : frontal, pariétal, temporal et occipital.</p>
+
+<div class="fig">
+<svg viewBox="0 0 440 260" width="100%" style="max-width:440px" role="img" aria-label="Vue latérale gauche de l'encéphale avec les lobes">
+  <rect width="440" height="260" rx="12" fill="#fff"/>
+  <path d="M50 150C30 95 75 30 170 22C260 15 345 45 370 110C380 140 368 165 345 172C300 176 250 170 215 175C160 180 90 185 50 150Z" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <path d="M205 24C200 60 195 100 185 140" stroke="#b91c1c" stroke-width="3" fill="none"/>
+  <path d="M110 150C150 125 200 118 255 120" stroke="#b45309" stroke-width="3" fill="none"/>
+  <path d="M300 40C292 80 300 120 330 165" stroke="#2563eb" stroke-dasharray="4 3" fill="none"/>
+  <ellipse cx="320" cy="205" rx="55" ry="30" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+  <g stroke="#4338ca" stroke-width="1.5"><line x1="275" y1="198" x2="365" y2="198"/><line x1="275" y1="210" x2="365" y2="210"/><line x1="282" y1="222" x2="358" y2="222"/></g>
+  <path d="M225 172L238 250L262 250L250 170Z" fill="#bfdbfe" stroke="#2563eb"/>
+  <g font-family="Arial" font-size="12" fill="#14213d" font-weight="bold">
+    <text x="90" y="95">Lobe frontal</text><text x="225" y="75">Lobe pariétal</text>
+    <text x="150" y="160">Lobe temporal</text><text x="318" y="125">Lobe</text><text x="312" y="139">occipital</text>
+  </g>
+  <g font-family="Arial" font-size="11">
+    <text x="160" y="16" fill="#b91c1c">Scissure de Rolando</text>
+    <text x="40" y="200" fill="#b45309">Scissure de Sylvius</text><line x1="90" y1="190" x2="130" y2="146" stroke="#b45309"/>
+    <text x="370" y="250" fill="#4338ca">Cervelet</text>
+    <text x="150" y="250" fill="#14213d">Tronc cérébral</text><line x1="230" y1="246" x2="240" y2="240" stroke="#64748b"/>
+  </g>
+</svg>
+<p class="legende">Vue de profil (côté gauche), l'avant est à gauche. Les plis de surface ne sont pas dessinés.</p>
+</div>
+<p>En arrière et en dessous des hémisphères se trouve le <b>cervelet</b>, formé d'une partie centrale, le <b>vermis</b>, et de deux <b>hémisphères cérébelleux</b>.</p>
+<div class="encart"><b>Pourquoi tous ces plis ?</b> Ils augmentent la surface du cortex sans augmenter le volume du crâne, comme quand on froisse une grande feuille pour la faire entrer dans une petite boîte.</div>
+
+<h3>2. Vu de dessous (face ventrale)</h3>
+<p>Sous l'encéphale, d'avant en arrière, on reconnaît :</p>
+<table>
+<tr><th>Structure</th><th>Ce qu'il faut retenir</th></tr>
+<tr><td>Bulbes olfactifs</td><td>reçoivent les informations de l'odorat</td></tr>
+<tr><td>Nerfs optiques et chiasma optique</td><td>les nerfs des deux yeux se croisent en partie au niveau du chiasma</td></tr>
+<tr><td>Hypothalamus et hypophyse</td><td>l'hypophyse est une glande suspendue sous l'hypothalamus</td></tr>
+<tr><td>Pédoncules cérébraux</td><td>gros cordons qui relient le cerveau au reste du tronc cérébral</td></tr>
+<tr><td>Protubérance annulaire (pont de Varole)</td><td>« pont » de fibres en forme d'anneau</td></tr>
+<tr><td>Bulbe rachidien</td><td>se prolonge par la moelle épinière</td></tr>
+</table>
+<p>De cette face partent les <b>12 paires de nerfs crâniens</b>.</p>
+
+<h2>III. L'organisation interne</h2>
+<h3>1. En coupe sagittale (de l'avant vers l'arrière, au milieu)</h3>
+
+<div class="fig">
+<svg viewBox="0 0 440 300" width="100%" style="max-width:440px" role="img" aria-label="Coupe sagittale simplifiée de l'encéphale">
+  <rect width="440" height="300" rx="12" fill="#fff"/>
+  <path d="M60 170C40 110 80 40 170 32C250 25 330 50 355 110C368 140 360 165 340 178C300 182 250 178 215 180C160 183 95 190 60 170Z" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <path d="M120 140C150 105 250 100 290 135" fill="none" stroke="#1e3a8a" stroke-width="9" stroke-linecap="round"/>
+  <ellipse cx="215" cy="160" rx="34" ry="18" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+  <path d="M232 178L246 230L262 290L232 290L222 232L205 180Z" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.5"/>
+  <ellipse cx="318" cy="222" rx="58" ry="36" fill="#e0e7ff" stroke="#4338ca" stroke-width="2"/>
+  <path d="M290 222L340 222M305 222L322 204M318 222L338 210M318 222L336 236M305 222L320 240" stroke="#4338ca" stroke-width="2" fill="none"/>
+  <ellipse cx="190" cy="196" rx="12" ry="9" fill="#fca5a5" stroke="#b91c1c" stroke-width="1.5"/>
+  <g font-size="11" fill="#14213d" font-family="Arial">
+    <line x1="150" y1="60" x2="120" y2="20" stroke="#64748b"/><text x="70" y="16">Hémisphère cérébral</text>
+    <line x1="200" y1="112" x2="230" y2="70" stroke="#64748b"/><text x="225" y="65">Corps calleux</text>
+    <line x1="215" y1="160" x2="130" y2="230" stroke="#64748b"/><text x="40" y="245">Thalamus</text>
+    <line x1="190" y1="200" x2="120" y2="270" stroke="#64748b"/><text x="20" y="282">Hypothalamus / hypophyse</text>
+    <line x1="350" y1="215" x2="395" y2="180" stroke="#64748b"/><text x="370" y="174">Cervelet</text>
+    <line x1="255" y1="250" x2="300" y2="280" stroke="#64748b"/><text x="300" y="292">Tronc cérébral</text>
+  </g>
+</svg>
+<p class="legende">Schéma simplifié : l'avant de la tête est à gauche.</p>
+</div>
+
+<p>On observe :</p>
+<div class="retenir">
+• Le <b>corps calleux</b> : une large bande de fibres qui relie les deux hémisphères et leur permet d'échanger des informations. Sous lui, le <b>trigone</b>.<br>
+• Des cavités remplies de LCR, les <b>ventricules</b> : deux <b>ventricules latéraux</b> (un dans chaque hémisphère), le <b>3<sup>e</sup> ventricule</b> (au milieu), relié au <b>4<sup>e</sup> ventricule</b> par l'<b>aqueduc de Sylvius</b>. Le 4<sup>e</sup> ventricule se prolonge par le <b>canal de l'épendyme</b> de la moelle épinière.<br>
+• Le <b>thalamus</b> et l'<b>hypothalamus</b>, autour du 3<sup>e</sup> ventricule.<br>
+• Dans le cervelet, une substance blanche ramifiée dans la substance grise : l'« <b>arbre de vie</b> ».</div>
+
+<h3>2. En coupe transversale</h3>
+<p>Dans le cerveau, la <b>substance grise</b> se trouve à l'extérieur : c'est le <b>cortex cérébral</b>. La <b>substance blanche</b> est en dessous. En profondeur, on trouve des amas de substance grise : les <b>noyaux gris centraux</b> (corps striés, thalamus).</p>
+<div class="attention"><b>Attention :</b> dans la moelle épinière, c'est l'inverse : la substance grise est au centre et la substance blanche autour. Ce piège tombe souvent au bac.</div>
+
+<h2>IV. Un plan d'organisation commun aux mammifères</h2>
+<p>D'avant en arrière, l'encéphale des mammifères se divise toujours en <b>cinq régions</b>, chacune avec sa cavité :</p>
+<table>
+<tr><th>Région</th><th>Ce qu'elle devient</th><th>Cavité</th></tr>
+<tr><td>Télencéphale</td><td>hémisphères cérébraux</td><td>ventricules latéraux</td></tr>
+<tr><td>Diencéphale</td><td>thalamus, hypothalamus</td><td>3<sup>e</sup> ventricule</td></tr>
+<tr><td>Mésencéphale</td><td>pédoncules cérébraux, tubercules quadrijumeaux</td><td>aqueduc de Sylvius</td></tr>
+<tr><td>Métencéphale</td><td>cervelet et protubérance</td><td rowspan="2">4<sup>e</sup> ventricule</td></tr>
+<tr><td>Myélencéphale</td><td>bulbe rachidien</td></tr>
+</table>
+<div class="exemple"><b>Comparer.</b> Chez le rat, les hémisphères sont petits et presque lisses. Chez l'Homme, ils sont énormes et très plissés, au point de recouvrir presque tout le reste. Pourtant, on retrouve les mêmes cinq régions dans le même ordre : c'est un argument en faveur d'une <b>origine commune</b> des mammifères.</div>
+
+<h2>V. Comment l'encéphale se forme chez l'embryon</h2>
+<p>Tout commence par une bande de l'ectoderme dorsal, la <b>plaque neurale</b>. Elle se creuse en <b>gouttière neurale</b>, puis se referme en <b>tube neural</b>. La partie arrière du tube donne la moelle épinière ; la partie avant gonfle et forme l'encéphale.</p>
+
+<div class="fig">
+<svg viewBox="0 0 440 200" width="100%" style="max-width:440px" role="img" aria-label="Passage de trois à cinq vésicules">
+  <rect width="440" height="200" rx="12" fill="#fff"/>
+  <g font-family="Arial" font-size="11" fill="#14213d" text-anchor="middle">
+    <text x="220" y="20" font-weight="bold">3 vésicules primaires</text>
+    <ellipse cx="80" cy="50" rx="55" ry="20" fill="#bfdbfe" stroke="#2563eb"/><text x="80" y="54">Prosencéphale</text>
+    <ellipse cx="200" cy="50" rx="55" ry="20" fill="#fde68a" stroke="#b45309"/><text x="200" y="54">Mésencéphale</text>
+    <ellipse cx="320" cy="50" rx="55" ry="20" fill="#c7d2fe" stroke="#4338ca"/><text x="320" y="54">Rhombencéphale</text>
+    <rect x="378" y="44" width="50" height="12" fill="#e2e8f0" stroke="#64748b"/>
+    <text x="220" y="105" font-weight="bold">5 vésicules secondaires</text>
+    <path d="M60 70L45 120M100 70L120 120M200 70L200 120M300 70L285 120M340 70L360 120" stroke="#94a3b8" stroke-dasharray="3 3"/>
+    <ellipse cx="45" cy="140" rx="40" ry="18" fill="#bfdbfe" stroke="#2563eb"/><text x="45" y="144">Télencéph.</text>
+    <ellipse cx="125" cy="140" rx="40" ry="18" fill="#dbeafe" stroke="#2563eb"/><text x="125" y="144">Diencéph.</text>
+    <ellipse cx="205" cy="140" rx="40" ry="18" fill="#fde68a" stroke="#b45309"/><text x="205" y="144">Mésencéph.</text>
+    <ellipse cx="285" cy="140" rx="40" ry="18" fill="#c7d2fe" stroke="#4338ca"/><text x="285" y="144">Métencéph.</text>
+    <ellipse cx="365" cy="140" rx="40" ry="18" fill="#e0e7ff" stroke="#4338ca"/><text x="365" y="144">Myélencéph.</text>
+    <text x="220" y="185" fill="#5b6475">→ le reste du tube neural donne la moelle épinière</text>
+  </g>
+</svg>
+<p class="legende">L'avant de l'embryon est à gauche.</p>
+</div>
+<div class="retenir">Le prosencéphale se divise en <b>télencéphale</b> + <b>diencéphale</b> ; le mésencéphale reste unique ; le rhombencéphale se divise en <b>métencéphale</b> + <b>myélencéphale</b>. Le télencéphale grandit énormément et recouvre les autres régions : il forme les hémisphères cérébraux.</div>
+
+<h2>L'essentiel</h2>
+<div class="retenir">
+1. Encéphale = cerveau + cervelet + tronc cérébral, protégé par le crâne, les 3 méninges et le LCR.<br>
+2. Hémisphères plissés (circonvolutions, sillons, lobes) reliés par le corps calleux.<br>
+3. Cavités : ventricules latéraux → 3<sup>e</sup> ventricule → aqueduc de Sylvius → 4<sup>e</sup> ventricule → canal de l'épendyme.<br>
+4. Cerveau : substance grise à l'extérieur (cortex), blanche à l'intérieur.<br>
+5. 5 régions communes à tous les mammifères, issues des 5 vésicules du tube neural.</div>
+</div>
+</template>
+<template id="tpl-svt-moelle"><div class="cours">
+
+<p class="intro">Quand tu touches une marmite brûlante, ta main se retire avant même que tu aies pensé « ça brûle ». Ce réflexe passe par la <b>moelle épinière</b>, un long cordon nerveux qui relie l'encéphale au reste du corps. Voyons comment elle est construite.</p>
+
+<h2>I. Où se trouve la moelle épinière ?</h2>
+<p>La moelle épinière est un cordon blanchâtre d'environ <b>45 cm</b> de long chez l'adulte et d'environ <b>1 cm</b> de diamètre. Elle prolonge le bulbe rachidien et descend dans le <b>canal rachidien</b>, le tunnel formé par l'empilement des vertèbres de la colonne vertébrale.</p>
+<p>Comme l'encéphale, elle est entourée par les trois <b>méninges</b> (dure-mère, arachnoïde, pie-mère) et baigne dans le <b>liquide céphalo-rachidien</b>.</p>
+<div class="exemple"><b>Dans la vie.</b> Chez l'adulte, la moelle s'arrête vers la 1<sup>re</sup> ou la 2<sup>e</sup> vertèbre lombaire. En dessous, il ne reste que des racines nerveuses (la « queue de cheval »). C'est pour cela que le médecin fait une <b>ponction lombaire</b> plus bas, entre deux vertèbres lombaires : il prélève du LCR sans risquer de piquer la moelle.</div>
+
+<h2>II. La morphologie externe</h2>
+<p>La moelle présente deux renflements : un <b>renflement cervical</b> (au niveau du cou) et un <b>renflement lombaire</b> (en bas du dos). Ils correspondent aux nerfs des bras et des jambes, qui demandent beaucoup de neurones.</p>
+
+<div class="fig">
+<svg viewBox="0 0 440 300" width="100%" style="max-width:440px" role="img" aria-label="Moelle épinière dans la colonne vertébrale">
+  <rect width="440" height="300" rx="12" fill="#fff"/>
+  <g fill="#e7e5e4" stroke="#78716c">
+    <rect x="150" y="20" width="60" height="22" rx="5"/><rect x="150" y="46" width="60" height="22" rx="5"/><rect x="150" y="72" width="60" height="22" rx="5"/>
+    <rect x="150" y="98" width="60" height="22" rx="5"/><rect x="150" y="124" width="60" height="22" rx="5"/><rect x="150" y="150" width="60" height="22" rx="5"/>
+    <rect x="150" y="176" width="60" height="22" rx="5"/><rect x="150" y="202" width="60" height="22" rx="5"/><rect x="150" y="228" width="60" height="22" rx="5"/>
+    <rect x="150" y="254" width="60" height="22" rx="5"/>
+  </g>
+  <path d="M176 10C176 40 172 60 174 80C176 100 178 120 177 150C176 170 172 182 176 196L180 206L184 196C188 182 184 170 183 150C182 120 184 100 186 80C188 60 184 40 184 10Z" fill="#2563eb"/>
+  <g stroke="#60a5fa" stroke-width="1.5"><line x1="178" y1="206" x2="172" y2="290"/><line x1="180" y1="206" x2="180" y2="290"/><line x1="182" y1="206" x2="188" y2="290"/></g>
+  <g stroke="#1e3a8a" stroke-width="2"><line x1="174" y1="60" x2="120" y2="66"/><line x1="186" y1="60" x2="240" y2="66"/><line x1="174" y1="160" x2="120" y2="168"/><line x1="186" y1="160" x2="240" y2="168"/></g>
+  <g font-family="Arial" font-size="11" fill="#14213d">
+    <text x="250" y="58">Renflement cervical</text><text x="250" y="72" fill="#5b6475">(nerfs des bras)</text>
+    <text x="250" y="160">Renflement lombaire</text><text x="250" y="174" fill="#5b6475">(nerfs des jambes)</text>
+    <text x="250" y="210">Fin de la moelle (vers L1-L2)</text><line x1="186" y1="205" x2="245" y2="207" stroke="#64748b"/>
+    <text x="250" y="262">« Queue de cheval »</text><line x1="190" y1="258" x2="245" y2="259" stroke="#64748b"/>
+    <text x="20" y="130">Vertèbres</text><line x1="72" y1="126" x2="148" y2="126" stroke="#64748b"/>
+    <text x="20" y="22">Nerfs rachidiens</text><line x1="70" y1="27" x2="118" y2="64" stroke="#64748b"/>
+  </g>
+</svg>
+<p class="legende">Vue de dos très simplifiée : toutes les vertèbres et tous les nerfs ne sont pas dessinés.</p>
+</div>
+<p>Sur toute sa longueur, elle porte deux sillons : le <b>sillon antérieur</b> (ventral), large et profond, et le <b>sillon postérieur</b> (dorsal), plus étroit.</p>
+<p>De chaque côté partent régulièrement des <b>nerfs rachidiens</b> (31 paires chez l'Homme). Chaque nerf rachidien naît de deux racines :</p>
+<div class="retenir">
+• la <b>racine antérieure</b> (ventrale) ;<br>
+• la <b>racine postérieure</b> (dorsale), qui porte un renflement : le <b>ganglion spinal</b>.<br>
+Les deux racines se rejoignent pour former le nerf rachidien, qui sort de la colonne entre deux vertèbres.</div>
+
+<h2>III. La morphologie interne</h2>
+<p>Sur une coupe transversale, on observe deux zones bien différentes :</p>
+
+<div class="fig">
+<svg viewBox="0 0 440 260" width="100%" style="max-width:440px" role="img" aria-label="Coupe transversale de moelle épinière">
+  <rect width="440" height="260" rx="12" fill="#fff"/>
+  <ellipse cx="220" cy="130" rx="92" ry="78" fill="#f1f5f9" stroke="#2563eb" stroke-width="2"/>
+  <line x1="220" y1="52" x2="220" y2="76" stroke="#2563eb" stroke-width="2"/>
+  <path d="M208 207L220 184L232 207" fill="#fff" stroke="#2563eb" stroke-width="2"/>
+  <path d="M220 130C200 112 178 92 172 72C168 90 176 112 190 124C170 130 160 150 162 176C176 166 196 150 212 140Z" fill="#94a3b8"/>
+  <path d="M220 130C240 112 262 92 268 72C272 90 264 112 250 124C270 130 280 150 278 176C264 166 244 150 228 140Z" fill="#94a3b8"/>
+  <rect x="205" y="124" width="30" height="16" rx="8" fill="#94a3b8"/>
+  <circle cx="220" cy="132" r="4" fill="#fff" stroke="#14213d"/>
+  <path d="M170 74C140 60 110 60 82 70" stroke="#4338ca" stroke-width="5" fill="none"/>
+  <ellipse cx="96" cy="68" rx="16" ry="11" fill="#c7d2fe" stroke="#4338ca"/>
+  <path d="M168 168C140 170 110 150 82 118" stroke="#0f766e" stroke-width="5" fill="none"/>
+  <path d="M82 72C60 85 52 100 62 112L82 118" stroke="#334155" stroke-width="7" fill="none"/>
+  <path d="M62 112L20 150" stroke="#334155" stroke-width="7"/>
+  <g font-family="Arial" font-size="11" fill="#14213d">
+    <line x1="268" y1="80" x2="330" y2="40" stroke="#64748b"/><text x="320" y="34">Corne postérieure</text>
+    <line x1="275" y1="168" x2="335" y2="205" stroke="#64748b"/><text x="320" y="220">Corne antérieure</text>
+    <line x1="224" y1="132" x2="335" y2="130" stroke="#64748b"/><text x="338" y="134">Canal de l'épendyme</text>
+    <line x1="300" y1="100" x2="360" y2="80" stroke="#64748b"/><text x="345" y="74">Substance blanche</text>
+    <text x="70" y="50">Ganglion spinal</text>
+    <text x="100" y="105" fill="#4338ca">Racine post.</text>
+    <text x="120" y="182" fill="#0f766e">Racine ant.</text>
+    <text x="10" y="168">Nerf rachidien</text>
+    <text x="196" y="24">Côté dorsal (dos)</text><text x="226" y="70" font-size="9" fill="#2563eb">Sillon post.</text><text x="236" y="203" font-size="9" fill="#2563eb">Sillon ant.</text>
+    <text x="190" y="248">Côté ventral (ventre)</text>
+  </g>
+</svg>
+<p class="legende">Schéma simplifié ; une seule paire de racines est dessinée (à gauche).</p>
+</div>
+
+<div class="retenir">
+• Au centre, la <b>substance grise</b> en forme de « papillon » ou de H. Elle a deux <b>cornes antérieures</b> (larges, côté ventre) et deux <b>cornes postérieures</b> (fines, côté dos).<br>
+• Au milieu de la substance grise, un tout petit canal : le <b>canal de l'épendyme</b>, rempli de LCR.<br>
+• Autour, la <b>substance blanche</b>, organisée en cordons (antérieurs, latéraux, postérieurs).<br>
+• La racine postérieure arrive dans la corne postérieure ; la racine antérieure part de la corne antérieure.</div>
+<div class="attention"><b>À ne pas confondre :</b> dans le cerveau, la substance grise est dehors (cortex) ; dans la moelle, elle est dedans.</div>
+
+<h2>IV. Le système nerveux dans son ensemble</h2>
+<h3>1. Sur le plan anatomique</h3>
+<table>
+<tr><th>Système nerveux central (SNC)</th><th>Système nerveux périphérique (SNP)</th></tr>
+<tr><td>Encéphale + moelle épinière, protégés par les os et les méninges</td><td>Nerfs crâniens (12 paires), nerfs rachidiens (31 paires) et ganglions</td></tr>
+</table>
+
+<div class="fig">
+<svg viewBox="0 0 440 210" width="100%" style="max-width:440px" role="img" aria-label="Organisation du système nerveux">
+  <rect width="440" height="210" rx="12" fill="#fff"/>
+  <g font-family="Arial" font-size="12" text-anchor="middle">
+    <rect x="145" y="12" width="150" height="30" rx="15" fill="#14213d"/><text x="220" y="32" fill="#fff" font-weight="bold">Système nerveux</text>
+    <g stroke="#94a3b8" stroke-width="2">
+      <line x1="220" y1="42" x2="110" y2="70"/><line x1="220" y1="42" x2="330" y2="70"/>
+      <line x1="110" y1="100" x2="65" y2="130"/><line x1="110" y1="100" x2="157" y2="130"/>
+      <line x1="330" y1="100" x2="270" y2="130"/><line x1="330" y1="100" x2="331" y2="130"/><line x1="330" y1="100" x2="398" y2="130"/>
+    </g>
+    <rect x="30" y="70" width="160" height="30" rx="15" fill="#2563eb"/><text x="110" y="90" fill="#fff" font-weight="bold">Central (SNC)</text>
+    <rect x="250" y="70" width="160" height="30" rx="15" fill="#60a5fa"/><text x="330" y="90" fill="#fff" font-weight="bold">Périphérique (SNP)</text>
+    <g fill="#e8efff" stroke="#2563eb">
+      <rect x="20" y="130" width="90" height="44" rx="10"/><rect x="115" y="130" width="85" height="44" rx="10"/>
+      <rect x="233" y="130" width="74" height="44" rx="10"/><rect x="311" y="130" width="40" height="0"/>
+      <rect x="311" y="130" width="62" height="44" rx="10"/><rect x="377" y="130" width="56" height="44" rx="10"/>
+    </g>
+    <g fill="#14213d" font-size="11">
+      <text x="65" y="156">Encéphale</text><text x="157" y="156">Moelle</text>
+      <text x="270" y="150">Nerfs</text><text x="270" y="166">crâniens (12)</text>
+      <text x="342" y="150">Nerfs</text><text x="342" y="166">rachid. (31)</text>
+      <text x="405" y="156">Ganglions</text>
+    </g>
+    <text x="220" y="198" fill="#5b6475" font-size="11">Le SNC traite les informations ; le SNP les transporte.</text>
+  </g>
+</svg>
+</div>
+<div class="encart"><b>Une image pour retenir.</b> Le SNC est le « centre de commande » ; le SNP est le réseau de « câbles » qui transporte les messages entre ce centre et tout le corps.</div>
+
+<h3>2. Sur le plan du fonctionnement</h3>
+<div class="retenir">
+• Le <b>système nerveux de la vie de relation</b> nous met en relation avec le monde extérieur : il reçoit les informations des sens et commande les muscles squelettiques (mouvements volontaires et réflexes).<br>
+• Le <b>système nerveux végétatif</b> (ou autonome) règle le fonctionnement des organes internes sans que nous le décidions : battements du cœur, digestion, respiration, sécrétions… Il comprend le système <b>sympathique</b> et le système <b>parasympathique</b>.</div>
+
+<div class="exemple"><b>Dans la vie.</b> Lors d'un accident, une lésion de la moelle coupe la communication entre l'encéphale et la partie du corps située en dessous. Atteinte au niveau du cou, elle peut paralyser les quatre membres (<b>tétraplégie</b>) ; plus bas, dans le dos, elle peut paralyser les jambes (<b>paraplégie</b>). Ne jamais déplacer brutalement un blessé de la route qui a mal au cou ou au dos.</div>
+
+<h2>L'essentiel</h2>
+<div class="retenir">
+1. La moelle est dans le canal rachidien, protégée par les vertèbres, les méninges et le LCR.<br>
+2. Deux sillons (antérieur large, postérieur étroit) ; 31 paires de nerfs rachidiens, chacun formé d'une racine antérieure et d'une racine postérieure à ganglion spinal.<br>
+3. Coupe : substance grise centrale en H (cornes antérieures et postérieures, canal de l'épendyme), substance blanche autour.<br>
+4. SNC (encéphale + moelle) et SNP (nerfs + ganglions) ; vie de relation et système végétatif.</div>
+</div>
+</template>
+<template id="tpl-svt-tissu"><div class="cours">
+
+<p class="intro">L'encéphale et la moelle épinière sont faits d'un tissu très particulier : le <b>tissu nerveux</b>. Au microscope, on y découvre des cellules aux formes étonnantes, capables de transmettre des messages sur parfois plus d'un mètre de long : les <b>neurones</b>.</p>
+
+<h2>I. Qu'est-ce que le tissu nerveux ?</h2>
+<p>Le tissu nerveux est formé de deux types de cellules :</p>
+<div class="retenir">
+• les <b>neurones</b> (cellules nerveuses), qui reçoivent et transmettent les messages nerveux ;<br>
+• les <b>cellules gliales</b> (la <b>névroglie</b>), qui entourent, nourrissent, protègent et isolent les neurones.</div>
+
+<h2>II. Observer un centre nerveux : la moelle épinière</h2>
+<h3>1. La substance grise au microscope</h3>
+<p>On y voit surtout des <b>corps cellulaires de neurones</b> : de grosses cellules avec un noyau bien visible et de nombreux prolongements. Dans les cornes antérieures, ils sont grands et étoilés : ce sont les <b>motoneurones</b>, qui commandent les muscles. Entre eux : des cellules gliales et des petits vaisseaux sanguins.</p>
+<h3>2. La substance blanche au microscope</h3>
+<p>On n'y trouve <b>pas de corps cellulaires</b>, mais des <b>fibres nerveuses</b> (des prolongements de neurones) serrées les unes contre les autres, avec des cellules gliales. Beaucoup de ces fibres sont entourées de <b>myéline</b>, une substance riche en lipides, de couleur blanche : c'est elle qui donne son nom à la substance blanche.</p>
+
+<h2>III. Observer un nerf</h2>
+<h3>1. En coupe longitudinale</h3>
+<p>Le nerf apparaît comme un faisceau de fibres parallèles. Une fibre <b>myélinisée</b> montre :</p>
+<div class="retenir">
+• au centre, l'<b>axone</b> ;<br>
+• autour, la <b>gaine de myéline</b>, interrompue à intervalles réguliers par des étranglements : les <b>nœuds de Ranvier</b> ;<br>
+• à l'extérieur, la <b>gaine de Schwann</b>, formée par des cellules de Schwann (une cellule gliale par segment, avec son noyau).</div>
+
+<div class="fig">
+<svg viewBox="0 0 440 130" width="100%" style="max-width:440px" role="img" aria-label="Fibre nerveuse myélinisée en coupe longitudinale">
+  <rect width="440" height="130" rx="12" fill="#fff"/>
+  <g fill="#fde68a" stroke="#b45309"><rect x="20" y="45" width="120" height="40" rx="18"/><rect x="150" y="45" width="120" height="40" rx="18"/><rect x="280" y="45" width="140" height="40" rx="18"/></g>
+  <g fill="none" stroke="#2563eb" stroke-width="1.5"><rect x="16" y="40" width="128" height="50" rx="22"/><rect x="146" y="40" width="128" height="50" rx="22"/><rect x="276" y="40" width="148" height="50" rx="22"/></g>
+  <line x1="10" y1="65" x2="430" y2="65" stroke="#1e3a8a" stroke-width="5"/>
+  <ellipse cx="80" cy="36" rx="12" ry="5" fill="#2563eb"/><ellipse cx="210" cy="36" rx="12" ry="5" fill="#2563eb"/>
+  <g font-family="Arial" font-size="11" fill="#14213d">
+    <text x="160" y="16">Noyau d'une cellule de Schwann</text><line x1="205" y1="20" x2="210" y2="31" stroke="#64748b"/>
+    <text x="10" y="114">Axone</text><line x1="30" y1="104" x2="40" y2="68" stroke="#64748b"/>
+    <text x="70" y="114">Myéline</text><line x1="95" y1="104" x2="100" y2="84" stroke="#64748b"/>
+    <text x="140" y="114">Nœud de Ranvier</text><line x1="160" y1="104" x2="145" y2="72" stroke="#64748b"/>
+    <text x="290" y="114">Gaine de Schwann</text><line x1="320" y1="104" x2="330" y2="92" stroke="#64748b"/>
+  </g>
+</svg>
+</div>
+<p>Certaines fibres n'ont pas de myéline : ce sont les fibres <b>amyéliniques</b>.</p>
+<h3>2. En coupe transversale</h3>
+<p>Le nerf est organisé comme un gros câble électrique :</p>
+<table>
+<tr><th>Enveloppe</th><th>Ce qu'elle entoure</th></tr>
+<tr><td><b>Épinèvre</b></td><td>le nerf entier</td></tr>
+<tr><td><b>Périnèvre</b></td><td>chaque faisceau (fascicule) de fibres</td></tr>
+<tr><td><b>Endonèvre</b></td><td>chaque fibre nerveuse</td></tr>
+</table>
+
+<div class="fig">
+<svg viewBox="0 0 440 220" width="100%" style="max-width:440px" role="img" aria-label="Coupe transversale d'un nerf">
+  <rect width="440" height="220" rx="12" fill="#fff"/>
+  <circle cx="150" cy="110" r="92" fill="#fef3c7" stroke="#b45309" stroke-width="4"/>
+  <g fill="#e0e7ff" stroke="#4338ca" stroke-width="2.5"><circle cx="115" cy="80" r="36"/><circle cx="190" cy="85" r="30"/><circle cx="150" cy="155" r="34"/></g>
+  <g fill="#fff" stroke="#2563eb" stroke-width="3">
+    <circle cx="103" cy="70" r="7"/><circle cx="125" cy="72" r="6"/><circle cx="112" cy="92" r="7"/><circle cx="132" cy="94" r="5"/><circle cx="96" cy="90" r="5"/>
+    <circle cx="183" cy="76" r="6"/><circle cx="200" cy="82" r="6"/><circle cx="188" cy="98" r="6"/>
+    <circle cx="140" cy="145" r="7"/><circle cx="160" cy="142" r="6"/><circle cx="148" cy="165" r="7"/><circle cx="167" cy="162" r="5"/><circle cx="130" cy="163" r="5"/>
+  </g>
+  <g fill="#1e3a8a"><circle cx="103" cy="70" r="2"/><circle cx="125" cy="72" r="2"/><circle cx="112" cy="92" r="2"/><circle cx="183" cy="76" r="2"/><circle cx="200" cy="82" r="2"/><circle cx="140" cy="145" r="2"/><circle cx="148" cy="165" r="2"/><circle cx="160" cy="142" r="2"/></g>
+  <circle cx="210" cy="140" r="7" fill="#fecaca" stroke="#b91c1c"/>
+  <g font-family="Arial" font-size="11" fill="#14213d">
+    <text x="262" y="30">Épinèvre (tout le nerf)</text><line x1="260" y1="34" x2="225" y2="55" stroke="#64748b"/>
+    <text x="262" y="80">Périnèvre (un faisceau)</text><line x1="260" y1="84" x2="220" y2="86" stroke="#64748b"/>
+    <text x="262" y="125">Fibre + endonèvre</text><line x1="260" y1="122" x2="168" y2="146" stroke="#64748b"/>
+    <text x="262" y="165">Vaisseau sanguin</text><line x1="260" y1="161" x2="218" y2="142" stroke="#64748b"/>
+  </g>
+</svg>
+<p class="legende">Chaque petit cercle bleu est une fibre : l'axone (point foncé) entouré de myéline.</p>
+</div>
+<div class="exemple"><b>Dans la vie.</b> Un câble de rallonge contient plusieurs fils, chacun dans sa gaine isolante, le tout dans une gaine commune. Le nerf est construit de la même façon : l'axone est le « fil », la myéline est « l'isolant ».</div>
+
+<h2>IV. La notion de neurone</h2>
+<p>Au XIX<sup>e</sup> siècle, on ne savait pas si les fibres nerveuses et les corps cellulaires étaient des éléments séparés. Plusieurs observations ont permis de montrer qu'ils forment <b>une seule et même cellule</b>.</p>
+
+<h3>1. Une observation médicale : la poliomyélite</h3>
+<p>La poliomyélite est une maladie virale qui détruit les corps cellulaires des motoneurones des cornes antérieures de la moelle. On constate alors une <b>paralysie</b> des muscles correspondants, et les <b>fibres</b> des nerfs qui partaient de ces neurones <b>dégénèrent</b>.</p>
+<div class="exemple"><b>Dans la vie.</b> Cette maladie se prévient par la vaccination : c'est le but des campagnes de vaccination contre la polio, organisées notamment au Sénégal.</div>
+
+<h3>2. L'expérience de mérotomie</h3>
+<p>On coupe une cellule (par exemple un protozoaire) en morceaux. Seul le morceau qui contient le <b>noyau</b> survit et se régénère ; les morceaux sans noyau finissent par mourir.</p>
+<div class="retenir">Conclusion : une partie de cellule séparée de son noyau ne peut pas survivre.</div>
+
+<h3>3. La dégénérescence wallérienne</h3>
+<p>Le physiologiste Waller a sectionné des nerfs et observé ce que devenaient les deux morceaux. On peut résumer les résultats de ce type d'expériences sur les racines d'un nerf rachidien :</p>
+<table>
+<tr><th>Section</th><th>Partie qui dégénère</th><th>Conclusion</th></tr>
+<tr><td>Nerf rachidien</td><td>le bout éloigné de la moelle (périphérique)</td><td>les fibres sont nourries depuis la moelle ou le ganglion</td></tr>
+<tr><td>Racine antérieure</td><td>le bout périphérique</td><td>les corps cellulaires sont dans la <b>corne antérieure</b></td></tr>
+<tr><td>Racine postérieure, entre ganglion et moelle</td><td>le bout relié à la moelle</td><td>les corps cellulaires sont dans le <b>ganglion spinal</b></td></tr>
+</table>
+<div class="retenir">Conclusion générale : une fibre nerveuse séparée de son corps cellulaire dégénère, comme un morceau de cellule séparé de son noyau. Fibre et corps cellulaire forment donc une seule cellule : le <b>neurone</b>. Le bout encore relié au corps cellulaire survit et peut repousser lentement.</div>
+
+<h3>4. La structure du neurone</h3>
+
+<div class="fig">
+<svg viewBox="0 0 440 190" width="100%" style="max-width:440px" role="img" aria-label="Schéma d'un neurone">
+  <rect width="440" height="190" rx="12" fill="#fff"/>
+  <g stroke="#2563eb" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M70 90L30 55M30 55L18 40M30 55L15 62"/><path d="M68 100L28 130M28 130L12 128M28 130L22 148"/>
+    <path d="M80 78L70 30M70 30L58 18M70 30L82 16"/><path d="M84 112L80 160M80 160L66 172M80 160L94 174"/>
+  </g>
+  <circle cx="90" cy="95" r="30" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="88" cy="94" r="10" fill="#1e3a8a"/>
+  <g fill="#93c5fd"><circle cx="104" cy="82" r="2.5"/><circle cx="75" cy="108" r="2.5"/><circle cx="100" cy="110" r="2.5"/><circle cx="72" cy="82" r="2.5"/></g>
+  <path d="M120 95L134 95" stroke="#2563eb" stroke-width="4"/>
+  <line x1="134" y1="95" x2="370" y2="95" stroke="#1e3a8a" stroke-width="3"/>
+  <g fill="#fde68a" stroke="#b45309"><rect x="150" y="86" width="44" height="18" rx="9"/><rect x="202" y="86" width="44" height="18" rx="9"/><rect x="254" y="86" width="44" height="18" rx="9"/><rect x="306" y="86" width="44" height="18" rx="9"/></g>
+  <g stroke="#2563eb" stroke-width="3" fill="none" stroke-linecap="round"><path d="M370 95L400 70M370 95L405 95M370 95L400 120"/></g>
+  <g fill="#2563eb"><circle cx="402" cy="68" r="5"/><circle cx="408" cy="95" r="5"/><circle cx="402" cy="122" r="5"/></g>
+  <g font-family="Arial" font-size="11" fill="#14213d">
+    <text x="4" y="186">Dendrites</text><text x="62" y="140">Corps cellulaire</text>
+    <text x="150" y="76">Gaine de myéline</text>
+    <text x="196" y="124">Nœud de Ranvier</text><line x1="198" y1="104" x2="210" y2="114" stroke="#64748b"/>
+    <text x="300" y="124">Axone</text>
+    <text x="350" y="160">Arborisation</text><text x="350" y="174">terminale</text>
+    <text x="96" y="30">Noyau</text><line x1="96" y1="34" x2="90" y2="86" stroke="#64748b"/>
+  </g>
+</svg>
+<p class="legende">Le message nerveux circule des dendrites vers le corps cellulaire, puis le long de l'axone jusqu'à l'arborisation terminale.</p>
+</div>
+
+<div class="retenir">
+• Le <b>corps cellulaire</b> (soma) contient le noyau, des <b>corps de Nissl</b> (riches en ribosomes, lieu de fabrication des protéines) et des <b>neurofibrilles</b>.<br>
+• Les <b>dendrites</b> : prolongements courts et ramifiés, qui reçoivent les messages.<br>
+• L'<b>axone</b> : un prolongement unique, souvent long, qui conduit le message loin du corps cellulaire. Il se termine par une <b>arborisation terminale</b> aux extrémités renflées (boutons synaptiques).</div>
+
+<h3>5. Les différentes formes de neurones</h3>
+<table>
+<tr><th>Forme</th><th>Exemple</th></tr>
+<tr><td>Multipolaire (étoilé)</td><td>motoneurone de la corne antérieure</td></tr>
+<tr><td>Pyramidal</td><td>neurone du cortex cérébral</td></tr>
+<tr><td>Bipolaire</td><td>neurone de la rétine</td></tr>
+<tr><td>En T (pseudo-unipolaire)</td><td>neurone sensitif du ganglion spinal</td></tr>
+</table>
+
+
+<div class="fig">
+<svg viewBox="0 0 440 170" width="100%" style="max-width:440px" role="img" aria-label="Formes de neurones">
+  <rect width="440" height="170" rx="12" fill="#fff"/>
+  <g stroke="#2563eb" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <path d="M60 70L35 45M60 70L30 75M60 70L45 100M60 70L85 45M60 70L60 135"/>
+    <path d="M170 60L150 30M170 60L190 30M170 60L170 135M163 72L145 85M177 72L195 85"/>
+    <path d="M280 25L280 65M280 95L280 140M280 25L268 15M280 25L292 15"/>
+    <path d="M390 80L390 45M390 45L360 45M390 45L420 45M360 45L350 30M420 45L430 60"/>
+  </g>
+  <circle cx="60" cy="70" r="13" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <path d="M160 70L170 48L180 70Z" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <ellipse cx="280" cy="80" rx="9" ry="15" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="390" cy="92" r="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <g font-family="Arial" font-size="11" fill="#14213d" text-anchor="middle">
+    <text x="60" y="155">Multipolaire</text><text x="170" y="155">Pyramidal</text><text x="280" y="160">Bipolaire</text><text x="390" y="130">En T</text>
+  </g>
+</svg>
+<p class="legende">Formes schématiques : le corps cellulaire est en bleu clair, les prolongements en bleu.</p>
+</div>
+<h3>6. Les caractéristiques du neurone</h3>
+<div class="retenir">
+• C'est une cellule très <b>spécialisée</b> : elle est excitable et conduit les messages nerveux.<br>
+• Chez l'adulte, les neurones <b>ne se divisent pratiquement plus</b> : un neurone détruit n'est en général pas remplacé.<br>
+• Ils sont très <b>sensibles au manque d'oxygène et de glucose</b>.</div>
+<div class="exemple"><b>Dans la vie.</b> Lors d'un arrêt cardiaque ou d'une noyade, le cerveau n'est plus oxygéné. Après seulement quelques minutes, des neurones meurent et les lésions peuvent être définitives. C'est pour cela que les gestes de premiers secours (massage cardiaque) doivent commencer tout de suite.</div>
+
+<h2>L'essentiel</h2>
+<div class="retenir">
+1. Tissu nerveux = neurones + cellules gliales.<br>
+2. Substance grise : corps cellulaires ; substance blanche : fibres, souvent myélinisées.<br>
+3. Nerf : fibres (axone + myéline + gaine de Schwann) entourées d'endonèvre, de périnèvre et d'épinèvre.<br>
+4. Poliomyélite, mérotomie et dégénérescence wallérienne montrent que fibre et corps cellulaire forment une seule cellule : le neurone.<br>
+5. Neurone = corps cellulaire + dendrites + axone ; cellule spécialisée, qui ne se divise plus et craint le manque d'oxygène.</div>
+</div>
+</template>
+
+<footer>
+  <div class="wrap">
+    <a href="#accueil" class="marque"><svg viewBox="0 0 100 100" aria-hidden="true"><path class="page-g" d="M50 46C38 38 22 38 10 42V86C22 82 38 82 50 90Z" fill="#2563eb"/><path class="page-d" d="M50 46C62 38 78 38 90 42V86C78 82 62 82 50 90Z" fill="#60a5fa"/><g class="toque"><path d="M50 8L88 23L50 38L12 23Z" fill="#fbbf24"/><path d="M80 26V42" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/><circle cx="80" cy="45" r="4" fill="#fbbf24"/></g></svg><b>MON LYCÉE <span>SN</span></b></a>
+    <p>Cours, exercices corrigés, quiz et orientation pour la série S au Sénégal. Site en construction.</p>
+    <div class="tribar"><i></i><i></i><i></i></div>
+    <p>Ta progression est enregistrée seulement sur cet appareil.<br>
+    Sources officielles : <a href="https://officedubac.sn">Office du Bac</a> (officedubac.sn) ·
+    <a href="https://orientation.campusen.sn">Campusen</a> (orientation.campusen.sn)</p>
+  </div>
+</footer>
+<script>
+const LOGO_GRAND = "<svg viewBox=\"0 0 100 100\" aria-hidden=\"true\"><path class=\"page-g\" d=\"M50 46C38 38 22 38 10 42V86C22 82 38 82 50 90Z\" fill=\"#2563eb\"/><path class=\"page-d\" d=\"M50 46C62 38 78 38 90 42V86C78 82 62 82 50 90Z\" fill=\"#60a5fa\"/><g class=\"toque\"><path d=\"M50 8L88 23L50 38L12 23Z\" fill=\"#fbbf24\"/><path d=\"M80 26V42\" stroke=\"#fbbf24\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"45\" r=\"4\" fill=\"#fbbf24\"/></g></svg>";
+/* ================= DONNÉES DU SITE =================
+   Pour ajouter du contenu : remplir CONTENU[classe][matiere]
+   avec les listes cours, exercices, quiz, conseils.          */
+
+/* ---------- Catalogue des matières (une seule fois) ---------- */
+const MATIERES = [
+  {id:"maths", nom:"Mathématiques", ico:"📐", alias:"maths math"},
+  {id:"physique", nom:"Physique", ico:"⚡", alias:"pc sciences physiques"},
+  {id:"chimie", nom:"Chimie", ico:"🧪", alias:"pc sciences physiques"},
+  {id:"scphy", nom:"Sciences physiques", ico:"⚗️", alias:"pc physique chimie scph"},
+  {id:"svt", nom:"SVT", ico:"🌿", alias:"sciences vie terre bio biologie"},
+  {id:"francais", nom:"Français", ico:"📖", alias:"francais"},
+  {id:"philo", nom:"Philosophie", ico:"🤔", alias:"philo"},
+  {id:"histoire", nom:"Histoire", ico:"📜", alias:"histo hg"},
+  {id:"geographie", nom:"Géographie", ico:"🌍", alias:"geo hg"},
+  {id:"anglais", nom:"Anglais", ico:"🇬🇧", alias:"english lv1"},
+  {id:"lv2", nom:"Langue vivante 2", ico:"🗣️", alias:"lv2 espagnol arabe allemand portugais"},
+  {id:"lanciennes", nom:"Latin / Grec", ico:"🏛️", alias:"latin grec langues anciennes"}
+];
+
+/* ---------- Matières par série (modifiable sans toucher au reste) ----------
+   Pour ajouter une série : ajouter une ligne dans CLASSES avec sa liste de matières. */
+const M_S   = ["maths","physique","chimie","svt","francais","histoire","geographie","anglais"];
+const M_L1  = ["francais","histoire","geographie","anglais","lv2","lanciennes","maths"];
+const M_L2  = ["francais","histoire","geographie","anglais","lv2","maths","svt","scphy"];
+const avecPhilo = l => [...l.slice(0,1), "philo", ...l.slice(1)];
+
+const NIVEAUX = ["Seconde","Première","Terminale"];
+const CLASSES = [
+  {id:"2nde-s", nom:"Seconde S",    court:"2nde S", niveau:"Seconde",   serie:"S",  matieres:M_S},
+  {id:"1re-l1", nom:"Première L1",  court:"1re L1", niveau:"Première",  serie:"L1", matieres:M_L1},
+  {id:"1re-l2", nom:"Première L2",  court:"1re L2", niveau:"Première",  serie:"L2", matieres:M_L2},
+  {id:"1re-s1", nom:"Première S1",  court:"1re S1", niveau:"Première",  serie:"S1", matieres:M_S},
+  {id:"1re-s2", nom:"Première S2",  court:"1re S2", niveau:"Première",  serie:"S2", matieres:M_S},
+  {id:"tle-l1", nom:"Terminale L1", court:"Tle L1", niveau:"Terminale", serie:"L1", matieres:avecPhilo(M_L1)},
+  {id:"tle-l2", nom:"Terminale L2", court:"Tle L2", niveau:"Terminale", serie:"L2", matieres:avecPhilo(M_L2)},
+  {id:"tle-s1", nom:"Terminale S1", court:"Tle S1", niveau:"Terminale", serie:"S1", matieres:avecPhilo(M_S)},
+  {id:"tle-s2", nom:"Terminale S2", court:"Tle S2", niveau:"Terminale", serie:"S2", matieres:avecPhilo(M_S)}
+];
+const matieresDe = c => c.matieres.map(id => MATIERES.find(m => m.id === id)).filter(Boolean);
+
+const CONTENU = {
+  "tle-s2": {
+    "maths": {
+      cours: [
+        {
+          titre: "Probabilités — cours complet",
+          tpl: "tpl-proba-tle-s2",
+          pdf: "probabilites-tle-s2.pdf",
+          plan: ["Le vocabulaire du hasard", "Calculer une probabilité", "Probabilités conditionnelles",
+                 "Le schéma de Bernoulli", "Variable aléatoire"]
+        }
+      ],
+      exercices: [{"titre": "Le sachet de bonbons", "enonce": "Un sachet contient 10 bonbons : 5 rouges, 3 verts et 2 jaunes. On en tire deux, l'un après l'autre, <b>sans remettre</b> le premier.<br>1) Quelle est la probabilité d'obtenir deux bonbons rouges ?<br>2) Quelle est la probabilité d'obtenir deux bonbons de la même couleur ?", "indice": "Fais un arbre : au 2e tirage, il ne reste plus que 9 bonbons, et un bonbon de la couleur tirée en moins.", "correction": "1) P(R puis R) = 5/10 × 4/9 = 20/90 = <b>2/9</b>.<br>2) Même couleur = RR ou VV ou JJ (événements incompatibles) :<br>P = 5/10 × 4/9 + 3/10 × 2/9 + 2/10 × 1/9 = 20/90 + 6/90 + 2/90 = 28/90 = <b>14/45 ≈ 0,31</b>."}, {"titre": "Un test de dépistage", "enonce": "Une maladie touche 2 % d'une population. Un test de dépistage est positif chez 95 % des personnes malades, mais aussi chez 10 % des personnes non malades. On teste une personne au hasard. On note M = « la personne est malade » et T = « le test est positif ».<br>1) Construire un arbre pondéré.<br>2) Calculer P(T).<br>3) Le test est positif. Quelle est la probabilité que la personne soit réellement malade ? Commenter.", "indice": "Pour la question 3, on « remonte » l'arbre : c'est la formule de Bayes, P<sub>T</sub>(M) = P(M ∩ T) / P(T).", "correction": "1) Premier niveau : M (0,02) et M̄ (0,98). Puis T sachant M : 0,95 ; T sachant M̄ : 0,10.<br>2) Probabilités totales : P(T) = 0,02 × 0,95 + 0,98 × 0,10 = 0,019 + 0,098 = <b>0,117</b>.<br>3) P<sub>T</sub>(M) = 0,019 / 0,117 ≈ <b>0,16</b>.<br><b>Commentaire :</b> même avec un test positif, il n'y a qu'environ 16 % de chances d'être malade, car la maladie est rare et les « faux positifs » sont nombreux. C'est pour cela qu'on confirme toujours un test positif par un second examen."}, {"titre": "Le vendeur de journaux", "enonce": "Chaque client qui passe devant un kiosque achète un journal avec une probabilité de 0,3, indépendamment des autres. 4 clients passent. On note X le nombre de journaux vendus.<br>1) Justifier qu'il s'agit d'un schéma de Bernoulli et donner ses paramètres.<br>2) Donner la loi de probabilité de X.<br>3) Calculer E(X) et interpréter.", "indice": "Chaque client : succès = « il achète » (p = 0,3). Utilise P(X = k) = C<sub>4</sub><sup>k</sup> × 0,3<sup>k</sup> × 0,7<sup>4−k</sup>.", "correction": "1) 4 épreuves identiques et indépendantes, chacune à deux issues (achète / n'achète pas) : schéma de Bernoulli avec n = 4 et p = 0,3.<br>2) P(X=0) = 0,7<sup>4</sup> = 0,2401 ; P(X=1) = 4 × 0,3 × 0,7<sup>3</sup> = 0,4116 ; P(X=2) = 6 × 0,3<sup>2</sup> × 0,7<sup>2</sup> = 0,2646 ; P(X=3) = 4 × 0,3<sup>3</sup> × 0,7 = 0,0756 ; P(X=4) = 0,3<sup>4</sup> = 0,0081. (Vérification : la somme vaut 1.)<br>3) E(X) = np = 4 × 0,3 = <b>1,2</b> : sur un grand nombre de groupes de 4 clients, le kiosque vend en moyenne 1,2 journal par groupe."}],
+      quiz: [{"q": "On lance un dé équilibré. Quelle est la probabilité d'obtenir un multiple de 3 ?", "choix": ["1/6", "1/3", "1/2", "2/3"], "bonne": 1, "explication": "Les multiples de 3 sont 3 et 6 : 2 cas sur 6, soit 1/3."}, {"q": "Si P(A) = 0,3, que vaut P(Ā) ?", "choix": ["0,3", "0,7", "1,3", "0"], "bonne": 1, "explication": "P(Ā) = 1 − P(A) = 1 − 0,3 = 0,7."}, {"q": "A et B sont indépendants, P(A) = 0,5 et P(B) = 0,4. Que vaut P(A ∩ B) ?", "choix": ["0,9", "0,1", "0,2", "0,45"], "bonne": 2, "explication": "Indépendants : P(A ∩ B) = P(A) × P(B) = 0,5 × 0,4 = 0,2."}, {"q": "P(A) = 0,5 et P(A ∩ B) = 0,2. Que vaut P<sub>A</sub>(B) ?", "choix": ["0,1", "0,4", "0,7", "2,5"], "bonne": 1, "explication": "P<sub>A</sub>(B) = P(A ∩ B) / P(A) = 0,2 / 0,5 = 0,4."}, {"q": "On lance 3 fois une pièce équilibrée. Probabilité d'obtenir exactement 2 « pile » ?", "choix": ["1/8", "1/4", "3/8", "1/2"], "bonne": 2, "explication": "Schéma de Bernoulli (n = 3, p = 1/2) : C<sub>3</sub><sup>2</sup> × (1/2)<sup>2</sup> × (1/2) = 3/8."}],
+      conseils: []
+    },
+    "svt": {
+      cours: [{"titre": "Organisation de l'encéphale des mammifères", "tpl": "tpl-svt-encephale", "pdf": "svt-encephale-tle.pdf", "plan": ["Un organe très bien protégé", "L'organisation externe", "L'organisation interne", "Un plan d'organisation commun", "Comment l'encéphale se forme"]}, {"titre": "Organisation de la moelle épinière", "tpl": "tpl-svt-moelle", "pdf": "svt-moelle-tle.pdf", "plan": ["Où se trouve la moelle épinière ?", "La morphologie externe", "La morphologie interne", "Le système nerveux dans son ensemble"]}, {"titre": "Organisation du tissu nerveux", "tpl": "tpl-svt-tissu", "pdf": "svt-tissu-tle.pdf", "plan": ["Qu'est-ce que le tissu nerveux ?", "Observer un centre nerveux", "Observer un nerf", "La notion de neurone"]}],
+      exercices: [{"titre": "Ranger les structures dans les bonnes régions <small style=\"color:var(--gris);font-weight:600\">· Organisation de l'encéphale des mammifères</small>", "enonce": "Voici des structures de l'encéphale : hémisphères cérébraux, cervelet, bulbe rachidien, thalamus, pédoncules cérébraux, protubérance annulaire.<br>Place chacune dans l'une des cinq régions : télencéphale, diencéphale, mésencéphale, métencéphale, myélencéphale.", "indice": "Les cinq régions sont rangées de l'avant vers l'arrière. Le métencéphale contient deux des structures de la liste.", "correction": "• Télencéphale : hémisphères cérébraux.<br>• Diencéphale : thalamus.<br>• Mésencéphale : pédoncules cérébraux.<br>• Métencéphale : cervelet et protubérance annulaire.<br>• Myélencéphale : bulbe rachidien."}, {"titre": "Le circuit du liquide céphalo-rachidien <small style=\"color:var(--gris);font-weight:600\">· Organisation de l'encéphale des mammifères</small>", "enonce": "1) Range dans l'ordre, du cerveau vers la moelle : 4<sup>e</sup> ventricule, ventricules latéraux, canal de l'épendyme, aqueduc de Sylvius, 3<sup>e</sup> ventricule.<br>2) Quel est le rôle du LCR ?<br>3) Quelle structure relie les deux hémisphères cérébraux ?", "indice": "Les ventricules latéraux sont dans les hémisphères, le canal de l'épendyme est dans la moelle.", "correction": "1) Ventricules latéraux → 3<sup>e</sup> ventricule → aqueduc de Sylvius → 4<sup>e</sup> ventricule → canal de l'épendyme.<br>2) Le LCR amortit les chocs et protège le tissu nerveux.<br>3) Le corps calleux."}, {"titre": "Orienter une coupe de moelle <small style=\"color:var(--gris);font-weight:600\">· Organisation de la moelle épinière</small>", "enonce": "Sur une coupe transversale de moelle épinière, un élève ne sait pas quel côté est le dos (dorsal) et quel côté est le ventre (ventral).<br>Donne-lui trois indices pour s'orienter.", "indice": "Compare les deux sillons, les deux paires de cornes, et regarde sur quelle racine se trouve le ganglion.", "correction": "• Le sillon antérieur (ventral) est large et profond ; le sillon postérieur (dorsal) est étroit.<br>• Les cornes antérieures (ventrales) sont larges ; les cornes postérieures (dorsales) sont fines et atteignent presque la surface.<br>• La racine qui porte le ganglion spinal est la racine postérieure (dorsale)."}, {"titre": "Après un accident <small style=\"color:var(--gris);font-weight:600\">· Organisation de la moelle épinière</small>", "enonce": "Après un accident de moto, Modou ne peut plus bouger ses jambes, mais il bouge normalement ses bras.<br>1) La lésion de la moelle est-elle plutôt au niveau du cou ou plus bas dans le dos ? Justifie.<br>2) Comment appelle-t-on cette paralysie ?<br>3) Pourquoi la ponction lombaire se fait-elle en bas du dos sans risque pour la moelle ?", "indice": "Les nerfs des bras partent du renflement cervical. Une lésion bloque tout ce qui est en dessous d'elle.", "correction": "1) Plus bas que le cou : les nerfs des bras, qui partent du renflement cervical, fonctionnent encore. La lésion est donc située sous ce renflement.<br>2) Une paraplégie.<br>3) Chez l'adulte, la moelle s'arrête vers la 1<sup>re</sup> ou la 2<sup>e</sup> vertèbre lombaire ; plus bas, il n'y a que des racines nerveuses (queue de cheval)."}, {"titre": "Les expériences de section <small style=\"color:var(--gris);font-weight:600\">· Organisation du tissu nerveux</small>", "enonce": "On sectionne la racine postérieure d'un nerf rachidien <b>entre le ganglion spinal et la moelle</b>.<br>1) Quel bout dégénère ?<br>2) Que se passe-t-il si on coupe la même racine <b>après le ganglion</b>, du côté du nerf ?<br>3) Où se trouvent donc les corps cellulaires de ces fibres ?", "indice": "Une fibre dégénère quand elle est séparée de son corps cellulaire.", "correction": "1) Le bout relié à la moelle dégénère ; le bout relié au ganglion survit.<br>2) C'est le bout périphérique (côté nerf) qui dégénère.<br>3) Dans les deux cas, survit le bout qui reste relié au ganglion : les corps cellulaires de ces fibres sont donc dans le ganglion spinal."}, {"titre": "Le cas de la poliomyélite <small style=\"color:var(--gris);font-weight:600\">· Organisation du tissu nerveux</small>", "enonce": "Aïssatou a eu la poliomyélite petite : sa jambe gauche est paralysée et les muscles de cette jambe ont fondu.<br>1) Quelles cellules ont été détruites, et où se trouvent-elles ?<br>2) Pourquoi les fibres du nerf de la jambe ont-elles dégénéré ?<br>3) Pourquoi la paralysie est-elle définitive ?<br>4) Comment éviter cette maladie ?", "indice": "Les motoneurones commandent les muscles. Pense à la dégénérescence wallérienne et aux caractéristiques du neurone.", "correction": "1) Les corps cellulaires des motoneurones, dans les cornes antérieures de la moelle.<br>2) Les fibres séparées de leur corps cellulaire (détruit) ne peuvent plus survivre.<br>3) Chez l'adulte, les neurones ne se divisent pratiquement plus : les neurones détruits ne sont pas remplacés.<br>4) Par la vaccination contre la poliomyélite."}],
+      quiz: [{"q": "Dans quel ordre trouve-t-on les méninges, de l'extérieur vers l'intérieur ?", "choix": ["Pie-mère, arachnoïde, dure-mère", "Dure-mère, arachnoïde, pie-mère", "Arachnoïde, dure-mère, pie-mère", "Dure-mère, pie-mère, arachnoïde"], "bonne": 1, "explication": "La dure-mère, épaisse, est à l'extérieur ; la pie-mère, fine, est collée au tissu nerveux."}, {"q": "Dans le cerveau, où se trouve la substance grise ?", "choix": ["Au centre uniquement", "À l'extérieur (cortex)", "Seulement dans le cervelet", "Il n'y en a pas"], "bonne": 1, "explication": "La substance grise forme le cortex à la surface du cerveau ; on trouve aussi des noyaux gris en profondeur."}, {"q": "Le prosencéphale de l'embryon donne :", "choix": ["Le cervelet et le bulbe", "Le télencéphale et le diencéphale", "Le mésencéphale", "La moelle épinière"], "bonne": 1, "explication": "Le prosencéphale se divise en télencéphale (futurs hémisphères) et diencéphale."}, {"q": "Combien de paires de nerfs rachidiens possède l'Homme ?", "choix": ["12", "24", "31", "46"], "bonne": 2, "explication": "31 paires de nerfs rachidiens partent de la moelle ; les 12 paires de nerfs crâniens partent de l'encéphale."}, {"q": "Sur quelle racine se trouve le ganglion spinal ?", "choix": ["La racine antérieure", "La racine postérieure", "Les deux", "Aucune"], "bonne": 1, "explication": "Le ganglion spinal est un renflement de la racine postérieure (dorsale)."}, {"q": "Le système nerveux végétatif commande :", "choix": ["Les mouvements volontaires", "Le fonctionnement des organes internes", "La vision uniquement", "Les muscles des bras seulement"], "bonne": 1, "explication": "Le système végétatif (sympathique et parasympathique) règle le cœur, la digestion, la respiration… sans décision volontaire."}, {"q": "Pourquoi la substance blanche est-elle blanche ?", "choix": ["Elle contient des corps cellulaires", "Elle contient beaucoup de myéline", "Elle n'a pas de vaisseaux", "Elle contient du LCR"], "bonne": 1, "explication": "Les fibres de la substance blanche sont souvent entourées de myéline, riche en lipides et de couleur blanche."}, {"q": "Quel prolongement conduit le message nerveux loin du corps cellulaire ?", "choix": ["La dendrite", "L'axone", "Le corps de Nissl", "Le noyau"], "bonne": 1, "explication": "L'axone, unique et souvent long, conduit le message vers l'arborisation terminale."}, {"q": "Quelle enveloppe entoure le nerf entier ?", "choix": ["L'endonèvre", "Le périnèvre", "L'épinèvre", "La pie-mère"], "bonne": 2, "explication": "Épinèvre : le nerf entier ; périnèvre : un faisceau ; endonèvre : une fibre."}],
+      conseils: []
+    }
+  },
+  "2nde-s": {
+    "maths": {
+      cours: [],
+      exercices: [
+        {
+          titre: "Équation du 1er degré",
+          enonce: "Résoudre dans ℝ l'équation : 2x + 3 = 11.",
+          indice: "Isole d'abord le terme en x : que faut-il enlever des deux côtés ?",
+          correction: "On soustrait 3 aux deux membres : 2x = 8.<br>On divise par 2 : x = 4.<br><b>Vérification :</b> 2 × 4 + 3 = 11 ✔<br>L'ensemble des solutions est S = {4}.",
+          demo: true
+        }
+      ],
+      quiz: [
+        {q:"Quelle est la solution de 3x − 6 = 0 ?", choix:["x = −2","x = 2","x = 6","x = 3"], bonne:1,
+         explication:"3x − 6 = 0 donne 3x = 6, donc x = 2."},
+        {q:"Combien vaut 2³ ?", choix:["6","8","9","5"], bonne:1,
+         explication:"2³ = 2 × 2 × 2 = 8."}
+      ],
+      conseils: []
+    }
+  }
+};
+
+/* ================= MÉMOIRE LOCALE (cet appareil) ================= */
+const memo = {
+  lire(k, d){ try{ const v = localStorage.getItem("mlsn:"+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } },
+  ecrire(k, v){ try{ localStorage.setItem("mlsn:"+k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ================= OUTILS ================= */
+const app = document.getElementById("app");
+const trouverClasse = id => CLASSES.find(c => c.id === id);
+const trouverMatiere = id => MATIERES.find(m => m.id === id);
+const sansAccent = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+const donnees = (cid, mid) => (CONTENU[cid]||{})[mid] || {};
+const liste = (d, k) => d[k] || [];
+
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("vu");
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("vu"), 2200);
+}
+
+function progression(cid, mid){
+  const d = donnees(cid, mid);
+  const ex = liste(d,"exercices"), qz = liste(d,"quiz");
+  const total = ex.length + (qz.length ? 1 : 0);
+  let fait = ex.filter((_,i) => memo.lire(`fait:${cid}-${mid}-${i}`, false)).length;
+  if(qz.length && memo.lire(`quiz:${cid}-${mid}`, null) !== null) fait++;
+  return {fait, total};
+}
+function progressionClasse(cid){
+  let f=0,t=0; matieresDe(trouverClasse(cid)).forEach(m => { const p = progression(cid, m.id); f+=p.fait; t+=p.total; });
+  return {fait:f, total:t};
+}
+const jauge = p => p.total ? `<div class="jauge"><i style="width:${Math.round(100*p.fait/p.total)}%"></i></div>` : "";
+
+
+/* ================= AFFICHAGE + ANIMATIONS ================= */
+const COULEURS = ["bg-vert","bg-corail","bg-jaune"];
+const NUM = {"Seconde":"2","Première":"1","Terminale":"T"};
+
+let observateur = null;
+function afficher(html){
+  app.innerHTML = html;
+  // Apparition progressive des éléments .rv au défilement
+  if(observateur) observateur.disconnect();
+  const els = app.querySelectorAll(".rv");
+  if("IntersectionObserver" in window){
+    observateur = new IntersectionObserver(es => es.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add("vu"); observateur.unobserve(e.target); }
+    }), {threshold:.12});
+    els.forEach(el => observateur.observe(el));
+  } else els.forEach(el => el.classList.add("vu"));
+  // Compteurs animés
+  app.querySelectorAll("[data-compte]").forEach(compter);
+}
+
+function compter(el){
+  const fin = +el.dataset.compte, debut = performance.now(), duree = 1200;
+  const pas = t => {
+    const k = Math.min(1, (t - debut) / duree);
+    el.textContent = Math.round(fin * (1 - Math.pow(1 - k, 3)));
+    if(k < 1) requestAnimationFrame(pas);
+  };
+  requestAnimationFrame(pas);
+}
+
+// En-tête sombre des pages internes
+function entete(fil, titre, sous, extra = ""){
+  return `<section class="entete"><div class="wrap">
+    <div class="fil">${fil}</div>
+    <div class="tribar"><i></i><i></i><i></i></div>
+    <h1 class="display">${titre}</h1>
+    ${sous ? `<p>${sous}</p>` : ""}${extra}
+  </div></section>`;
+}
+
+/* ================= PAGES ================= */
+function pageAccueil(){
+  const dernier = memo.lire("dernier", null);
+  let reprise = "";
+  if(dernier){
+    const c = trouverClasse(dernier.c), m = trouverMatiere(dernier.m);
+    if(c && m) reprise = `<a class="reprendre rv" href="#${c.id}-${m.id}"><span class="rond">▶</span>
+      <div><b>Reprendre là où tu t'es arrêté</b><br><small>${m.nom} · ${c.nom}</small></div></a>`;
+  }
+  afficher(`
+    <section class="heros"><div class="wrap heros-grille">
+      <div>
+        <div class="badge"><i></i>Programme sénégalais · Série S</div>
+        <h1 class="titre-heros display"><span class="l"><span>Réussis</span></span><span class="l"><span>ton bac</span></span></h1>
+        <p class="sous-heros">Cours, exercices, quiz et orientation — au même endroit.</p>
+        <div class="tribar"><i></i><i></i><i></i></div>
+        <p class="lead">De la Seconde S à la Terminale, séries L1, L2, S1 et S2 : des cours clairs, des exercices corrigés avec indices, des quiz pour t'entraîner et tout pour réussir ton orientation sur Campusen.</p>
+        <div class="ctas">
+          <a class="btn jaune gros" href="#classes" data-defil="classes">Choisir ma classe →</a>
+          <a class="btn clair gros" href="#orientation">Orientation</a>
+          <button class="btn clair gros btn-installer" hidden onclick="installerAppli()">📲 Installer l'appli</button>
+        </div>
+      </div>
+      <div class="scene" aria-hidden="true"><div class="logo-centre">${LOGO_GRAND}</div></div>
+    </div>
+    </section>
+    <section class="section" id="classes"><div class="wrap">
+      ${reprise}
+      <input class="recherche rv" id="cherche" type="search" placeholder="🔍  Rechercher : « maths tle s2 », « philo l2 »…" autocomplete="off">
+      <div id="res"></div>
+      <div class="tete rv" style="margin-top:34px"><span class="eyebrow">Étape 1</span><h2>Choisis ta <span>classe</span></h2></div>
+${NIVEAUX.map(n => `
+      <h3 class="niveau rv">${n}</h3>
+      <div class="grille">
+        ${CLASSES.filter(c => c.niveau === n).map((c,i) => { const p = progressionClasse(c.id);
+          return `<a class="carte carte-classe niv-${c.niveau} rv" style="--d:${i*.06}s" href="#${c.id}">
+            <span class="fleche">→</span>
+            <span class="display">${c.court}</span><small>${c.matieres.length} matières</small>${jauge(p)}</a>`; }).join("")}
+      </div>`).join("")}
+    </div></section>
+
+    <section class="section" style="padding-top:0"><div class="wrap">
+      <div class="tete rv"><span class="eyebrow">Tes outils</span><h2>Travaille <span>malin</span></h2></div>
+      <div class="grille">
+        <a class="carte rv" href="#conseils"><span class="fleche">→</span><span class="rond bg-jaune">⏱️</span><b>Minuteur de révision</b><small>25 min de travail, 5 min de pause</small></a>
+        <a class="carte rv" style="--d:.08s" href="#conseils"><span class="fleche">→</span><span class="rond bg-vert">💡</span><b>Méthodes de travail</b><small>Apprendre, réviser, réussir le bac</small></a>
+        <a class="carte rv" style="--d:.16s" href="#orientation"><span class="fleche">→</span><span class="rond bg-corail">🧭</span><b>Orientation</b><small>Checklist Campusen</small></a>
+      </div>
+    </div></section>`);
+  const champ = document.getElementById("cherche"), res = document.getElementById("res");
+  champ.addEventListener("input", () => {
+    const mots = sansAccent(champ.value).split(/\s+/).filter(Boolean);
+    if(!mots.length){ res.innerHTML = ""; return; }
+    const trouves = [];
+    CLASSES.forEach(c => matieresDe(c).forEach(m => {
+      const texte = sansAccent(`${c.nom} ${c.court} ${c.niveau} ${c.id.replace("-"," ")} ${m.nom} ${m.alias}`);
+      if(mots.every(w => texte.includes(w))) trouves.push({c, m});
+    }));
+    res.innerHTML = trouves.length
+      ? `<div class="resultats">${trouves.slice(0,8).map(x => `<a href="#${x.c.id}-${x.m.id}">${x.m.ico} ${x.m.nom} — ${x.c.nom}</a>`).join("")}</div>`
+      : `<p style="margin:10px 6px;color:var(--gris)">Aucun résultat.</p>`;
+  });
+  app.querySelectorAll("[data-defil]").forEach(a => a.addEventListener("click", ev => {
+    ev.preventDefault();
+    document.getElementById(a.dataset.defil).scrollIntoView({behavior:"smooth"});
+  }));
+}
+
+function pageClasse(c){
+  const p = progressionClasse(c.id);
+  afficher(entete(`<a href="#accueil">Accueil</a> › ${c.nom}`, c.nom, "Choisis une matière.",
+      p.total ? jauge(p) : "") + `
+    <section class="section"><div class="wrap">
+      <div class="grille">
+        ${matieresDe(c).map((m,i) => {
+          const d = donnees(c.id, m.id);
+          const n = ["cours","exercices","quiz","conseils"].reduce((s,k) => s + liste(d,k).length, 0);
+          const pm = progression(c.id, m.id);
+          return `<a class="carte rv" style="--d:${i*.05}s" href="#${c.id}-${m.id}"><span class="fleche">→</span>
+            <span class="rond ${COULEURS[i%3]}">${m.ico}</span><b>${m.nom}</b>
+            ${n ? `<span class="statut ok">${pm.total ? `${pm.fait}/${pm.total} fait` : n + " ressource(s)"}</span>` : `<span class="statut bientot">Bientôt</span>`}
+            ${jauge(pm)}</a>`;
+        }).join("")}
+      </div>
+    </div></section>`);
+}
+
+const ONGLETS = {cours:"📘 Cours", exercices:"✏️ Exercices", quiz:"❓ Quiz", conseils:"💡 Conseils"};
+
+function pageMatiere(c, m, onglet, garderDefil){
+  memo.ecrire("dernier", {c:c.id, m:m.id});
+  const d = donnees(c.id, m.id);
+  const ong = onglet || memo.lire(`onglet:${c.id}-${m.id}`, "cours");
+  memo.ecrire(`onglet:${c.id}-${m.id}`, ong);
+  const p = progression(c.id, m.id);
+  const y = window.scrollY;
+  const idx = matieresDe(c).indexOf(m);
+  afficher(entete(`<a href="#accueil">Accueil</a> › <a href="#${c.id}">${c.nom}</a> › ${m.nom}`,
+      `<span class="rond ${COULEURS[idx%3]}">${m.ico}</span>${m.nom}`,
+      `${c.nom}${p.total ? ` · progression : <b>${p.fait}/${p.total}</b>` : ""}`, jauge(p)) + `
+    <section class="section" style="padding-top:26px"><div class="wrap">
+      <div class="onglets">
+        ${Object.keys(ONGLETS).map(k => `<button class="${k===ong?'actif':''}" data-o="${k}">${ONGLETS[k]}</button>`).join("")}
+      </div>
+      <div id="corps"></div>
+    </div></section>`);
+  if(garderDefil) window.scrollTo(0, y);
+  app.querySelectorAll(".onglets button").forEach(b =>
+    b.addEventListener("click", () => pageMatiere(c, m, b.dataset.o, true)));
+  const corps = document.getElementById("corps");
+  const items = liste(d, ong);
+  if(!items.length){
+    corps.innerHTML = `<div class="vide">📭 Pas encore de contenu ici.<br>Il arrive bientôt.</div>`; return;
+  }
+  if(ong === "exercices") return rendreExercices(corps, c, m, items);
+  if(ong === "quiz") return rendreQuiz(corps, c, m, items);
+  corps.innerHTML = items.map((x, i) => x.tpl ? `
+    <div class="exo">
+      <span class="tag">📘 Cours Mon Lycée SN</span>
+      <h3 style="margin:.5em 0 .3em">${x.titre}</h3>
+      <ul class="etapes">${x.plan.map((p,k) => `<li>${["I","II","III","IV","V"][k]}. ${p}</li>`).join("")}</ul>
+      <div class="actions">
+        <button class="btn plein" data-lire="${i}">📖 Lire le cours</button>
+        ${x.pdf ? `<button class="btn" data-pdf="${x.pdf}" data-titre="${x.titre.replace(/"/g,"&quot;")} — ${c.court}">${estTelecharge(x.pdf) && horsLignePossible() ? "✅ Disponible hors connexion" : "📄 Télécharger le PDF"}</button>` : ""}
+      </div>
+      <div class="lecture" id="lecture${i}" hidden></div>
+    </div>`
+    : `<details><summary>${x.titre}</summary><div>${x.texte}</div></details>`).join("");
+  corps.querySelectorAll("[data-pdf]").forEach(b => b.addEventListener("click", () => telechargerPdf(b)));
+  corps.querySelectorAll("[data-lire]").forEach(b => b.addEventListener("click", () => {
+    const x = items[+b.dataset.lire], zone = document.getElementById("lecture" + b.dataset.lire);
+    if(zone.hidden){
+      zone.innerHTML = document.getElementById(x.tpl).innerHTML;
+      zone.hidden = false; b.textContent = "✖ Fermer le cours";
+    } else { zone.hidden = true; b.textContent = "📖 Lire le cours"; }
+  }));
+}
+
+/* ---------- Conseils + minuteur ---------- */
+const minuteur = {duree:25*60, reste:25*60, mode:"travail", h:null};
+function pageConseils(){
+  const methodes = [
+    ["Organiser sa semaine", ["Fixe des créneaux courts (30 à 45 min) plutôt qu'une longue séance.",
+      "Revois le cours du jour le soir même, même 10 minutes.", "Garde un jour par semaine pour refaire des exercices."]],
+    ["Bien apprendre un cours", ["Fais une fiche d'une page par chapitre : définitions, formules, un exemple.",
+      "Ferme le cours et essaie de tout réécrire de mémoire.",
+      "Explique le chapitre à un camarade : si tu bloques, c'est là qu'il faut retravailler."]],
+    ["Réussir les exercices", ["Cherche seul au moins 15 minutes avant de regarder la correction.",
+      "Utilise l'indice avant la correction.", "Refais l'exercice sans aide le lendemain.",
+      "Note tes erreurs fréquentes dans un carnet."]],
+    ["Préparer le bac", ["Entraîne-toi sur les sujets officiels des années passées (Office du Bac).",
+      "Fais au moins un sujet complet en temps réel avant l'examen.",
+      "Dors bien la semaine de l'examen : la fatigue fait perdre des points."]]
+  ];
+  afficher(entete(`<a href="#accueil">Accueil</a> › Conseils`, "Conseils", "Des méthodes simples pour mieux apprendre.") + `
+    <section class="section"><div class="wrap">
+      <div class="minuteur rv">
+        <span class="eyebrow" style="color:var(--jaune)">Minuteur de révision</span>
+        <p style="margin-top:4px">25 minutes de travail concentré, puis 5 minutes de pause.</p>
+        <div class="cercle" id="cercle"><div><span><b id="temps">25:00</b><small id="mode">Travail</small></span></div></div>
+        <div class="actions" style="justify-content:center">
+          <button class="btn plein" id="go">▶ Démarrer</button>
+          <button class="btn" id="raz">↺ Remettre à zéro</button>
+        </div>
+      </div>
+      <h2 class="titre-bloc rv">Méthodes</h2>
+      ${methodes.map((x,i) => `<details class="rv" style="--d:${i*.06}s"><summary>${x[0]}</summary>
+        <ul class="etapes">${x[1].map(l => `<li>${l}</li>`).join("")}</ul></details>`).join("")}
+    </div></section>`);
+  majMinuteur();
+  document.getElementById("go").addEventListener("click", basculer);
+  document.getElementById("raz").addEventListener("click", () => {
+    clearInterval(minuteur.h); minuteur.h = null;
+    Object.assign(minuteur, {duree:25*60, reste:25*60, mode:"travail"}); majMinuteur();
+  });
+}
+
+/* ---------- Orientation + checklist ---------- */
+function pageOrientation(){
+  const coches = memo.lire("campusen", []);
+  afficher(entete(`<a href="#accueil">Accueil</a> › Orientation`, "Orientation",
+      "Pour entrer dans une université publique ou un ISEP, tout passe par <b>Campusen</b>.") + `
+    <section class="section"><div class="wrap">
+      <div class="encadre rv"><b>Campusen, c'est quoi ?</b><br>
+        La plateforme officielle d'orientation des nouveaux bacheliers vers les universités publiques et les ISEP
+        (Instituts supérieurs d'enseignement professionnel) du Sénégal.<br>
+        Site : <a href="https://orientation.campusen.sn">orientation.campusen.sn</a></div>
+      <details class="rv"><summary>📅 Repères de l'année 2026</summary>
+        <ul class="etapes"><li>Ouverture : 17 août 2026.</li><li>Date limite : 13 septembre 2026, 23h59.</li>
+        <li>Jusqu'à 18 choix pour les universités publiques et 18 pour les ISEP.</li></ul></details>
+      <div class="attention rv">⚠️ Les dates et règles changent chaque année. Vérifie toujours sur le site officiel de Campusen
+        et les communiqués du ministère de l'Enseignement supérieur. Ne donne jamais ton mot de passe Campusen.</div>
+      <h2 class="titre-bloc rv">Ma checklist Campusen <span id="compte" style="color:var(--corail)"></span></h2>
+      <div class="jauge" style="margin-bottom:14px"><i id="jc"></i></div>
+      <div id="liste">${ETAPES_CAMPUSEN.map((e,i) => `
+        <label class="check rv ${coches.includes(i)?'coche':''}" style="--d:${i*.04}s"><input type="checkbox" data-i="${i}" ${coches.includes(i)?'checked':''}><span>${e}</span></label>`).join("")}
+      </div>
+      <h2 class="titre-bloc rv">Bien choisir ses vœux</h2>
+      <ul class="etapes rv">
+        <li>Classe tes choix par préférence réelle, pas par prestige.</li>
+        <li>Les grandes écoles et écoles spécialisées recrutent souvent en dehors de Campusen (concours, dossiers) : renseigne-toi tôt.</li>
+      </ul>
+      <h2 class="titre-bloc rv">Fiches métiers</h2>
+      <div class="vide rv">📭 Les fiches métiers arrivent bientôt.</div>
+    </div></section>`);
+  const maj = () => {
+    const c = memo.lire("campusen", []);
+    document.getElementById("compte").textContent = `${c.length}/${ETAPES_CAMPUSEN.length}`;
+    document.getElementById("jc").style.width = `${100*c.length/ETAPES_CAMPUSEN.length}%`;
+  };
+  maj();
+  app.querySelectorAll(".check input").forEach(cb => cb.addEventListener("change", () => {
+    let c = memo.lire("campusen", []); const i = +cb.dataset.i;
+    c = cb.checked ? [...new Set([...c, i])] : c.filter(x => x !== i);
+    memo.ecrire("campusen", c);
+    cb.parentElement.classList.toggle("coche", cb.checked);
+    maj();
+    if(c.length === ETAPES_CAMPUSEN.length) toast("Checklist complète, bravo ! 🎓");
+  }));
+}
+
+/* ================= NAVIGATION, EN-TÊTE, INTRO ================= */
+const nav = document.getElementById("nav"), burger = document.getElementById("burger");
+burger.addEventListener("click", () => {
+  const o = !nav.classList.contains("ouvert");
+  nav.classList.toggle("ouvert", o); burger.classList.toggle("ouvert", o); document.body.classList.toggle("bloque", o);
+});
+nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+  nav.classList.remove("ouvert"); burger.classList.remove("ouvert"); document.body.classList.remove("bloque");
+}));
+
+const enTete = document.getElementById("haut");
+window.addEventListener("scroll", () => {
+  enTete.classList.toggle("defile", scrollY > 30);
+}, {passive:true});
+
+function router(){
+  const h = location.hash.replace("#","") || "accueil";
+  if(h === "classes"){ pageAccueil(); document.getElementById("classes").scrollIntoView(); return; }
+  window.scrollTo(0,0);
+  document.querySelectorAll("nav.top a").forEach(a => a.classList.toggle("actif", a.dataset.n === h));
+  if(h === "accueil") return pageAccueil();
+  if(h === "conseils") return pageConseils();
+  if(h === "orientation") return pageOrientation();
+  if(h === "telechargements") return pageTelechargements();
+  const c = trouverClasse(h);
+  if(c) return pageClasse(c);
+  for(const cl of CLASSES){
+    if(h.startsWith(cl.id + "-")){
+      const m = trouverMatiere(h.slice(cl.id.length + 1));
+      if(m && cl.matieres.includes(m.id)) return pageMatiere(cl, m);
+      if(m) return pageClasse(cl);
+    }
+  }
+  pageAccueil();
+}
+
+
+/* ================= TÉLÉCHARGEMENTS ET HORS CONNEXION =================
+   Deux cas :
+   1) Dans l'appli installée (PWA) : le PDF est mis dans le cache du téléphone
+      (Cache Storage) et reste lisible sans Internet. On garde la liste dans
+      « Mes téléchargements ».
+   2) Dans l'aperçu Claude : on passe par la capacité « downloads » de la page. */
+const CACHE_PDF = "mlsn-pdf-v1";
+let dlPromesse = null;
+function capaciteTelechargement(){
+  if(!dlPromesse){
+    dlPromesse = (window.claude && typeof window.claude.use === "function")
+      ? window.claude.use("downloads").catch(() => null) : Promise.resolve(null);
+  }
+  return dlPromesse;
+}
+const horsLignePossible = () => "caches" in window && "serviceWorker" in navigator && !window.claude;
+const listeTelechargements = () => memo.lire("telechargements", []);
+const estTelecharge = pdf => listeTelechargements().some(t => t.pdf === pdf);
+
+async function telechargerPdf(btn){
+  const texte = btn.textContent, pdf = btn.dataset.pdf, titre = btn.dataset.titre || pdf;
+  btn.disabled = true; btn.textContent = "⏳ Téléchargement…";
+  try{
+    if(horsLignePossible()){
+      const cache = await caches.open(CACHE_PDF);
+      const rep = await fetch(pdf, {cache:"no-cache"});
+      if(!rep.ok) throw new Error("http " + rep.status);
+      const taille = +(rep.headers.get("content-length") || 0);
+      await cache.put(pdf, rep.clone());
+      const l = listeTelechargements().filter(t => t.pdf !== pdf);
+      l.unshift({pdf, titre, taille, date: new Date().toISOString()});
+      memo.ecrire("telechargements", l);
+      toast("PDF enregistré : lisible même sans Internet ✅");
+      btn.textContent = "✅ Disponible hors connexion";
+      return;
+    }
+    const dl = await capaciteTelechargement();
+    if(!dl){ toast("Téléchargement indisponible ici. Utilise « Lire le cours »."); btn.textContent = texte; return; }
+    const rep = await fetch(pdf);
+    if(!rep.ok) throw new Error("fetch");
+    await dl.save({filename: pdf, data: await rep.blob()});
+    toast("PDF enregistré 📄"); btn.textContent = texte;
+  }catch(e){
+    btn.textContent = texte;
+    if(e && e.code === "declined") toast("Téléchargement annulé.");
+    else if(e && e.code === "rate_limited") toast("Patiente un instant puis réessaie.");
+    else if(!navigator.onLine) toast("Pas de connexion Internet : réessaie quand tu seras connecté.");
+    else toast("Le PDF n'a pas pu être téléchargé.");
+  }finally{ btn.disabled = false; }
+}
+
+async function supprimerTelechargement(pdf){
+  try{ const cache = await caches.open(CACHE_PDF); await cache.delete(pdf); }catch(e){}
+  memo.ecrire("telechargements", listeTelechargements().filter(t => t.pdf !== pdf));
+}
+
+async function pageTelechargements(){
+  const l = listeTelechargements();
+  let espace = "";
+  try{
+    if(navigator.storage && navigator.storage.estimate){
+      const e = await navigator.storage.estimate();
+      espace = `Espace utilisé par l'appli : ${(e.usage/1048576).toFixed(1)} Mo`;
+    }
+  }catch(e){}
+  const mo = o => o ? ` · ${(o/1048576).toFixed(1)} Mo` : "";
+  afficher(entete(`<a href="#accueil">Accueil</a> › Téléchargements`, "Mes téléchargements",
+      "Les cours enregistrés ici s'ouvrent même sans Internet.") + `
+    <section class="section"><div class="wrap">
+      ${!horsLignePossible() ? `<div class="attention">Le mode hors connexion ne fonctionne que dans l'appli installée (ou le site ouvert dans Chrome), pas dans cet aperçu.</div>` : ""}
+      ${l.length ? l.map(t => `
+        <div class="exo">
+          <b>📄 ${t.titre}</b><br><small style="color:var(--gris)">Enregistré le ${new Date(t.date).toLocaleDateString("fr-FR")}${mo(t.taille)}</small>
+          <div class="actions">
+            <a class="btn plein" href="${t.pdf}" target="_blank" rel="noopener">Ouvrir</a>
+            <button class="btn" data-suppr="${t.pdf}">🗑️ Supprimer</button>
+          </div>
+        </div>`).join("") : `<div class="vide">📭 Aucun cours téléchargé pour l'instant.<br>Dans un cours, appuie sur « Télécharger le PDF ».</div>`}
+      ${espace ? `<p style="color:var(--gris);font-size:.85rem;margin-top:14px">${espace}</p>` : ""}
+    </div></section>`);
+  app.querySelectorAll("[data-suppr]").forEach(b => b.addEventListener("click", async () => {
+    await supprimerTelechargement(b.dataset.suppr); toast("Supprimé du téléphone."); pageTelechargements();
+  }));
+}
+
+/* ---------- Installation de l'appli (Android / Chrome) ---------- */
+let invitationInstall = null;
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault(); invitationInstall = e;
+  document.querySelectorAll(".btn-installer").forEach(b => b.hidden = false);
+});
+async function installerAppli(){
+  if(!invitationInstall){ toast("Ouvre le menu ⋮ de Chrome puis « Installer l'application »."); return; }
+  invitationInstall.prompt();
+  const r = await invitationInstall.userChoice;
+  if(r.outcome === "accepted") toast("Appli installée 🎉");
+  invitationInstall = null;
+  document.querySelectorAll(".btn-installer").forEach(b => b.hidden = true);
+}
+
+function rendreExercices(corps, c, m, items){
+  corps.innerHTML = items.map((e,i) => {
+    const fait = memo.lire(`fait:${c.id}-${m.id}-${i}`, false);
+    return `<div class="exo ${fait?'fait':''}" id="exo${i}">
+      ${e.demo ? '<span class="tag">Exemple de démonstration</span>' : ''}
+      <h3 style="margin:.4em 0">${i+1}. ${e.titre}</h3>
+      <p>${e.enonce}</p>
+      <div class="actions">
+        ${e.indice ? `<button class="btn" data-a="indice" data-i="${i}">💡 Indice</button>` : ""}
+        <button class="btn" data-a="corr" data-i="${i}">👀 Correction</button>
+        <button class="btn ${fait?'plein':''}" data-a="fait" data-i="${i}">${fait ? "✅ Réussi" : "☐ J'ai réussi"}</button>
+      </div>
+      <div class="zone"></div>
+    </div>`; }).join("");
+  corps.querySelectorAll(".btn").forEach(b => b.addEventListener("click", () => {
+    const i = +b.dataset.i, e = items[i], bloc = document.getElementById("exo"+i), zone = bloc.querySelector(".zone");
+    if(b.dataset.a === "indice") zone.innerHTML = `<div class="bulle indice">💡 ${e.indice}</div>`;
+    if(b.dataset.a === "corr") zone.innerHTML = `<div class="bulle corr"><b>Correction</b><br>${e.correction}</div>`;
+    if(b.dataset.a === "fait"){
+      const k = `fait:${c.id}-${m.id}-${i}`, v = !memo.lire(k, false);
+      memo.ecrire(k, v);
+      if(v) toast("Bravo ! Exercice marqué comme réussi 🎉");
+      pageMatiere(c, m, "exercices", true);
+    }
+  }));
+}
+
+function rendreQuiz(corps, c, m, items){
+  let rep = 0, bons = 0;
+  const meilleur = memo.lire(`quiz:${c.id}-${m.id}`, null);
+  corps.innerHTML = (meilleur !== null ? `<p class="sous">Ton meilleur score : <b>${meilleur}/${items.length}</b></p>` : "") +
+    items.map((q,i) => `<div class="qcm" data-q="${i}">
+      <b>${i+1}. ${q.q}</b>
+      <div class="choix">${q.choix.map((ch,j) => `<button data-j="${j}">${ch}</button>`).join("")}</div>
+      <div class="zone"></div></div>`).join("") +
+    `<div id="fin"></div>`;
+  corps.querySelectorAll(".qcm").forEach(bloc => {
+    const q = items[+bloc.dataset.q];
+    bloc.querySelectorAll(".choix button").forEach(btn => btn.addEventListener("click", () => {
+      if(bloc.dataset.fini) return;
+      bloc.dataset.fini = 1; rep++;
+      const j = +btn.dataset.j, ok = j === q.bonne;
+      if(ok) bons++;
+      btn.classList.add(ok ? "bon" : "faux");
+      bloc.querySelectorAll(".choix button")[q.bonne].classList.add("bon");
+      bloc.querySelector(".zone").innerHTML = `<div class="bulle ${ok?'corr':'indice'}">${ok ? "✅ Bonne réponse !" : "❌ Pas tout à fait."} ${q.explication}</div>`;
+      if(rep === items.length){
+        const ancien = memo.lire(`quiz:${c.id}-${m.id}`, -1);
+        if(bons > ancien) memo.ecrire(`quiz:${c.id}-${m.id}`, bons);
+        document.getElementById("fin").innerHTML = `<div class="encadre"><span class="score">Score : ${bons}/${items.length}</span>
+          ${bons === items.length ? " — Parfait ! 🏆" : " — Continue, tu progresses 💪"}
+          <div class="actions"><button class="btn plein" id="rejouer">🔁 Recommencer</button></div></div>`;
+        document.getElementById("rejouer").addEventListener("click", () => pageMatiere(c, m, "quiz", true));
+        toast(`Quiz terminé : ${bons}/${items.length}`);
+      }
+    }));
+  });
+}
+
+function basculer(){
+  if(minuteur.h){ clearInterval(minuteur.h); minuteur.h = null; majMinuteur(); return; }
+  minuteur.h = setInterval(() => {
+    minuteur.reste--;
+    if(minuteur.reste <= 0){
+      const travail = minuteur.mode === "travail";
+      minuteur.mode = travail ? "pause" : "travail";
+      minuteur.duree = minuteur.reste = travail ? 5*60 : 25*60;
+      toast(travail ? "Pause ! Lève-toi et bois de l'eau 💧" : "C'est reparti, concentre-toi 💪");
+    }
+    majMinuteur();
+  }, 1000);
+  majMinuteur();
+}
+function majMinuteur(){
+  const t = document.getElementById("temps"); if(!t) return;
+  const mm = String(Math.floor(minuteur.reste/60)).padStart(2,"0"), ss = String(minuteur.reste%60).padStart(2,"0");
+  t.textContent = `${mm}:${ss}`;
+  document.getElementById("mode").textContent = minuteur.mode === "travail" ? "Travail" : "Pause";
+  document.getElementById("cercle").style.setProperty("--p", `${100*(1 - minuteur.reste/minuteur.duree)}%`);
+  document.getElementById("go").textContent = minuteur.h ? "⏸️ Pause" : "▶️ Démarrer";
+}
+
+/* ---------- Orientation + checklist ---------- */
+const ETAPES_CAMPUSEN = [
+  "Je connais la date d'ouverture et la date limite de Campusen pour cette année (site officiel).",
+  "J'ai créé mon compte sur orientation.campusen.sn après les résultats du bac.",
+  "J'ai noté mon identifiant et mon mot de passe en lieu sûr (sans les partager).",
+  "J'ai classé mes choix de filières par préférence réelle.",
+  "J'ai ajouté des filières où j'ai de bonnes chances d'être accepté(e).",
+  "J'ai validé mes choix avant la date limite.",
+  "J'ai consulté mon affectation et fait mon inscription administrative."
+];
+
+/* Service worker : rend l'appli utilisable hors connexion (ignoré dans l'aperçu Claude) */
+if("serviceWorker" in navigator && !window.claude && location.protocol !== "file:"){
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(err => console.warn("SW:", err)));
+}
+window.addEventListener("offline", () => toast("Tu es hors connexion : tes cours téléchargés restent disponibles."));
+capaciteTelechargement();
+window.addEventListener("hashchange", router);
+router();
+
+</script>
+</body>
+</html>
