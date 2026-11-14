@@ -344,6 +344,9 @@
   .ligne-lecon:hover{background:var(--vert-clair)}
   .num-lecon{width:30px;height:30px;border-radius:50%;background:var(--vert-clair);color:var(--vert);font-weight:700;display:grid;place-items:center;font-size:.85rem}
   .ligne-lecon small{color:var(--gris);white-space:nowrap}
+  .page-pdf{background:#fff;border:1px solid var(--bord);border-radius:10px;margin-bottom:12px;aspect-ratio:754/842;display:grid;place-items:center;color:var(--gris);font-size:.85rem;overflow:hidden;box-shadow:0 8px 20px -16px rgba(20,33,61,.4)}
+  .page-pdf canvas{width:100%;height:auto;display:block}
+  .page-pdf.rendue{aspect-ratio:auto}
   h3.niveau{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);margin:24px 0 10px}
   header.defile{background:rgba(20,33,61,.95)}
   @media (max-width:700px){ nav.top{background:var(--noir);font-family:var(--sans);font-weight:700;text-transform:none;font-size:1.8rem} }
@@ -691,7 +694,7 @@ const CONTENU = {
       conseils: []
     },
     "svt": {
-      cours: [{"titre": "Fascicule de SVT – Terminale S2 (30 leçons)", "auteur": "M. Ndiaye", "edition": "Édition 2025", "pdf": "fascicules/svt-ts2-m-ndiaye.pdf", "taille": "24,7 Mo", "pages": 235, "lecons": [{"n": 1, "titre": "Organisation de l'encéphale", "debut": 4, "fin": 9}, {"n": 2, "titre": "Organisation de la moelle épinière", "debut": 10, "fin": 13}, {"n": 3, "titre": "Structure du tissu nerveux", "debut": 14, "fin": 19}, {"n": 4, "titre": "Propriétés du tissu nerveux", "debut": 20, "fin": 24}, {"n": 5, "titre": "Phénomènes électriques en rapport avec l'influx nerveux", "debut": 25, "fin": 31}, {"n": 6, "titre": "Conduction de l'influx nerveux", "debut": 32, "fin": 35}, {"n": 7, "titre": "Notion de synapse", "debut": 36, "fin": 42}, {"n": 8, "titre": "Mouvements involontaires ou réflexes", "debut": 43, "fin": 58}, {"n": 9, "titre": "Mouvements volontaires ou spontanés", "debut": 59, "fin": 65}, {"n": 10, "titre": "Structure du muscle strié squelettique", "debut": 66, "fin": 70}, {"n": 11, "titre": "Différents aspects du fonctionnement du muscle squelettique", "debut": 71, "fin": 80}, {"n": 12, "titre": "Automatisme cardiaque", "debut": 81, "fin": 88}, {"n": 13, "titre": "Activité cardiaque et pression artérielle", "debut": 89, "fin": 103}, {"n": 14, "titre": "Composition et rôles du milieu intérieur", "debut": 104, "fin": 108}, {"n": 15, "titre": "Régulation de la constance du milieu intérieur ou homéostasie", "debut": 109, "fin": 115}, {"n": 16, "titre": "Régulation de la glycémie", "debut": 116, "fin": 124}, {"n": 17, "titre": "Système immunitaire", "debut": 125, "fin": 131}, {"n": 18, "titre": "Réponse immunitaire", "debut": 132, "fin": 138}, {"n": 19, "titre": "Exemple de dysfonctionnement du système immunitaire : cas de l'infection au VIH/SIDA", "debut": 139, "fin": 144}, {"n": 20, "titre": "Aides à la réponse immunitaire", "debut": 145, "fin": 148}, {"n": 21, "titre": "Organes reproducteurs, gamètes et gamétogenèse", "debut": 149, "fin": 161}, {"n": 22, "titre": "Fécondation et problèmes liés à la fécondation", "debut": 162, "fin": 166}, {"n": 23, "titre": "Régulation du fonctionnement des appareils reproducteurs", "debut": 167, "fin": 175}, {"n": 24, "titre": "Gestation et accouchement", "debut": 176, "fin": 180}, {"n": 25, "titre": "Lactation", "debut": 181, "fin": 183}, {"n": 26, "titre": "Quelques méthodes contraceptives", "debut": 184, "fin": 187}, {"n": 27, "titre": "Reproduction des spermaphytes", "debut": 188, "fin": 197}, {"n": 28, "titre": "Lois statistiques de la transmission des caractères héréditaires", "debut": 198, "fin": 218}, {"n": 29, "titre": "Hérédité chez l'espèce humaine", "debut": 219, "fin": 230}, {"n": 30, "titre": "Biotechnologies", "debut": 231, "fin": 235}], "type": "fascicule"}],
+      cours: [{"id": "svt-ts2", "classe": "tle-s2", "matiere": "svt", "titre": "Fascicule de SVT – Terminale S2 (30 leçons)", "auteur": "M. Ndiaye", "edition": "Édition 2025", "pdf": "fascicules/svt-ts2-m-ndiaye.pdf", "taille": "24,7 Mo", "pages": 235, "lecons": [{"n": 1, "titre": "Organisation de l'encéphale", "debut": 4, "fin": 9}, {"n": 2, "titre": "Organisation de la moelle épinière", "debut": 10, "fin": 13}, {"n": 3, "titre": "Structure du tissu nerveux", "debut": 14, "fin": 19}, {"n": 4, "titre": "Propriétés du tissu nerveux", "debut": 20, "fin": 24}, {"n": 5, "titre": "Phénomènes électriques en rapport avec l'influx nerveux", "debut": 25, "fin": 31}, {"n": 6, "titre": "Conduction de l'influx nerveux", "debut": 32, "fin": 35}, {"n": 7, "titre": "Notion de synapse", "debut": 36, "fin": 42}, {"n": 8, "titre": "Mouvements involontaires ou réflexes", "debut": 43, "fin": 58}, {"n": 9, "titre": "Mouvements volontaires ou spontanés", "debut": 59, "fin": 65}, {"n": 10, "titre": "Structure du muscle strié squelettique", "debut": 66, "fin": 70}, {"n": 11, "titre": "Différents aspects du fonctionnement du muscle squelettique", "debut": 71, "fin": 80}, {"n": 12, "titre": "Automatisme cardiaque", "debut": 81, "fin": 88}, {"n": 13, "titre": "Activité cardiaque et pression artérielle", "debut": 89, "fin": 103}, {"n": 14, "titre": "Composition et rôles du milieu intérieur", "debut": 104, "fin": 108}, {"n": 15, "titre": "Régulation de la constance du milieu intérieur ou homéostasie", "debut": 109, "fin": 115}, {"n": 16, "titre": "Régulation de la glycémie", "debut": 116, "fin": 124}, {"n": 17, "titre": "Système immunitaire", "debut": 125, "fin": 131}, {"n": 18, "titre": "Réponse immunitaire", "debut": 132, "fin": 138}, {"n": 19, "titre": "Exemple de dysfonctionnement du système immunitaire : cas de l'infection au VIH/SIDA", "debut": 139, "fin": 144}, {"n": 20, "titre": "Aides à la réponse immunitaire", "debut": 145, "fin": 148}, {"n": 21, "titre": "Organes reproducteurs, gamètes et gamétogenèse", "debut": 149, "fin": 161}, {"n": 22, "titre": "Fécondation et problèmes liés à la fécondation", "debut": 162, "fin": 166}, {"n": 23, "titre": "Régulation du fonctionnement des appareils reproducteurs", "debut": 167, "fin": 175}, {"n": 24, "titre": "Gestation et accouchement", "debut": 176, "fin": 180}, {"n": 25, "titre": "Lactation", "debut": 181, "fin": 183}, {"n": 26, "titre": "Quelques méthodes contraceptives", "debut": 184, "fin": 187}, {"n": 27, "titre": "Reproduction des spermaphytes", "debut": 188, "fin": 197}, {"n": 28, "titre": "Lois statistiques de la transmission des caractères héréditaires", "debut": 198, "fin": 218}, {"n": 29, "titre": "Hérédité chez l'espèce humaine", "debut": 219, "fin": 230}, {"n": 30, "titre": "Biotechnologies", "debut": 231, "fin": 235}], "type": "fascicule"}],
       exercices: [{"titre": "Ranger les structures dans les bonnes régions <small style=\"color:var(--gris);font-weight:600\">· Organisation de l'encéphale des mammifères</small>", "enonce": "Voici des structures de l'encéphale : hémisphères cérébraux, cervelet, bulbe rachidien, thalamus, pédoncules cérébraux, protubérance annulaire.<br>Place chacune dans l'une des cinq régions : télencéphale, diencéphale, mésencéphale, métencéphale, myélencéphale.", "indice": "Les cinq régions sont rangées de l'avant vers l'arrière. Le métencéphale contient deux des structures de la liste.", "correction": "• Télencéphale : hémisphères cérébraux.<br>• Diencéphale : thalamus.<br>• Mésencéphale : pédoncules cérébraux.<br>• Métencéphale : cervelet et protubérance annulaire.<br>• Myélencéphale : bulbe rachidien."}, {"titre": "Le circuit du liquide céphalo-rachidien <small style=\"color:var(--gris);font-weight:600\">· Organisation de l'encéphale des mammifères</small>", "enonce": "1) Range dans l'ordre, du cerveau vers la moelle : 4<sup>e</sup> ventricule, ventricules latéraux, canal de l'épendyme, aqueduc de Sylvius, 3<sup>e</sup> ventricule.<br>2) Quel est le rôle du LCR ?<br>3) Quelle structure relie les deux hémisphères cérébraux ?", "indice": "Les ventricules latéraux sont dans les hémisphères, le canal de l'épendyme est dans la moelle.", "correction": "1) Ventricules latéraux → 3<sup>e</sup> ventricule → aqueduc de Sylvius → 4<sup>e</sup> ventricule → canal de l'épendyme.<br>2) Le LCR amortit les chocs et protège le tissu nerveux.<br>3) Le corps calleux."}, {"titre": "Orienter une coupe de moelle <small style=\"color:var(--gris);font-weight:600\">· Organisation de la moelle épinière</small>", "enonce": "Sur une coupe transversale de moelle épinière, un élève ne sait pas quel côté est le dos (dorsal) et quel côté est le ventre (ventral).<br>Donne-lui trois indices pour s'orienter.", "indice": "Compare les deux sillons, les deux paires de cornes, et regarde sur quelle racine se trouve le ganglion.", "correction": "• Le sillon antérieur (ventral) est large et profond ; le sillon postérieur (dorsal) est étroit.<br>• Les cornes antérieures (ventrales) sont larges ; les cornes postérieures (dorsales) sont fines et atteignent presque la surface.<br>• La racine qui porte le ganglion spinal est la racine postérieure (dorsale)."}, {"titre": "Après un accident <small style=\"color:var(--gris);font-weight:600\">· Organisation de la moelle épinière</small>", "enonce": "Après un accident de moto, Modou ne peut plus bouger ses jambes, mais il bouge normalement ses bras.<br>1) La lésion de la moelle est-elle plutôt au niveau du cou ou plus bas dans le dos ? Justifie.<br>2) Comment appelle-t-on cette paralysie ?<br>3) Pourquoi la ponction lombaire se fait-elle en bas du dos sans risque pour la moelle ?", "indice": "Les nerfs des bras partent du renflement cervical. Une lésion bloque tout ce qui est en dessous d'elle.", "correction": "1) Plus bas que le cou : les nerfs des bras, qui partent du renflement cervical, fonctionnent encore. La lésion est donc située sous ce renflement.<br>2) Une paraplégie.<br>3) Chez l'adulte, la moelle s'arrête vers la 1<sup>re</sup> ou la 2<sup>e</sup> vertèbre lombaire ; plus bas, il n'y a que des racines nerveuses (queue de cheval)."}, {"titre": "Les expériences de section <small style=\"color:var(--gris);font-weight:600\">· Organisation du tissu nerveux</small>", "enonce": "On sectionne la racine postérieure d'un nerf rachidien <b>entre le ganglion spinal et la moelle</b>.<br>1) Quel bout dégénère ?<br>2) Que se passe-t-il si on coupe la même racine <b>après le ganglion</b>, du côté du nerf ?<br>3) Où se trouvent donc les corps cellulaires de ces fibres ?", "indice": "Une fibre dégénère quand elle est séparée de son corps cellulaire.", "correction": "1) Le bout relié à la moelle dégénère ; le bout relié au ganglion survit.<br>2) C'est le bout périphérique (côté nerf) qui dégénère.<br>3) Dans les deux cas, survit le bout qui reste relié au ganglion : les corps cellulaires de ces fibres sont donc dans le ganglion spinal."}, {"titre": "Le cas de la poliomyélite <small style=\"color:var(--gris);font-weight:600\">· Organisation du tissu nerveux</small>", "enonce": "Aïssatou a eu la poliomyélite petite : sa jambe gauche est paralysée et les muscles de cette jambe ont fondu.<br>1) Quelles cellules ont été détruites, et où se trouvent-elles ?<br>2) Pourquoi les fibres du nerf de la jambe ont-elles dégénéré ?<br>3) Pourquoi la paralysie est-elle définitive ?<br>4) Comment éviter cette maladie ?", "indice": "Les motoneurones commandent les muscles. Pense à la dégénérescence wallérienne et aux caractéristiques du neurone.", "correction": "1) Les corps cellulaires des motoneurones, dans les cornes antérieures de la moelle.<br>2) Les fibres séparées de leur corps cellulaire (détruit) ne peuvent plus survivre.<br>3) Chez l'adulte, les neurones ne se divisent pratiquement plus : les neurones détruits ne sont pas remplacés.<br>4) Par la vaccination contre la poliomyélite."}],
       quiz: [{"q": "Dans quel ordre trouve-t-on les méninges, de l'extérieur vers l'intérieur ?", "choix": ["Pie-mère, arachnoïde, dure-mère", "Dure-mère, arachnoïde, pie-mère", "Arachnoïde, dure-mère, pie-mère", "Dure-mère, pie-mère, arachnoïde"], "bonne": 1, "explication": "La dure-mère, épaisse, est à l'extérieur ; la pie-mère, fine, est collée au tissu nerveux."}, {"q": "Dans le cerveau, où se trouve la substance grise ?", "choix": ["Au centre uniquement", "À l'extérieur (cortex)", "Seulement dans le cervelet", "Il n'y en a pas"], "bonne": 1, "explication": "La substance grise forme le cortex à la surface du cerveau ; on trouve aussi des noyaux gris en profondeur."}, {"q": "Le prosencéphale de l'embryon donne :", "choix": ["Le cervelet et le bulbe", "Le télencéphale et le diencéphale", "Le mésencéphale", "La moelle épinière"], "bonne": 1, "explication": "Le prosencéphale se divise en télencéphale (futurs hémisphères) et diencéphale."}, {"q": "Combien de paires de nerfs rachidiens possède l'Homme ?", "choix": ["12", "24", "31", "46"], "bonne": 2, "explication": "31 paires de nerfs rachidiens partent de la moelle ; les 12 paires de nerfs crâniens partent de l'encéphale."}, {"q": "Sur quelle racine se trouve le ganglion spinal ?", "choix": ["La racine antérieure", "La racine postérieure", "Les deux", "Aucune"], "bonne": 1, "explication": "Le ganglion spinal est un renflement de la racine postérieure (dorsale)."}, {"q": "Le système nerveux végétatif commande :", "choix": ["Les mouvements volontaires", "Le fonctionnement des organes internes", "La vision uniquement", "Les muscles des bras seulement"], "bonne": 1, "explication": "Le système végétatif (sympathique et parasympathique) règle le cœur, la digestion, la respiration… sans décision volontaire."}, {"q": "Pourquoi la substance blanche est-elle blanche ?", "choix": ["Elle contient des corps cellulaires", "Elle contient beaucoup de myéline", "Elle n'a pas de vaisseaux", "Elle contient du LCR"], "bonne": 1, "explication": "Les fibres de la substance blanche sont souvent entourées de myéline, riche en lipides et de couleur blanche."}, {"q": "Quel prolongement conduit le message nerveux loin du corps cellulaire ?", "choix": ["La dendrite", "L'axone", "Le corps de Nissl", "Le noyau"], "bonne": 1, "explication": "L'axone, unique et souvent long, conduit le message vers l'arborisation terminale."}, {"q": "Quelle enveloppe entoure le nerf entier ?", "choix": ["L'endonèvre", "Le périnèvre", "L'épinèvre", "La pie-mère"], "bonne": 2, "explication": "Épinèvre : le nerf entier ; périnèvre : un faisceau ; endonèvre : une fibre."}],
       conseils: []
@@ -921,8 +924,8 @@ function pageMatiere(c, m, onglet, garderDefil){
         ${x.pdf.startsWith("http") ? "" : `<button class="btn" data-pdf="${x.pdf}" data-titre="${x.titre.replace(/"/g,"&quot;")}">${estTelecharge(x.pdf) && horsLignePossible() ? "✅ Disponible hors connexion" : "📥 Télécharger (" + x.taille + ")"}</button>`}
       </div>
       <p style="font-size:.8rem;color:var(--gris);margin-top:8px">⚠️ Fichier lourd : télécharge-le de préférence en Wi-Fi.</p>
-      <h3 style="margin:16px 0 8px;font-size:1rem">Sommaire — trouve ta leçon</h3>
-      ${x.lecons.map(l => `<a class="ligne-lecon" href="${x.pdf}#page=${l.debut}" target="_blank" rel="noopener">
+      <h3 style="margin:16px 0 4px;font-size:1rem">Sommaire — lis une leçon directement ici</h3><p style="font-size:.8rem;color:var(--gris);margin-bottom:6px">Seules les pages de la leçon choisie sont chargées.</p>
+      ${x.lecons.map(l => `<a class="ligne-lecon" href="#lecon-${x.id}-${l.n}">
         <span class="num-lecon">${l.n}</span><span>${l.titre}</span><small>p. ${l.debut}–${l.fin}</small></a>`).join("")}
       <p style="font-size:.8rem;color:var(--gris);margin-top:10px">Document partagé avec l'autorisation de son auteur, publié sans modification. L'auteur reste propriétaire de son cours.</p>
     </div>`
@@ -946,6 +949,84 @@ function pageMatiere(c, m, onglet, garderDefil){
       zone.hidden = false; b.textContent = "✖ Fermer le cours";
     } else { zone.hidden = true; b.textContent = "📖 Lire le cours"; }
   }));
+}
+
+/* ---------- Lecteur de leçon (pages d'un fascicule, sans tout télécharger) ----------
+   Le PDF d'origine n'est pas modifié : PDF.js n'en lit que les morceaux nécessaires
+   (requêtes « Range »), et seules les pages de la leçon sont affichées. */
+function trouverFascicule(id){
+  for(const cl of Object.values(CONTENU)) for(const d of Object.values(cl))
+    for(const x of (d.cours || [])) if(x.type === "fascicule" && x.id === id) return x;
+  return null;
+}
+let pdfjsPromesse = null;
+function chargerPdfjs(){
+  if(!pdfjsPromesse) pdfjsPromesse = new Promise((ok, ko) => {
+    if(window.pdfjsLib) return ok(window.pdfjsLib);
+    const sc = document.createElement("script");
+    sc.src = "vendor/pdfjs/pdf.min.js";
+    sc.onload = () => { pdfjsLib.GlobalWorkerOptions.workerSrc = "vendor/pdfjs/pdf.worker.min.js"; ok(pdfjsLib); };
+    sc.onerror = () => { pdfjsPromesse = null; ko(new Error("pdfjs")); };
+    document.head.appendChild(sc);
+  });
+  return pdfjsPromesse;
+}
+const docsPdf = {};
+function ouvrirPdf(url){
+  if(!docsPdf[url]) docsPdf[url] = chargerPdfjs().then(lib => lib.getDocument({
+    url, disableAutoFetch: true, disableStream: true, rangeChunkSize: 262144, isEvalSupported: false
+  }).promise).catch(e => { delete docsPdf[url]; throw e; });
+  return docsPdf[url];
+}
+
+function pageLecon(id, n){
+  const f = trouverFascicule(id);
+  const l = f && f.lecons.find(x => x.n === n);
+  if(!f || !l) return pageAccueil();
+  const c = trouverClasse(f.classe), m = trouverMatiere(f.matiere);
+  memo.ecrire("derniereLecon", {id, n});
+  const nb = l.fin - l.debut + 1;
+  const prec = f.lecons.find(x => x.n === n - 1), suiv = f.lecons.find(x => x.n === n + 1);
+  afficher(entete(`<a href="#accueil">Accueil</a> › <a href="#${c.id}">${c.nom}</a> › <a href="#${c.id}-${m.id}">${m.nom}</a> › Leçon ${n}`,
+      `Leçon ${n}`, `${l.titre}<br><small>Cours de ${f.auteur} · pages ${l.debut} à ${l.fin} du fascicule</small>`) + `
+    <section class="section" style="padding-top:18px"><div class="wrap">
+      <div class="actions" style="justify-content:space-between;margin:0 0 14px">
+        ${prec ? `<a class="btn" href="#lecon-${id}-${prec.n}">◀ Leçon ${prec.n}</a>` : "<span></span>"}
+        ${suiv ? `<a class="btn" href="#lecon-${id}-${suiv.n}">Leçon ${suiv.n} ▶</a>` : ""}
+      </div>
+      <p id="etatLecteur" style="color:var(--gris);font-size:.88rem;margin-bottom:10px">⏳ Chargement des ${nb} pages de la leçon…</p>
+      <div id="pagesPdf">${Array.from({length: nb}, (_, k) => `
+        <div class="page-pdf" data-p="${l.debut + k}"><span>Page ${l.debut + k}</span></div>`).join("")}</div>
+      <div class="actions" style="justify-content:space-between;margin-top:14px">
+        ${prec ? `<a class="btn" href="#lecon-${id}-${prec.n}">◀ Leçon ${prec.n}</a>` : "<span></span>"}
+        ${suiv ? `<a class="btn plein" href="#lecon-${id}-${suiv.n}">Leçon ${suiv.n} ▶</a>` : ""}
+      </div>
+      <p style="font-size:.78rem;color:var(--gris);margin-top:14px">Document de ${f.auteur}, partagé avec son autorisation et affiché sans modification.</p>
+    </div></section>`);
+  const etat = document.getElementById("etatLecteur");
+  ouvrirPdf(f.pdf).then(doc => {
+    etat.textContent = `📖 ${nb} page${nb > 1 ? "s" : ""} · seules les pages de cette leçon sont chargées.`;
+    const vues = new IntersectionObserver(es => es.forEach(e => {
+      if(!e.isIntersecting) return;
+      vues.unobserve(e.target);
+      rendrePage(doc, e.target).catch(() => { e.target.innerHTML = "<span>Page indisponible (connexion ?)</span>"; });
+    }), {rootMargin: "600px 0px"});
+    document.querySelectorAll(".page-pdf").forEach(el => vues.observe(el));
+  }).catch(() => {
+    etat.innerHTML = `⚠️ Impossible d'afficher la leçon ici${navigator.onLine ? "" : " (pas de connexion, et le fascicule n'est pas téléchargé)"}.
+      <a href="${f.pdf}" target="_blank" rel="noopener">Ouvrir le fascicule complet</a> (pages ${l.debut} à ${l.fin}).`;
+  });
+}
+
+async function rendrePage(doc, el){
+  const page = await doc.getPage(+el.dataset.p);
+  const base = page.getViewport({scale: 1});
+  const largeur = el.clientWidth || 360, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const vue = page.getViewport({scale: largeur * dpr / base.width});
+  const cv = document.createElement("canvas");
+  cv.width = Math.floor(vue.width); cv.height = Math.floor(vue.height);
+  await page.render({canvasContext: cv.getContext("2d"), viewport: vue}).promise;
+  el.innerHTML = ""; el.appendChild(cv); el.classList.add("rendue");
 }
 
 /* ---------- Conseils + minuteur ---------- */
@@ -1055,6 +1136,8 @@ function router(){
   if(h === "conseils") return pageConseils();
   if(h === "orientation") return pageOrientation();
   if(h === "telechargements") return pageTelechargements();
+  const ml = h.match(/^lecon-(.+)-(\d+)$/);
+  if(ml) return pageLecon(ml[1], +ml[2]);
   const c = trouverClasse(h);
   if(c) return pageClasse(c);
   for(const cl of CLASSES){

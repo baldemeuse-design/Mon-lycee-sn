@@ -165,8 +165,8 @@ function pageMatiere(c, m, onglet, garderDefil){
         ${x.pdf.startsWith("http") ? "" : `<button class="btn" data-pdf="${x.pdf}" data-titre="${x.titre.replace(/"/g,"&quot;")}">${estTelecharge(x.pdf) && horsLignePossible() ? "✅ Disponible hors connexion" : "📥 Télécharger (" + x.taille + ")"}</button>`}
       </div>
       <p style="font-size:.8rem;color:var(--gris);margin-top:8px">⚠️ Fichier lourd : télécharge-le de préférence en Wi-Fi.</p>
-      <h3 style="margin:16px 0 8px;font-size:1rem">Sommaire — trouve ta leçon</h3>
-      ${x.lecons.map(l => `<a class="ligne-lecon" href="${x.pdf}#page=${l.debut}" target="_blank" rel="noopener">
+      <h3 style="margin:16px 0 4px;font-size:1rem">Sommaire — lis une leçon directement ici</h3><p style="font-size:.8rem;color:var(--gris);margin-bottom:6px">Seules les pages de la leçon choisie sont chargées.</p>
+      ${x.lecons.map(l => `<a class="ligne-lecon" href="#lecon-${x.id}-${l.n}">
         <span class="num-lecon">${l.n}</span><span>${l.titre}</span><small>p. ${l.debut}–${l.fin}</small></a>`).join("")}
       <p style="font-size:.8rem;color:var(--gris);margin-top:10px">Document partagé avec l'autorisation de son auteur, publié sans modification. L'auteur reste propriétaire de son cours.</p>
     </div>`
@@ -190,6 +190,84 @@ function pageMatiere(c, m, onglet, garderDefil){
       zone.hidden = false; b.textContent = "✖ Fermer le cours";
     } else { zone.hidden = true; b.textContent = "📖 Lire le cours"; }
   }));
+}
+
+/* ---------- Lecteur de leçon (pages d'un fascicule, sans tout télécharger) ----------
+   Le PDF d'origine n'est pas modifié : PDF.js n'en lit que les morceaux nécessaires
+   (requêtes « Range »), et seules les pages de la leçon sont affichées. */
+function trouverFascicule(id){
+  for(const cl of Object.values(CONTENU)) for(const d of Object.values(cl))
+    for(const x of (d.cours || [])) if(x.type === "fascicule" && x.id === id) return x;
+  return null;
+}
+let pdfjsPromesse = null;
+function chargerPdfjs(){
+  if(!pdfjsPromesse) pdfjsPromesse = new Promise((ok, ko) => {
+    if(window.pdfjsLib) return ok(window.pdfjsLib);
+    const sc = document.createElement("script");
+    sc.src = "vendor/pdfjs/pdf.min.js";
+    sc.onload = () => { pdfjsLib.GlobalWorkerOptions.workerSrc = "vendor/pdfjs/pdf.worker.min.js"; ok(pdfjsLib); };
+    sc.onerror = () => { pdfjsPromesse = null; ko(new Error("pdfjs")); };
+    document.head.appendChild(sc);
+  });
+  return pdfjsPromesse;
+}
+const docsPdf = {};
+function ouvrirPdf(url){
+  if(!docsPdf[url]) docsPdf[url] = chargerPdfjs().then(lib => lib.getDocument({
+    url, disableAutoFetch: true, disableStream: true, rangeChunkSize: 262144, isEvalSupported: false
+  }).promise).catch(e => { delete docsPdf[url]; throw e; });
+  return docsPdf[url];
+}
+
+function pageLecon(id, n){
+  const f = trouverFascicule(id);
+  const l = f && f.lecons.find(x => x.n === n);
+  if(!f || !l) return pageAccueil();
+  const c = trouverClasse(f.classe), m = trouverMatiere(f.matiere);
+  memo.ecrire("derniereLecon", {id, n});
+  const nb = l.fin - l.debut + 1;
+  const prec = f.lecons.find(x => x.n === n - 1), suiv = f.lecons.find(x => x.n === n + 1);
+  afficher(entete(`<a href="#accueil">Accueil</a> › <a href="#${c.id}">${c.nom}</a> › <a href="#${c.id}-${m.id}">${m.nom}</a> › Leçon ${n}`,
+      `Leçon ${n}`, `${l.titre}<br><small>Cours de ${f.auteur} · pages ${l.debut} à ${l.fin} du fascicule</small>`) + `
+    <section class="section" style="padding-top:18px"><div class="wrap">
+      <div class="actions" style="justify-content:space-between;margin:0 0 14px">
+        ${prec ? `<a class="btn" href="#lecon-${id}-${prec.n}">◀ Leçon ${prec.n}</a>` : "<span></span>"}
+        ${suiv ? `<a class="btn" href="#lecon-${id}-${suiv.n}">Leçon ${suiv.n} ▶</a>` : ""}
+      </div>
+      <p id="etatLecteur" style="color:var(--gris);font-size:.88rem;margin-bottom:10px">⏳ Chargement des ${nb} pages de la leçon…</p>
+      <div id="pagesPdf">${Array.from({length: nb}, (_, k) => `
+        <div class="page-pdf" data-p="${l.debut + k}"><span>Page ${l.debut + k}</span></div>`).join("")}</div>
+      <div class="actions" style="justify-content:space-between;margin-top:14px">
+        ${prec ? `<a class="btn" href="#lecon-${id}-${prec.n}">◀ Leçon ${prec.n}</a>` : "<span></span>"}
+        ${suiv ? `<a class="btn plein" href="#lecon-${id}-${suiv.n}">Leçon ${suiv.n} ▶</a>` : ""}
+      </div>
+      <p style="font-size:.78rem;color:var(--gris);margin-top:14px">Document de ${f.auteur}, partagé avec son autorisation et affiché sans modification.</p>
+    </div></section>`);
+  const etat = document.getElementById("etatLecteur");
+  ouvrirPdf(f.pdf).then(doc => {
+    etat.textContent = `📖 ${nb} page${nb > 1 ? "s" : ""} · seules les pages de cette leçon sont chargées.`;
+    const vues = new IntersectionObserver(es => es.forEach(e => {
+      if(!e.isIntersecting) return;
+      vues.unobserve(e.target);
+      rendrePage(doc, e.target).catch(() => { e.target.innerHTML = "<span>Page indisponible (connexion ?)</span>"; });
+    }), {rootMargin: "600px 0px"});
+    document.querySelectorAll(".page-pdf").forEach(el => vues.observe(el));
+  }).catch(() => {
+    etat.innerHTML = `⚠️ Impossible d'afficher la leçon ici${navigator.onLine ? "" : " (pas de connexion, et le fascicule n'est pas téléchargé)"}.
+      <a href="${f.pdf}" target="_blank" rel="noopener">Ouvrir le fascicule complet</a> (pages ${l.debut} à ${l.fin}).`;
+  });
+}
+
+async function rendrePage(doc, el){
+  const page = await doc.getPage(+el.dataset.p);
+  const base = page.getViewport({scale: 1});
+  const largeur = el.clientWidth || 360, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const vue = page.getViewport({scale: largeur * dpr / base.width});
+  const cv = document.createElement("canvas");
+  cv.width = Math.floor(vue.width); cv.height = Math.floor(vue.height);
+  await page.render({canvasContext: cv.getContext("2d"), viewport: vue}).promise;
+  el.innerHTML = ""; el.appendChild(cv); el.classList.add("rendue");
 }
 
 /* ---------- Conseils + minuteur ---------- */
@@ -299,6 +377,8 @@ function router(){
   if(h === "conseils") return pageConseils();
   if(h === "orientation") return pageOrientation();
   if(h === "telechargements") return pageTelechargements();
+  const ml = h.match(/^lecon-(.+)-(\d+)$/);
+  if(ml) return pageLecon(ml[1], +ml[2]);
   const c = trouverClasse(h);
   if(c) return pageClasse(c);
   for(const cl of CLASSES){

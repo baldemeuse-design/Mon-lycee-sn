@@ -2,7 +2,7 @@
    - l'appli (page, icônes) est gardée en cache pour s'ouvrir sans Internet ;
    - les PDF enregistrés par l'élève sont servis depuis le cache « mlsn-pdf-v1 » ;
    - les polices Google sont gardées en cache après le premier chargement. */
-const VERSION = "mlsn-app-v1";
+const VERSION = "mlsn-app-v2";
 const CACHE_PDF = "mlsn-pdf-v1";
 const CACHE_POLICES = "mlsn-polices-v1";
 const COQUILLE = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png"];
