@@ -155,7 +155,22 @@ function pageMatiere(c, m, onglet, garderDefil){
   }
   if(ong === "exercices") return rendreExercices(corps, c, m, items);
   if(ong === "quiz") return rendreQuiz(corps, c, m, items);
-  corps.innerHTML = items.map((x, i) => x.tpl ? `
+  corps.innerHTML = items.map((x, i) => x.type === "fascicule" ? `
+    <div class="exo">
+      <span class="tag">👨‍🏫 Cours de ${x.auteur}</span>
+      <h3 style="margin:.5em 0 .2em">${x.titre}</h3>
+      <p style="color:var(--gris);font-size:.88rem">${x.auteur} · ${x.edition} · ${x.pages} pages · ${x.taille}</p>
+      <div class="actions">
+        <a class="btn plein" href="${x.pdf}" target="_blank" rel="noopener">📖 Ouvrir le fascicule</a>
+        <button class="btn" data-pdf="${x.pdf}" data-titre="${x.titre.replace(/"/g,"&quot;")}">${estTelecharge(x.pdf) && horsLignePossible() ? "✅ Disponible hors connexion" : "📥 Télécharger (" + x.taille + ")"}</button>
+      </div>
+      <p style="font-size:.8rem;color:var(--gris);margin-top:8px">⚠️ Fichier lourd : télécharge-le de préférence en Wi-Fi.</p>
+      <h3 style="margin:16px 0 8px;font-size:1rem">Sommaire — trouve ta leçon</h3>
+      ${x.lecons.map(l => `<a class="ligne-lecon" href="${x.pdf}#page=${l.debut}" target="_blank" rel="noopener">
+        <span class="num-lecon">${l.n}</span><span>${l.titre}</span><small>p. ${l.debut}–${l.fin}</small></a>`).join("")}
+      <p style="font-size:.8rem;color:var(--gris);margin-top:10px">Document partagé avec l'autorisation de son auteur, publié sans modification. L'auteur reste propriétaire de son cours.</p>
+    </div>`
+    : x.tpl ? `
     <div class="exo">
       <span class="tag">📘 Cours Mon Lycée SN</span>
       <h3 style="margin:.5em 0 .3em">${x.titre}</h3>

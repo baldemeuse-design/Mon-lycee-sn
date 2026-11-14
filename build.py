@@ -17,9 +17,8 @@ COURS = [
     {"fichier": "cours-proba-tle-s2.html", "tpl": "tpl-proba-tle-s2", "pdf": "probabilites-tle-s2.pdf",
      "titre": "Probabilités", "sous": "Mathématiques · Terminale S2", "exercices": proba["exercices"]},
 ]
-for ch in svt["chapitres"]:
-    COURS.append({"fichier": f"svt-{ch['id']}.html", "tpl": f"tpl-svt-{ch['id']}", "pdf": f"svt-{ch['id']}-tle.pdf",
-                  "titre": ch["titre"], "sous": "SVT · Terminale S", "exercices": ch["exercices"]})
+# SVT Tle S2 : le fascicule de M. Ndiaye remplace les cours rédigés par Claude (gardés dans src/ mais non publiés).
+fascicule_svt = json.loads((src / "fascicule-svt-ts2.json").read_text())
 
 # ---------- Site ----------
 LOGO = ('<svg viewBox="0 0 100 100" aria-hidden="true">'
@@ -36,8 +35,7 @@ site = site.replace('<template id="tpl-proba-tle-s2">__COURS_PROBA__</template>'
 site += "<script>\n" + js + "\n</script>\n</body>\n</html>\n"
 site = site.replace("__PROBA_EX__", json.dumps(proba["exercices"], ensure_ascii=False))
 site = site.replace("__PROBA_QUIZ__", json.dumps(proba["quiz"], ensure_ascii=False))
-svt_cours = [{"titre": ch["titre"], "tpl": f"tpl-svt-{ch['id']}", "pdf": f"svt-{ch['id']}-tle.pdf", "plan": ch["plan"]}
-             for ch in svt["chapitres"]]
+svt_cours = [dict(fascicule_svt, type="fascicule")]
 svt_ex = [dict(e, titre=f'{e["titre"]} <small style="color:var(--gris);font-weight:600">· {ch["titre"]}</small>')
           for ch in svt["chapitres"] for e in ch["exercices"]]
 svt_quiz = [q for ch in svt["chapitres"] for q in ch["quiz"]]

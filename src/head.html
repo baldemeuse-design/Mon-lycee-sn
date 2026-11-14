@@ -340,6 +340,10 @@
   footer .tribar{display:none}
   .scene .page-g,.scene .page-d,.scene .toque{animation:none;transform:none;opacity:1}
   .carte-classe .num{display:none}
+  .ligne-lecon{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:10px 4px;border-top:1px solid var(--bord);text-decoration:none;color:inherit}
+  .ligne-lecon:hover{background:var(--vert-clair)}
+  .num-lecon{width:30px;height:30px;border-radius:50%;background:var(--vert-clair);color:var(--vert);font-weight:700;display:grid;place-items:center;font-size:.85rem}
+  .ligne-lecon small{color:var(--gris);white-space:nowrap}
   h3.niveau{font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gris);margin:24px 0 10px}
   header.defile{background:rgba(20,33,61,.95)}
   @media (max-width:700px){ nav.top{background:var(--noir);font-family:var(--sans);font-weight:700;text-transform:none;font-size:1.8rem} }

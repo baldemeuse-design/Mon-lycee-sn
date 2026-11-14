@@ -1,0 +1,190 @@
+{
+ "titre": "Fascicule de SVT – Terminale S2 (30 leçons)",
+ "auteur": "M. Ndiaye",
+ "edition": "Édition 2025",
+ "pdf": "fascicules/svt-ts2-m-ndiaye.pdf",
+ "taille": "24,7 Mo",
+ "pages": 235,
+ "lecons": [
+  {
+   "n": 1,
+   "titre": "Organisation de l'encéphale",
+   "debut": 4,
+   "fin": 9
+  },
+  {
+   "n": 2,
+   "titre": "Organisation de la moelle épinière",
+   "debut": 10,
+   "fin": 13
+  },
+  {
+   "n": 3,
+   "titre": "Structure du tissu nerveux",
+   "debut": 14,
+   "fin": 19
+  },
+  {
+   "n": 4,
+   "titre": "Propriétés du tissu nerveux",
+   "debut": 20,
+   "fin": 24
+  },
+  {
+   "n": 5,
+   "titre": "Phénomènes électriques en rapport avec l'influx nerveux",
+   "debut": 25,
+   "fin": 31
+  },
+  {
+   "n": 6,
+   "titre": "Conduction de l'influx nerveux",
+   "debut": 32,
+   "fin": 35
+  },
+  {
+   "n": 7,
+   "titre": "Notion de synapse",
+   "debut": 36,
+   "fin": 42
+  },
+  {
+   "n": 8,
+   "titre": "Mouvements involontaires ou réflexes",
+   "debut": 43,
+   "fin": 58
+  },
+  {
+   "n": 9,
+   "titre": "Mouvements volontaires ou spontanés",
+   "debut": 59,
+   "fin": 65
+  },
+  {
+   "n": 10,
+   "titre": "Structure du muscle strié squelettique",
+   "debut": 66,
+   "fin": 70
+  },
+  {
+   "n": 11,
+   "titre": "Différents aspects du fonctionnement du muscle squelettique",
+   "debut": 71,
+   "fin": 80
+  },
+  {
+   "n": 12,
+   "titre": "Automatisme cardiaque",
+   "debut": 81,
+   "fin": 88
+  },
+  {
+   "n": 13,
+   "titre": "Activité cardiaque et pression artérielle",
+   "debut": 89,
+   "fin": 103
+  },
+  {
+   "n": 14,
+   "titre": "Composition et rôles du milieu intérieur",
+   "debut": 104,
+   "fin": 108
+  },
+  {
+   "n": 15,
+   "titre": "Régulation de la constance du milieu intérieur ou homéostasie",
+   "debut": 109,
+   "fin": 115
+  },
+  {
+   "n": 16,
+   "titre": "Régulation de la glycémie",
+   "debut": 116,
+   "fin": 124
+  },
+  {
+   "n": 17,
+   "titre": "Système immunitaire",
+   "debut": 125,
+   "fin": 131
+  },
+  {
+   "n": 18,
+   "titre": "Réponse immunitaire",
+   "debut": 132,
+   "fin": 138
+  },
+  {
+   "n": 19,
+   "titre": "Exemple de dysfonctionnement du système immunitaire : cas de l'infection au VIH/SIDA",
+   "debut": 139,
+   "fin": 144
+  },
+  {
+   "n": 20,
+   "titre": "Aides à la réponse immunitaire",
+   "debut": 145,
+   "fin": 148
+  },
+  {
+   "n": 21,
+   "titre": "Organes reproducteurs, gamètes et gamétogenèse",
+   "debut": 149,
+   "fin": 161
+  },
+  {
+   "n": 22,
+   "titre": "Fécondation et problèmes liés à la fécondation",
+   "debut": 162,
+   "fin": 166
+  },
+  {
+   "n": 23,
+   "titre": "Régulation du fonctionnement des appareils reproducteurs",
+   "debut": 167,
+   "fin": 175
+  },
+  {
+   "n": 24,
+   "titre": "Gestation et accouchement",
+   "debut": 176,
+   "fin": 180
+  },
+  {
+   "n": 25,
+   "titre": "Lactation",
+   "debut": 181,
+   "fin": 183
+  },
+  {
+   "n": 26,
+   "titre": "Quelques méthodes contraceptives",
+   "debut": 184,
+   "fin": 187
+  },
+  {
+   "n": 27,
+   "titre": "Reproduction des spermaphytes",
+   "debut": 188,
+   "fin": 197
+  },
+  {
+   "n": 28,
+   "titre": "Lois statistiques de la transmission des caractères héréditaires",
+   "debut": 198,
+   "fin": 218
+  },
+  {
+   "n": 29,
+   "titre": "Hérédité chez l'espèce humaine",
+   "debut": 219,
+   "fin": 230
+  },
+  {
+   "n": 30,
+   "titre": "Biotechnologies",
+   "debut": 231,
+   "fin": 235
+  }
+ ]
+}
