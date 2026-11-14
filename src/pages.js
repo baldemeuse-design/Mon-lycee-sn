@@ -162,7 +162,7 @@ function pageMatiere(c, m, onglet, garderDefil){
       <p style="color:var(--gris);font-size:.88rem">${x.auteur} · ${x.edition} · ${x.pages} pages · ${x.taille}</p>
       <div class="actions">
         <a class="btn plein" href="${x.pdf}" target="_blank" rel="noopener">📖 Ouvrir le fascicule</a>
-        <button class="btn" data-pdf="${x.pdf}" data-titre="${x.titre.replace(/"/g,"&quot;")}">${estTelecharge(x.pdf) && horsLignePossible() ? "✅ Disponible hors connexion" : "📥 Télécharger (" + x.taille + ")"}</button>
+        ${x.pdf.startsWith("http") ? "" : `<button class="btn" data-pdf="${x.pdf}" data-titre="${x.titre.replace(/"/g,"&quot;")}">${estTelecharge(x.pdf) && horsLignePossible() ? "✅ Disponible hors connexion" : "📥 Télécharger (" + x.taille + ")"}</button>`}
       </div>
       <p style="font-size:.8rem;color:var(--gris);margin-top:8px">⚠️ Fichier lourd : télécharge-le de préférence en Wi-Fi.</p>
       <h3 style="margin:16px 0 8px;font-size:1rem">Sommaire — trouve ta leçon</h3>

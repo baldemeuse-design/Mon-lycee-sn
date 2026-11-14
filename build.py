@@ -2,11 +2,12 @@
 
 Usage : python3 build.py   (nécessite Python 3 et Playwright pour les PDF)
 """
-import json, pathlib, html, shutil
+import json, pathlib, html, shutil, os
 from playwright.sync_api import sync_playwright
 
 ici = pathlib.Path(__file__).parent
-src, dist = ici / "src", ici / "docs"
+src = ici / "src"
+dist = (ici / "apercu") if os.environ.get("ARTEFACT") else (ici / "docs")
 dist.mkdir(exist_ok=True)
 
 # ---------- Cours à publier ----------
@@ -35,6 +36,8 @@ site = site.replace('<template id="tpl-proba-tle-s2">__COURS_PROBA__</template>'
 site += "<script>\n" + js + "\n</script>\n</body>\n</html>\n"
 site = site.replace("__PROBA_EX__", json.dumps(proba["exercices"], ensure_ascii=False))
 site = site.replace("__PROBA_QUIZ__", json.dumps(proba["quiz"], ensure_ascii=False))
+if os.environ.get("ARTEFACT"):   # aperçu Claude : fichier trop lourd pour l'aperçu, on pointe vers GitHub
+    fascicule_svt = dict(fascicule_svt, pdf="https://raw.githubusercontent.com/baldemeuse-design/mon-lycee-sn/main/docs/" + fascicule_svt["pdf"])
 svt_cours = [dict(fascicule_svt, type="fascicule")]
 svt_ex = [dict(e, titre=f'{e["titre"]} <small style="color:var(--gris);font-weight:600">· {ch["titre"]}</small>')
           for ch in svt["chapitres"] for e in ch["exercices"]]
